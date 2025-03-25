@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Gestión de Proyectos</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.32/esri/themes/light/main.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app-container">
+        <div id="mapContainer">
+            <div id="viewDiv"></div>
+            <div id="map-instructions" class="esri-widget">
+                Haz clic en el mapa para ubicar el proyecto
+            </div>
+        </div>
+        <div id="projectListContainer">
+            <h2>Lista de Proyectos</h2>
+            <div id="presupuestoTotal" class="esri-widget presupuesto-disponible">
+                Presupuesto Disponible: 
+            </div>
+            <div id="loadingIndicator">Cargando proyectos...</div>
+            <div id="projectList"></div>
+        </div>
+    </div>
+
+    <script src="https://js.arcgis.com/4.32/"></script>
+    <script src="app.js"></script>
+</body>
+</html>
