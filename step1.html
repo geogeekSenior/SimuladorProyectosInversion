@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HORIZONTE: JUEGO DE ESTRATEGIA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="progress-stepper.js"></script>
+    <script src="teamModal.js"></script>
+</head>
+<body class="military-theme">
+    <div class="navigation-container">
+        <button id="prevStep" class="nav-arrow" disabled aria-label="Paso Anterior">←</button>
+        <progress-stepper 
+            current-step="1" 
+            total-steps="3" 
+            steps='["Análisis Exploratorio", "Análisis Proyectos", "Evaluación Estratégica"]'>
+        </progress-stepper>
+        <button id="nextStep" class="nav-arrow" aria-label="Siguiente Paso">→</button>
+    </div>
+
+    <div class="military-header">
+        <div class="military-header-container">
+            <div class="military-header-content">
+                <div class="military-title">CENTRO DE INTELIGENCIA PEMSITIM</div>
+                <div class="military-subtitle">ANÁLISIS MULTIDIMENSIONAL DE INVERSIÓN ESTRATÉGICA</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container military-container">
+        <div class="intel-box">
+            <h2 class="intel-heading">ANÁLISIS EXPLORATORIO DE DIMENSIONES PEMSITIM</h2>
+            <div class="intel-content">
+                <div class="intel-section">
+                    <h3 class="section-title">RESUMEN EJECUTIVO</h3>
+                    <p class="intel-text">
+                        Este análisis proporciona información crítica para las decisiones de inversión en operaciones estratégicas 
+                        basadas en las 7 dimensiones clave del índice PEMSITIM: Geografía, Seguridad, Salud, Infraestructura, 
+                        Alimentación, Educación y Desarrollo Económico. La inteligencia territorial integrada permite decisiones 
+                        óptimas para maximizar el impacto estratégico y social de los recursos disponibles.
+                    </p>
+                </div>
+                
+                <!-- Nueva sección para el mapa de ArcGIS -->
+                <div class="intel-section">
+                    <h3 class="section-title">VISUALIZACIÓN TERRITORIAL</h3>
+                    <div id="mapViewerContainer">
+                        <div class="map-title-container">
+                            <span>VISUALIZACIÓN TERRITORIAL ESTRATÉGICA</span>
+                            <span class="map-status-indicator">CARGANDO...</span>
+                        </div>
+                        <div id="arcgisMap" style="height: 500px; width: 100%;"></div>
+                    </div>
+                </div>
+                
+                <div class="intel-section">
+                    <h3 class="section-title">EVALUACIÓN DE RECURSOS</h3>
+                    <div class="resource-meter">
+                        <div class="resource-label">PRESUPUESTO DISPONIBLE</div>
+                        <div class="resource-value">$10,000</div>
+                        <div class="resource-bar-container">
+                            <div class="resource-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intel-section dimensions-analysis">
+                    <h3 class="section-title">CAPAS DE ANÁLISIS DISPONIBLES</h3>
+                    
+                    <div class="dimension-card">
+                        <div class="dimension-header">
+                            <div class="dimension-icon">🌍</div>
+                            <div class="dimension-title">GEOGRAFÍA</div>
+                        </div>
+                        <ul class="dimension-variables">
+                            <li>Límites administrativos</li>
+                            <li>Censo hombre mujeres y total</li>
+                            <li>Áreas protegidas</li>
+                            <li>Reservas indígenas formalizadas</li>
+                            <li>DTM</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dimension-card">
+                        <div class="dimension-header">
+                            <div class="dimension-icon">🔒</div>
+                            <div class="dimension-title">SEGURIDAD</div>
+                        </div>
+                        <ul class="dimension-variables">
+                            <li>Delitos</li>
+                            <li>Cultivos ilícitos</li>
+                            <li>Bandas Criminales</li>
+                            <li>Narcotráfico (cercanía al puerto)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dimension-card">
+                        <div class="dimension-header">
+                            <div class="dimension-icon">🏥</div>
+                            <div class="dimension-title">SALUD</div>
+                        </div>
+                        <ul class="dimension-variables">
+                            <li>Instituciones de salud (por niveles)</li>
+                            <li>Desnutrición aguda</li>
+                            <li>Mortalidad materna</li>
+                            <li>Bajo peso al nacer</li>
+                            <li>Epidemiología de la zona</li>
+                            <li>Calidad aire</li>
+                            <li>Agua potable</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dimension-card">
+                        <div class="dimension-header">
+                            <div class="dimension-icon">🏗️</div>
+                            <div class="dimension-title">INFRAESTRUCTURA</div>
+                        </div>
+                        <ul class="dimension-variables">
+                            <li>Servicios públicos</li>
+                            <li>Vial</li>
+                            <li>Puertos y aeropuertos</li>
+                            <li>Índice alimentario por municipio</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dimension-card">
+                        <div class="dimension-header">
+                            <div class="dimension-icon">🎓</div>
+                            <div class="dimension-title">EDUCACIÓN</div>
+                        </div>
+                        <ul class="dimension-variables">
+                            <li>Instituciones educativas (niveles)</li>
+                            <li>Analfabetismo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dimension-card">
+                        <div class="dimension-header">
+                            <div class="dimension-icon">💼</div>
+                            <div class="dimension-title">DESARROLLO ECONÓMICO</div>
+                        </div>
+                        <ul class="dimension-variables">
+                            <li>Tasa de ocupación (Informalidad y desempleo)</li>
+                            <li>Desarrollo Turístico</li>
+                            <li>Cantidad de hoteles (Urbano, Rural)</li>
+                            <li>Índice de Gentrificación</li>
+                            <li>Destino turístico, cultural y natural</li>
+                            <li>Producto más importante por municipio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="intel-section status-summary">
+                    <h3 class="section-title">ESTADO ACTUAL DEL ÍNDICE PEMSITIM</h3>
+                    <div class="dimension-bars">
+                        <div class="dimension-bar-container">
+                            <div class="bar-label">Geografía</div>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width: 65%;"></div>
+                            </div>
+                            <div class="bar-value">65%</div>
+                        </div>
+                        <div class="dimension-bar-container">
+                            <div class="bar-label">Seguridad</div>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width: 42%;"></div>
+                            </div>
+                            <div class="bar-value">42%</div>
+                        </div>
+                        <div class="dimension-bar-container">
+                            <div class="bar-label">Salud</div>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width: 58%;"></div>
+                            </div>
+                            <div class="bar-value">58%</div>
+                        </div>
+                        <div class="dimension-bar-container">
+                            <div class="bar-label">Infraestructura</div>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width: 38%;"></div>
+                            </div>
+                            <div class="bar-value">38%</div>
+                        </div>
+                        <div class="dimension-bar-container">
+                            <div class="bar-label">Educación</div>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width: 61%;"></div>
+                            </div>
+                            <div class="bar-value">61%</div>
+                        </div>
+                        <div class="dimension-bar-container">
+                            <div class="bar-label">Desarrollo Económico</div>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width: 45%;"></div>
+                            </div>
+                            <div class="bar-value">45%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intel-section">
+                    <h3 class="section-title">PRÓXIMOS PASOS</h3>
+                    <div class="next-steps">
+                        <div class="step">
+                            <div class="step-number">01</div>
+                            <div class="step-desc">Priorización de dimensiones para intervención</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">02</div>
+                            <div class="step-desc">Selección de proyectos con mayor impacto multidimensional</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">03</div>
+                            <div class="step-desc">Evaluación de impacto en índice PEMSITIM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="intel-footer">
+                <div class="intel-stamp">CONFIDENCIAL</div>
+                <button id="proceed-button" class="military-button">PROCEDER A DESPLIEGUE</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="military-footer">
+        <div class="footer-content">
+            <div class="military-stamp">CONFIDENCIAL</div>
+            <div class="military-date" id="currentDate"></div>
+        </div>
+    </footer>
+
+    <script src="progressBar.js"></script>
+    <script>
+        // Mostrar fecha actual en formato militar
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            };
+            const dateStr = now.toLocaleString('es-ES', options).replace(',', ' / ');
+            document.getElementById('currentDate').textContent = dateStr;
+            
+            // Botón para proceder al siguiente paso
+            const proceedButton = document.getElementById('proceed-button');
+            if (proceedButton) {
+                proceedButton.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            // Animación de barras de dimensiones
+            setTimeout(() => {
+                const bars = document.querySelectorAll('.bar-inner');
+                bars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 300);
+                });
+            }, 500);
+            
+            // Inicializar el mapa
+            if (window.arcgisMap && typeof window.arcgisMap.initialize === 'function') {
+                window.arcgisMap.initialize();
+            }
+        });
+    </script>
+    <script src="mapViewer.js"></script>
+
+</body>
+</html>

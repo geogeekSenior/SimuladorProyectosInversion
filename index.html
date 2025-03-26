@@ -3,29 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Gestión de Proyectos</title>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.32/esri/themes/light/main.css">
+    <title>HORIZONTE: JUEGO DE ESTRATEGIA</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.32/esri/themes/dark/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="progress-stepper.js"></script>
 </head>
-<body>
+<script src="teamModal.js"></script>
+<body class="military-theme">
+    <div class="navigation-container">
+        <button id="prevStep" class="nav-arrow" aria-label="Paso Anterior">←</button>
+        <progress-stepper 
+            current-step="2" 
+            total-steps="3" 
+            steps='["Análisis Exploratorio", "Análisis Proyectos", "Evaluación Estratégica"]'>
+        </progress-stepper>
+        <button id="nextStep" class="nav-arrow" aria-label="Siguiente Paso">→</button>
+    </div>
+
+    <div class="military-header">
+        <div class="military-header-container">
+            <div class="military-header-content">
+        <div class="military-title">CENTRO DE COMANDO Y CONTROL</div>
+        <div class="military-subtitle">SIMULADOR DE INVERSIONES ESTRATÉGICAS</div>
+            </div>
+        </div>
+    </div>
+
     <div id="app-container">
         <div id="mapContainer">
             <div id="viewDiv"></div>
             <div id="map-instructions" class="esri-widget">
-                Haz clic en el mapa para ubicar el proyecto
+                <span class="military-label">ESTADO:</span> Esperando selección de operación
             </div>
+            <div id="tooltipDiv"></div>
         </div>
         <div id="projectListContainer">
-            <h2>Lista de Proyectos</h2>
-            <div id="presupuestoTotal" class="esri-widget presupuesto-disponible">
-                Presupuesto Disponible: 
+            <h2>OPERACIONES DISPONIBLES</h2>
+            <div class="presupuesto-container">
+                <div id="presupuestoTotal">RECURSOS ESTRATÉGICOS: $10.000</div>
+                <div class="presupuesto-bar-container">
+                    <div id="presupuestoBar" class="presupuesto-bar"></div>
+                </div>
             </div>
-            <div id="loadingIndicator">Cargando proyectos...</div>
+            <div id="loadingIndicator" class="loading-container">
+                <div class="loading-spinner"></div>
+                <span>Cargando operaciones tácticas...</span>
+            </div>
             <div id="projectList"></div>
         </div>
     </div>
+    
+    <div id="statusMessage" class="status-message"></div>
+
+    <footer class="military-footer">
+        <div class="footer-content">
+            <div class="military-stamp">CONFIDENCIAL</div>
+            <div class="military-date" id="currentDate"></div>
+        </div>
+    </footer>
 
     <script src="https://js.arcgis.com/4.32/"></script>
+    <script src="progressBar.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Mostrar fecha actual en formato militar
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            };
+            const dateStr = now.toLocaleString('es-ES', options).replace(',', ' / ');
+            document.getElementById('currentDate').textContent = dateStr;
+        });
+    </script>
 </body>
 </html>
