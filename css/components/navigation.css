@@ -1,0 +1,157 @@
+/* 
+ * components/navigation.css
+ * Estilos para la navegación y stepper
+ */
+
+/* Contenedor de navegación */
+.navigation-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--panel-bg-color);
+    box-shadow: var(--shadow-md);
+    border-bottom: 2px solid var(--primary-color);
+    position: relative;
+  }
+  
+  .navigation-container::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color), var(--primary-color));
+  }
+  
+  /* Botones de navegación */
+  .nav-arrow {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--primary-color);
+    font-size: var(--font-size-xl);
+    color: var(--text-color);
+    cursor: pointer;
+    opacity: 0.9;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+  
+  .nav-arrow:hover:not(:disabled) {
+    opacity: 1;
+    background-color: rgba(81, 127, 53, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(81, 127, 53, 0.5);
+  }
+  
+  .nav-arrow:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+  
+  .nav-arrow:disabled {
+    color: var(--secondary-color);
+    cursor: not-allowed;
+    border-color: var(--secondary-color);
+  }
+  
+  .nav-arrow-disabled {
+    opacity: 0.5;
+  }
+  
+  .nav-button-active {
+    animation: navButtonPulse 0.5s ease-in-out;
+  }
+  
+  @keyframes navButtonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Estilos específicos para el stepper con tema militar */
+  progress-stepper {
+    --primary-color: var(--primary-color);
+    --completed-color: var(--success-color);
+    --text-color-active: var(--text-color);
+    --text-color-inactive: var(--secondary-color);
+    --secondary-color: var(--primary-color-dark);
+  }
+  
+  /* Transiciones de página */
+  .page-transitioning {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  
+  .page-loaded {
+    animation: page-fade-in 0.5s ease-out;
+  }
+  
+  @keyframes page-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Siguiente y anterior pasos */
+  .next-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .step {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+  
+  .step-number {
+    background-color: var(--primary-color);
+    color: var(--panel-bg-color);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-sm);
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-monospace);
+  }
+  
+  .step-desc {
+    flex: 1;
+  }
+  
+  /* Media queries para responsive */
+  @media (max-width: 768px) {
+    .navigation-container {
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .nav-arrow {
+      width: 30px;
+      height: 30px;
+      font-size: var(--font-size-lg);
+    }
+    
+    .step-number {
+      width: 24px;
+      height: 24px;
+      font-size: var(--font-size-sm);
+    }
+    
+    .step-desc {
+      font-size: var(--font-size-sm);
+    }
+  }

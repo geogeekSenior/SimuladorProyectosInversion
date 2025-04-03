@@ -1,45 +1,59 @@
 /**
- * Sistema de creación y gestión de equipos para el Simulador de Inversiones de Proyectos Estratégicos
- * Permite la creación de un equipo con nombre personalizado y código único
- * Utiliza sessionStorage para mantener la persistencia de datos durante la sesión
+ * team.js - Sistema de gestión de equipos
+ * Horizonte: Juego de Estrategia
  */
 
-class TeamManager {
-    constructor() {
-        this.teamName = "";
-        this.teamCode = "";
-        this.initialized = false;
-        
+// Módulo de gestión de equipos
+HORIZONTE.team = (function() {
+    // Estado del módulo
+    let state = {
+        teamName: "",
+        teamCode: "",
+        initialized: false
+    };
+    
+    // Inicializar el módulo
+    function init() {
         // Comprobar si ya existe información de equipo en sessionStorage
-        this.checkExistingTeam();
+        checkExistingTeam();
         
         // Si no hay equipo existente, mostrar el modal al cargar la página
-        if (!this.initialized) {
-            this.createModal();
-            this.showModal();
+        if (!state.initialized) {
+            createModal();
+            showModal();
         } else {
             // Si ya existe un equipo, actualizar la UI con la información
-            this.updateTeamInfo();
+            updateTeamInfo();
         }
     }
     
-    /**
-     * Comprueba si ya existe información de equipo en sessionStorage
-     */
-    checkExistingTeam() {
-        const savedTeam = sessionStorage.getItem('teamInfo');
-        if (savedTeam) {
-            const teamInfo = JSON.parse(savedTeam);
-            this.teamName = teamInfo.name;
-            this.teamCode = teamInfo.code;
-            this.initialized = true;
+    // Comprobar si ya existe información de equipo en sessionStorage
+    function checkExistingTeam() {
+        if (HORIZONTE.utils && HORIZONTE.utils.loadFromSession) {
+            const teamInfo = HORIZONTE.utils.loadFromSession('teamInfo');
+            if (teamInfo) {
+                state.teamName = teamInfo.name;
+                state.teamCode = teamInfo.code;
+                state.initialized = true;
+            }
+        } else {
+            // Fallback si utils no está disponible
+            try {
+                const savedTeam = sessionStorage.getItem('teamInfo');
+                if (savedTeam) {
+                    const teamInfo = JSON.parse(savedTeam);
+                    state.teamName = teamInfo.name;
+                    state.teamCode = teamInfo.code;
+                    state.initialized = true;
+                }
+            } catch (error) {
+                console.error('Error al cargar datos de equipo:', error);
+            }
         }
     }
     
-    /**
-     * Crea el HTML del modal
-     */
-    createModal() {
+    // Crear el HTML del modal
+    function createModal() {
         const modalHTML = `
             <div id="teamModal" class="team-modal">
                 <div class="team-modal-content">
@@ -79,23 +93,17 @@ class TeamManager {
         document.body.insertAdjacentHTML('beforeend', modalHTML);
         
         // Configurar eventos
-        this.setupEventListeners();
+        setupEventListeners();
         
         // Generar código inicial
-        this.generateTeamCode();
+        generateTeamCode();
     }
     
-    /**
-     * Configura los event listeners para el modal
-     */
-    setupEventListeners() {
-        document.getElementById('regenerateCode').addEventListener('click', () => {
-            this.generateTeamCode();
-        });
+    // Configurar los event listeners para el modal
+    function setupEventListeners() {
+        document.getElementById('regenerateCode').addEventListener('click', generateTeamCode);
         
-        document.getElementById('teamSubmit').addEventListener('click', () => {
-            this.saveTeamInfo();
-        });
+        document.getElementById('teamSubmit').addEventListener('click', saveTeamInfo);
         
         // Validación para no permitir guardar sin nombre de equipo
         document.getElementById('teamName').addEventListener('input', () => {
@@ -115,25 +123,21 @@ class TeamManager {
         document.getElementById('teamName').dispatchEvent(new Event('input'));
     }
     
-    /**
-     * Genera un código único para el equipo
-     */
-    generateTeamCode() {
+    // Generar un código único para el equipo
+    function generateTeamCode() {
         const now = new Date();
         const timestamp = now.getTime().toString().slice(-6); // Últimos 6 dígitos del timestamp
         const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0'); // 4 dígitos aleatorios
         
         // Formatear como XXXX-XXXXXX
-        this.teamCode = `${random}-${timestamp}`;
+        state.teamCode = `${random}-${timestamp}`;
         
         // Actualizar el input
-        document.getElementById('teamCode').value = this.teamCode;
+        document.getElementById('teamCode').value = state.teamCode;
     }
     
-    /**
-     * Muestra el modal
-     */
-    showModal() {
+    // Mostrar el modal
+    function showModal() {
         const modal = document.getElementById('teamModal');
         modal.style.display = 'flex';
         
@@ -150,32 +154,39 @@ class TeamManager {
         }, 300);
     }
     
-    /**
-     * Guarda la información del equipo
-     */
-    saveTeamInfo() {
+    // Guardar la información del equipo
+    function saveTeamInfo() {
         const teamNameInput = document.getElementById('teamName');
         const teamName = teamNameInput.value.trim();
         
         // Validar nombre de equipo
         if (teamName === '') {
-            teamNameInput.style.borderColor = 'var(--error-color, #AC1C1C)';
+            teamNameInput.style.borderColor = 'var(--error-color)';
             teamNameInput.focus();
             return;
         }
         
         // Guardar info
-        this.teamName = teamName;
-        this.initialized = true;
+        state.teamName = teamName;
+        state.initialized = true;
         
         // Guardar en sessionStorage
         const teamInfo = {
-            name: this.teamName,
-            code: this.teamCode,
+            name: state.teamName,
+            code: state.teamCode,
             createdAt: new Date().toISOString()
         };
         
-        sessionStorage.setItem('teamInfo', JSON.stringify(teamInfo));
+        if (HORIZONTE.utils && HORIZONTE.utils.saveToSession) {
+            HORIZONTE.utils.saveToSession('teamInfo', teamInfo);
+        } else {
+            // Fallback si utils no está disponible
+            try {
+                sessionStorage.setItem('teamInfo', JSON.stringify(teamInfo));
+            } catch (error) {
+                console.error('Error al guardar datos de equipo:', error);
+            }
+        }
         
         // Cerrar modal con animación
         const modal = document.getElementById('teamModal');
@@ -185,17 +196,17 @@ class TeamManager {
             modal.style.display = 'none';
             
             // Crear y mostrar el banner con la información del equipo
-            this.updateTeamInfo();
+            updateTeamInfo();
             
             // Mostrar mensaje de éxito
-            this.showStatusMessage("Equipo registrado con éxito", "success");
+            if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
+                HORIZONTE.utils.showStatusMessage("Equipo registrado con éxito", "success");
+            }
         }, 300);
     }
     
-    /**
-     * Actualiza la UI con la información del equipo
-     */
-    updateTeamInfo() {
+    // Actualizar la UI con la información del equipo
+    function updateTeamInfo() {
         // Verificar si ya existe el contenedor del encabezado
         let headerContainer = document.querySelector('.military-header-container');
         
@@ -217,8 +228,8 @@ class TeamManager {
                         <div class="team-info-display">
                             <div class="team-info-block">
                                 <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
-                                <div class="team-info-value">${this.teamName}</div>
-                                <div class="team-info-code">ID: ${this.teamCode}</div>
+                                <div class="team-info-value">${state.teamName}</div>
+                                <div class="team-info-code">ID: ${state.teamCode}</div>
                             </div>
                             <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
                         </div>
@@ -228,39 +239,7 @@ class TeamManager {
                 // Configurar evento para el botón de logout
                 const logoutButton = document.getElementById('logoutButton');
                 if (logoutButton) {
-                    logoutButton.addEventListener('click', () => {
-                        this.logout();
-                    });
-                }
-            } else {
-                // Si no hay encabezado militar, añadir un div al principio del body
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'military-header-container';
-                headerDiv.style.position = 'relative';
-                headerDiv.style.backgroundColor = '#0a0f14';
-                headerDiv.style.padding = '10px';
-                headerDiv.style.width = '100%';
-                
-                headerDiv.innerHTML = `
-                    <div class="team-info-display">
-                        <div class="team-info-block">
-                            <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
-                            <div class="team-info-value">${this.teamName}</div>
-                            <div class="team-info-code">ID: ${this.teamCode}</div>
-                        </div>
-                        <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
-                    </div>
-                `;
-                
-                // Insertar al principio del body
-                document.body.insertBefore(headerDiv, document.body.firstChild);
-                
-                // Configurar evento para el botón de logout
-                const logoutButton = document.getElementById('logoutButton');
-                if (logoutButton) {
-                    logoutButton.addEventListener('click', () => {
-                        this.logout();
-                    });
+                    logoutButton.addEventListener('click', logout);
                 }
             }
         } else {
@@ -271,8 +250,8 @@ class TeamManager {
                 teamInfoDisplay.innerHTML = `
                     <div class="team-info-block">
                         <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
-                        <div class="team-info-value">${this.teamName}</div>
-                        <div class="team-info-code">ID: ${this.teamCode}</div>
+                        <div class="team-info-value">${state.teamName}</div>
+                        <div class="team-info-code">ID: ${state.teamCode}</div>
                     </div>
                     <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
                 `;
@@ -280,9 +259,7 @@ class TeamManager {
                 // Configurar evento para el botón de logout
                 const logoutButton = document.getElementById('logoutButton');
                 if (logoutButton) {
-                    logoutButton.addEventListener('click', () => {
-                        this.logout();
-                    });
+                    logoutButton.addEventListener('click', logout);
                 }
             } else {
                 // Si existe el contenedor pero no la info del equipo, la añadimos
@@ -290,8 +267,8 @@ class TeamManager {
                     <div class="team-info-display">
                         <div class="team-info-block">
                             <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
-                            <div class="team-info-value">${this.teamName}</div>
-                            <div class="team-info-code">ID: ${this.teamCode}</div>
+                            <div class="team-info-value">${state.teamName}</div>
+                            <div class="team-info-code">ID: ${state.teamCode}</div>
                         </div>
                         <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
                     </div>
@@ -300,31 +277,27 @@ class TeamManager {
                 // Configurar evento para el botón de logout
                 const logoutButton = document.getElementById('logoutButton');
                 if (logoutButton) {
-                    logoutButton.addEventListener('click', () => {
-                        this.logout();
-                    });
+                    logoutButton.addEventListener('click', logout);
                 }
             }
         }
     }
     
-    /**
-     * Realiza el cierre de sesión (logout)
-     */
-    logout() {
+    // Realizar el cierre de sesión (logout)
+    function logout() {
         // Mostrar confirmación
         const confirmLogout = confirm("¿Está seguro que desea abandonar la misión? Se perderá toda la información del equipo.");
         
         if (confirmLogout) {
             // Eliminar datos del sessionStorage
             sessionStorage.removeItem('teamInfo');
-            
-            // También eliminar otros datos si es necesario
             sessionStorage.removeItem('navigationState');
             sessionStorage.removeItem('lastStep');
             
             // Mostrar mensaje de cierre
-            this.showStatusMessage("Abandonando misión. Reiniciando sistema...", "warning");
+            if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
+                HORIZONTE.utils.showStatusMessage("Abandonando misión. Reiniciando sistema...", "warning");
+            }
             
             // Redireccionar a la página inicial después de un breve retraso
             setTimeout(() => {
@@ -333,28 +306,16 @@ class TeamManager {
         }
     }
     
-    /**
-     * Muestra un mensaje de estado temporal
-     */
-    showStatusMessage(mensaje, tipo) {
-        // Usar la función existente en la aplicación si está disponible
-        const statusMessage = document.getElementById('statusMessage');
-        if (!statusMessage) return;
-        
-        statusMessage.textContent = mensaje;
-        statusMessage.className = 'status-message';
-        statusMessage.classList.add(`status-${tipo}`);
-        statusMessage.style.opacity = '1';
-        statusMessage.style.transform = 'translateY(0)';
-        
-        setTimeout(() => {
-            statusMessage.style.opacity = '0';
-            statusMessage.style.transform = 'translateY(20px)';
-        }, 3000);
-    }
-}
+    // API pública del módulo
+    return {
+        init,
+        getTeamName: () => state.teamName,
+        getTeamCode: () => state.teamCode,
+        isInitialized: () => state.initialized
+    };
+})();
 
-// Inicializar el gestor de equipos cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', () => {
-    window.teamManager = new TeamManager();
+// Inicialización cuando el DOM está listo
+document.addEventListener('horizonte:ready', function() {
+    HORIZONTE.team.init();
 });

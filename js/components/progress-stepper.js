@@ -1,23 +1,51 @@
+/**
+ * progress-stepper.js - Componente web personalizado para stepper de navegación
+ * Proporciona una visualización de pasos en el Simulador de Inversiones Estratégicas
+ */
+
+/**
+ * Clase ProgressStepper - Componente personalizado para visualizar pasos de navegación
+ * @extends HTMLElement
+ */
 class ProgressStepper extends HTMLElement {
+    /**
+     * Constructor del componente
+     */
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
     }
 
+    /**
+     * Propiedades observadas para reaccionar a cambios
+     * @returns {string[]} Lista de nombres de atributos a observar
+     */
     static get observedAttributes() {
         return ['current-step', 'total-steps', 'steps'];
     }
 
+    /**
+     * Callback ejecutado al conectar el elemento al DOM
+     */
     connectedCallback() {
         this.render();
     }
 
+    /**
+     * Callback ejecutado cuando cambia un atributo observado
+     * @param {string} name - Nombre del atributo
+     * @param {string} oldValue - Valor anterior
+     * @param {string} newValue - Nuevo valor
+     */
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
             this.render();
         }
     }
 
+    /**
+     * Renderiza el contenido del componente
+     */
     render() {
         const currentStep = parseInt(this.getAttribute('current-step') || '1');
         const totalSteps = parseInt(this.getAttribute('total-steps') || '3');
@@ -250,7 +278,7 @@ class ProgressStepper extends HTMLElement {
     }
 }
 
-// Define el elemento si no ha sido definido previamente
+// Definir el elemento si no ha sido definido previamente
 if (!customElements.get('progress-stepper')) {
     customElements.define('progress-stepper', ProgressStepper);
 }

@@ -1,0 +1,195 @@
+/* 
+ * base.css - Estilos base y reset
+ * Horizonte: Juego de Estrategia
+ */
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: all var(--transition-normal);
+  }
+  
+  /* Document & Body */
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Viewport para el mapa */
+  #viewDiv, #arcgisMap {
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+  }
+  
+  /* Tipografía */
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    color: var(--primary-color);
+  }
+  
+  h1 {
+    font-size: var(--font-size-xxl);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  p {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+  
+  a:hover {
+    color: var(--primary-color-light);
+    text-decoration: underline;
+  }
+  
+  /* Listas */
+  ul, ol {
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+  }
+  
+  li {
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  /* Tablas básicas */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  th, td {
+    padding: var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--primary-color-dark);
+  }
+  
+  th {
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--primary-color-dark);
+    color: var(--text-color);
+  }
+  
+  /* Imágenes */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Formularios básicos */
+  input, textarea, select, button {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
+  }
+  
+  input, textarea, select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  /* Temas */
+  .military-theme {
+    /* Las variables ya están definidas en theme.css */
+  }
+  
+  /* Animaciones globales */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Clases de animación */
+  .fade-in {
+    animation: fadeIn var(--transition-normal);
+  }
+  
+  .slide-up {
+    animation: slideUp var(--transition-normal);
+  }
+  
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Media Queries Globales */
+  @media (max-width: 1200px) {
+    :root {
+      --spacing-lg: 20px;
+      --spacing-xl: 28px;
+      --spacing-xxl: 40px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    :root {
+      --font-size-xxl: 18px;
+      --font-size-xl: 16px;
+      --font-size-lg: 15px;
+      --spacing-lg: 16px;
+      --spacing-xl: 24px;
+      --spacing-xxl: 32px;
+    }
+    
+    h1 { margin-bottom: var(--spacing-md); }
+    h2 { margin-bottom: var(--spacing-sm); }
+  }
+  
+  @media (max-width: 480px) {
+    :root {
+      --font-size-md: 13px;
+      --spacing-md: 12px;
+      --spacing-lg: 16px;
+    }
+  }

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>HORIZONTE 2.0: SIMULADOR ESTRATÉGICO</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- ArcGIS API -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.32/esri/themes/dark/main.css">
+    <script src="https://js.arcgis.com/4.32/"></script>
+    
+    <!-- Calcite Components -->
+    <script type="module" src="https://js.arcgis.com/calcite-components/3.0.3/calcite.esm.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/3.0.3/calcite.css" />
+    
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="military-header">
+        <div>
+            <div class="military-title">HORIZONTE 2.0</div>
+            <div class="military-subtitle">SIMULADOR DE INVERSIONES ESTRATÉGICAS</div>
+        </div>
+        <div id="currentDate" style="font-family: var(--font-monospace); font-size: 12px; opacity: 0.7;"></div>
+    </div>
+    
+    <div class="container">
+        <div id="controlPanel">
+            <div class="panel-header">PANEL DE CONTROL ESTRATÉGICO</div>
+
+            <div class="color-legend">
+                <div class="color-stop" style="background-color: rgb(0,255,0);"></div>
+                <div class="color-stop" style="background-color: rgb(56,255,0);"></div>
+                <div class="color-stop" style="background-color: rgb(113,255,0);"></div>
+                <div class="color-stop" style="background-color: rgb(169,255,0);"></div>
+                <div class="color-stop" style="background-color: rgb(226,255,0);"></div>
+                <div class="color-stop" style="background-color: rgb(255,226,0);"></div>
+                <div class="color-stop" style="background-color: rgb(255,170,0);"></div>
+                <div class="color-stop" style="background-color: rgb(255,113,0);"></div>
+                <div class="color-stop" style="background-color: rgb(255,56,0);"></div>
+                <div class="color-stop" style="background-color: rgb(255,0,0);"></div>
+            </div>
+            <div class="legend-labels">
+                <span>Favorable</span>
+                <span>Desfavorable</span>
+            </div>
+            
+            <div class="section-title">DIMENSIONES</div>
+            
+            <!-- Dimensión: Seguridad -->
+            <div class="dimension-container">
+                <div class="dimension-header">
+                    <span class="dimension-name">SEGURIDAD</span>
+                    <span class="dimension-weight">Peso Total: 0.40</span>
+                </div>
+                
+                <!-- Control para toda la dimensión -->
+                <div class="dimension-control">
+                    <calcite-checkbox class="dimension-checkbox" id="seguridad-all"></calcite-checkbox>
+                    <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-InstitucionesDeSalud"></calcite-checkbox>
+                    <div class="variable-name">Instituciones de salud</div>
+                    <div class="variable-weight">0.10</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-InstitucionesEducativas"></calcite-checkbox>
+                    <div class="variable-name">Instituciones educativas</div>
+                    <div class="variable-weight">0.08</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Censo"></calcite-checkbox>
+                    <div class="variable-name">Censo</div>
+                    <div class="variable-weight">0.06</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ComunidadesEtnicas"></calcite-checkbox>
+                    <div class="variable-name">Comunidades étnicas</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ReservasIndigenas"></calcite-checkbox>
+                    <div class="variable-name">Reservas indígenas</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-AreasProtegidas"></calcite-checkbox>
+                    <div class="variable-name">Áreas protegidas</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-LimitesAdministrativos"></calcite-checkbox>
+                    <div class="variable-name">Límites administrativos</div>
+                    <div class="variable-weight">0.02</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-DesarrolloTuristico"></calcite-checkbox>
+                    <div class="variable-name">Desarrollo Turístico</div>
+                    <div class="variable-weight">0.02</div>
+                </div>
+            </div>
+            
+            <!-- Dimensión: Desarrollo -->
+            <div class="dimension-container">
+                <div class="dimension-header">
+                    <span class="dimension-name">DESARROLLO</span>
+                    <span class="dimension-weight">Peso Total: 0.25</span>
+                </div>
+                
+                <!-- Control para toda la dimensión -->
+                <div class="dimension-control">
+                    <calcite-checkbox class="dimension-checkbox" id="desarrollo-all"></calcite-checkbox>
+                    <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AcueductoAlcantarillado"></calcite-checkbox>
+                    <div class="variable-name">Acueducto y Alcantarillado</div>
+                    <div class="variable-weight">0.05</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-EnergiaElectrica"></calcite-checkbox>
+                    <div class="variable-name">Energía Eléctrica</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Alfabetismo"></calcite-checkbox>
+                    <div class="variable-name">Alfabetismo</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-NivelEducacion"></calcite-checkbox>
+                    <div class="variable-name">Nivel de Educación</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-DesnutricionAguda"></calcite-checkbox>
+                    <div class="variable-name">Desnutrición aguda</div>
+                    <div class="variable-weight">0.03</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-TasaOcupacion"></calcite-checkbox>
+                    <div class="variable-name">Tasa de ocupación</div>
+                    <div class="variable-weight">0.03</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Internet"></calcite-checkbox>
+                    <div class="variable-name">Internet</div>
+                    <div class="variable-weight">0.01</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Gas"></calcite-checkbox>
+                    <div class="variable-name">Gas</div>
+                    <div class="variable-weight">0.01</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-BajoPesoNacer"></calcite-checkbox>
+                    <div class="variable-name">Bajo peso al nacer</div>
+                    <div class="variable-weight">0.01</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-CantidadHoteles"></calcite-checkbox>
+                    <div class="variable-name">Cantidad de hoteles</div>
+                    <div class="variable-weight">0.01</div>
+                </div>
+            </div>
+            
+            <!-- Dimensión: Gobernabilidad -->
+            <div class="dimension-container">
+                <div class="dimension-header">
+                    <span class="dimension-name">GOBERNABILIDAD</span>
+                    <span class="dimension-weight">Peso Total: 0.35</span>
+                </div>
+                
+                <!-- Control para toda la dimensión -->
+                <div class="dimension-control">
+                    <calcite-checkbox class="dimension-checkbox" id="gobernabilidad-all"></calcite-checkbox>
+                    <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesDeSalud"></calcite-checkbox>
+                    <div class="variable-name">Instituciones de salud</div>
+                    <div class="variable-weight">0.09</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesEducativas"></calcite-checkbox>
+                    <div class="variable-name">Instituciones educativas</div>
+                    <div class="variable-weight">0.07</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-Censo"></calcite-checkbox>
+                    <div class="variable-name">Censo</div>
+                    <div class="variable-weight">0.05</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ComunidadesEtnicas"></calcite-checkbox>
+                    <div class="variable-name">Comunidades étnicas</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ReservasIndigenas"></calcite-checkbox>
+                    <div class="variable-name">Reservas indígenas</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-AreasProtegidas"></calcite-checkbox>
+                    <div class="variable-name">Áreas protegidas</div>
+                    <div class="variable-weight">0.04</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-LimitesAdministrativos"></calcite-checkbox>
+                    <div class="variable-name">Límites administrativos</div>
+                    <div class="variable-weight">0.02</div>
+                </div>
+                
+                <div class="variable-item">
+                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-DesarrolloTuristico"></calcite-checkbox>
+                    <div class="variable-name">Desarrollo Turístico</div>
+                    <div class="variable-weight">0.0175</div>
+                </div>
+            </div>
+            
+            <div class="section-title">SERVICIOS CONFIGURADOS</div>
+            
+            <div class="service-url-container">
+                <div class="dimension-container">
+                    <div class="dimension-header">
+                        <span class="dimension-name">SERVICIOS PRECONFIGURADOS</span>
+                    </div>
+                    <div class="variable-item">
+                        <div class="variable-name">Estado de servicios</div>
+                        <div class="variable-weight" style="color: var(--success-color);">ACTIVO</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-footer">
+                <calcite-button id="resetBtn" appearance="outline" color="red">REINICIAR</calcite-button>
+            </div>
+        </div>
+        
+        <!-- Contenedor del Mapa -->
+        <div id="viewDiv"></div>
+    </div>
+    
+    <!-- Indicador de Carga -->
+    <div id="loadingIndicator">
+        <div class="loading-spinner"></div>
+        <span>Procesando datos...</span>
+    </div>
+    
+    <!-- Barra de Estado -->
+    <div id="statusLog" class="info">Inicializando sistema...</div>
+    
+    <!-- Script principal -->
+    <script src="script.js"></script>
+    <script src="layer-connections.js"></script>
+    
+    <!-- Script para manejar controles de grupo -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Añadir manejadores para los checkboxes principales
+        const dimensionCheckboxes = document.querySelectorAll('.dimension-checkbox');
+        
+        dimensionCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('calciteCheckboxChange', function(event) {
+                const dimensionId = checkbox.id.split('-')[0]; // 'seguridad', 'desarrollo', etc.
+                const isChecked = event.target.checked; // Usar event.target.checked para obtener el estado actual
+                
+                // Seleccionar todos los checkboxes de variables de esta dimensión
+                const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
+                
+                // Establecer el mismo estado para todos
+                variableCheckboxes.forEach(varCheckbox => {
+                    // Establecer directamente la propiedad checked
+                    varCheckbox.checked = isChecked;
+                    
+                    // También podemos disparar un evento nativo de cambio para asegurar 
+                    // que el componente Calcite actualice su estado interno
+                    const changeEvent = new Event('change', { bubbles: true });
+                    varCheckbox.dispatchEvent(changeEvent);
+                    
+                    // Disparar el evento calciteCheckboxChange para activar los manejadores de capas
+                    varCheckbox.dispatchEvent(new CustomEvent('calciteCheckboxChange', {
+                        bubbles: true,
+                        detail: { checked: isChecked }
+                    }));
+                });
+                
+                // También cambia todas las capas de esta dimensión a la vez
+                if (window.toggleDimensionLayers) {
+                    window.toggleDimensionLayers(dimensionId, isChecked);
+                }
+            });
+        });
+        
+        // También actualizar el estado del checkbox principal cuando cambien los individuales
+        const updateDimensionCheckbox = (dimensionId) => {
+            const allVarCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
+            const checkedVarCheckboxes = Array.from(allVarCheckboxes).filter(checkbox => checkbox.checked);
+            
+            const dimensionCheckbox = document.getElementById(`${dimensionId}-all`);
+            
+            if (checkedVarCheckboxes.length === 0) {
+                dimensionCheckbox.checked = false;
+                dimensionCheckbox.indeterminate = false;
+            } else if (checkedVarCheckboxes.length === allVarCheckboxes.length) {
+                dimensionCheckbox.checked = true;
+                dimensionCheckbox.indeterminate = false;
+            } else {
+                dimensionCheckbox.indeterminate = true;
+            }
+        };
+        
+        // Añadir listener a todos los checkboxes de variables
+        ['seguridad', 'desarrollo', 'gobernabilidad'].forEach(dimensionId => {
+            const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
+            
+            variableCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('calciteCheckboxChange', () => {
+                    updateDimensionCheckbox(dimensionId);
+                });
+            });
+            
+            // Inicializar el estado del checkbox principal
+            updateDimensionCheckbox(dimensionId);
+        });
+    });
+    </script>
+</body>
+</html>

@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HORIZONTE: JUEGO DE ESTRATEGIA</title>
+    
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="progress-stepper.js"></script>
+    
+    <!-- Estilos propios unificados -->
+    <link rel="stylesheet" href="main.css">
 </head>
-<script src="teamModal.js"></script>
 <body class="military-theme">
+    <!-- Navegación con Stepper -->
     <div class="navigation-container">
         <button id="prevStep" class="nav-arrow" aria-label="Paso Anterior">←</button>
         <progress-stepper 
-            current-step="3" 
-            total-steps="3" 
-            steps='["Análisis Exploratorio", "Análisis Proyectos", "Evaluación Estratégica"]'>
-        </progress-stepper>
+        current-step="3" 
+        total-steps="5" 
+        steps='["Análisis Exploratorio", "Ciclo 1: Análisis", "Ciclo 1: Evaluación", "Ciclo 2: Análisis", "Ciclo 2: Evaluación"]'>
+    </progress-stepper>
         <button id="nextStep" class="nav-arrow" disabled aria-label="Siguiente Paso">→</button>
     </div>
 
+    <!-- Encabezado -->
     <div class="military-header">
         <div class="military-header-container">
             <div class="military-header-content">
-        <div class="military-title">CENTRO DE EVALUACIÓN PEMSITIM</div>
-        <div class="military-subtitle">ANÁLISIS DE IMPACTO MULTIDIMENSIONAL (PRIMER CICLO-2035)</div>
+                <div class="military-title">CENTRO DE EVALUACIÓN PEMSITIM</div>
+                <div class="military-subtitle">ANÁLISIS DE IMPACTO MULTIDIMENSIONAL (PRIMER CICLO-2035)</div>
             </div>
         </div>
     </div>
 
+    <!-- Contenido principal -->
     <div class="container military-container">
         <div class="results-container">
             <div class="results-header">
@@ -40,27 +45,29 @@
             </div>
             
             <div class="results-content">
+                <!-- Resumen de inversiones -->
                 <div class="results-section deployment-summary">
                     <h3 class="section-title">RESUMEN DE INVERSIONES</h3>
                     <div class="summary-stats">
                         <div class="stat-card">
                             <div class="stat-icon">🎯</div>
-                            <div class="stat-value" id="operationsCount">3</div>
+                            <div class="stat-value" id="operationsCount">0</div>
                             <div class="stat-label">PROYECTOS DESPLEGADOS</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">💰</div>
-                            <div class="stat-value" id="investedResources">$7,500</div>
+                            <div class="stat-value" id="investedResources">$0</div>
                             <div class="stat-label">RECURSOS INVERTIDOS</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">📈</div>
-                            <div class="stat-value" id="pemsitimIncrease">+18%</div>
+                            <div class="stat-value" id="pemsitimIncrease">+0%</div>
                             <div class="stat-label">MEJORA GLOBAL PEMSITIM</div>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Detalles de proyectos -->
                 <div class="results-section operations-list">
                     <h3 class="section-title">DETALLES DE PROYECTOS</h3>
                     <div class="data-table-container">
@@ -69,206 +76,59 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>PROYECTO</th>
-                                    <th>MUNICIPIO</th>
                                     <th>RECURSOS</th>
                                     <th>IMPACTO</th>
                                 </tr>
                             </thead>
                             <tbody id="operationsTableBody">
-                                <tr>
-                                    <td>OP-001</td>
-                                    <td>Centro Médico Regional</td>
-                                    <td>Quibdó</td>
-                                    <td>$3,000</td>
-                                    <td><span class="status-badge status-active">ALTO</span></td>
-                                </tr>
-                                <tr>
-                                    <td>OP-002</td>
-                                    <td>Mejoramiento Vial</td>
-                                    <td>Istmina</td>
-                                    <td>$2,500</td>
-                                    <td><span class="status-badge status-active">MEDIO</span></td>
-                                </tr>
-                                <tr>
-                                    <td>OP-003</td>
-                                    <td>Centro Educativo</td>
-                                    <td>Tadó</td>
-                                    <td>$2,000</td>
-                                    <td><span class="status-badge status-active">ALTO</span></td>
+                                <!-- Los datos de proyectos se insertarán aquí dinámicamente -->
+                                <tr id="loadingProjectsRow">
+                                    <td colspan="5" style="text-align: center;">Cargando proyectos...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 
+                <!-- Impacto por dimensión -->
                 <div class="results-section dimension-impact">
                     <h3 class="section-title">IMPACTO POR DIMENSIÓN PEMSITIM</h3>
                     <div class="dimension-impact-container">
                         <div class="dimension-impact-bars">
                             <div class="dimension-bar-container">
-                                <div class="bar-label">Geografía</div>
-                                <div class="bar-outer">
-                                    <div class="bar-inner" style="width: 65%;"></div>
-                                    <div class="bar-improvement" style="width: 5%;"></div>
-                                </div>
-                                <div class="bar-value">65% <span class="improvement">+5%</span></div>
-                            </div>
-                            <div class="dimension-bar-container">
                                 <div class="bar-label">Seguridad</div>
                                 <div class="bar-outer">
-                                    <div class="bar-inner" style="width: 42%;"></div>
-                                    <div class="bar-improvement" style="width: 8%;"></div>
+                                    <div class="bar-inner" id="seguridad-bar" style="width: 0%;"></div>
+                                    <div class="bar-improvement" id="seguridad-improvement" style="width: 0%;"></div>
                                 </div>
-                                <div class="bar-value">42% <span class="improvement">+8%</span></div>
+                                <div class="bar-value"><span id="seguridad-value">0%</span> <span class="improvement" id="seguridad-increase">+0%</span></div>
                             </div>
                             <div class="dimension-bar-container">
-                                <div class="bar-label">Salud</div>
+                                <div class="bar-label">Desarrollo</div>
                                 <div class="bar-outer">
-                                    <div class="bar-inner" style="width: 58%;"></div>
-                                    <div class="bar-improvement" style="width: 25%;"></div>
+                                    <div class="bar-inner" id="desarrollo-bar" style="width: 0%;"></div>
+                                    <div class="bar-improvement" id="desarrollo-improvement" style="width: 0%;"></div>
                                 </div>
-                                <div class="bar-value">58% <span class="improvement">+25%</span></div>
+                                <div class="bar-value"><span id="desarrollo-value">0%</span> <span class="improvement" id="desarrollo-increase">+0%</span></div>
                             </div>
                             <div class="dimension-bar-container">
-                                <div class="bar-label">Infraestructura</div>
+                                <div class="bar-label">Gobernabilidad</div>
                                 <div class="bar-outer">
-                                    <div class="bar-inner" style="width: 38%;"></div>
-                                    <div class="bar-improvement" style="width: 22%;"></div>
+                                    <div class="bar-inner" id="gobernabilidad-bar" style="width: 0%;"></div>
+                                    <div class="bar-improvement" id="gobernabilidad-improvement" style="width: 0%;"></div>
                                 </div>
-                                <div class="bar-value">38% <span class="improvement">+22%</span></div>
+                                <div class="bar-value"><span id="gobernabilidad-value">0%</span> <span class="improvement" id="gobernabilidad-increase">+0%</span></div>
                             </div>
-                            <div class="dimension-bar-container">
-                                <div class="bar-label">Educación</div>
+                            <div class="dimension-bar-container total-index">
+                                <div class="bar-label">Índice PEMSITIM Total</div>
                                 <div class="bar-outer">
-                                    <div class="bar-inner" style="width: 61%;"></div>
-                                    <div class="bar-improvement" style="width: 19%;"></div>
+                                    <div class="bar-inner" id="total-bar" style="width: 0%;"></div>
+                                    <div class="bar-improvement" id="total-improvement" style="width: 0%;"></div>
                                 </div>
-                                <div class="bar-value">61% <span class="improvement">+19%</span></div>
-                            </div>
-                            <div class="dimension-bar-container">
-                                <div class="bar-label">Desarrollo Económico</div>
-                                <div class="bar-outer">
-                                    <div class="bar-inner" style="width: 45%;"></div>
-                                    <div class="bar-improvement" style="width: 15%;"></div>
-                                </div>
-                                <div class="bar-value">45% <span class="improvement">+15%</span></div>
+                                <div class="bar-value"><span id="total-value">0%</span> <span class="improvement" id="total-increase">+0%</span></div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="results-section project-impact-details">
-                    <h3 class="section-title">DESGLOSE DE IMPACTO POR PROYECTO</h3>
-                    
-                    <div class="project-impact-card">
-                        <div class="project-impact-header">
-                            <h4>Centro Médico Regional - Quibdó</h4>
-                            <div class="project-cost">$3,000</div>
-                        </div>
-                        <div class="project-impact-dimensions">
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Salud</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 85%"></div>
-                                </div>
-                                <div class="impact-value">Alta</div>
-                            </div>
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Infraestructura</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 40%"></div>
-                                </div>
-                                <div class="impact-value">Media</div>
-                            </div>
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Desarrollo Económico</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 35%"></div>
-                                </div>
-                                <div class="impact-value">Media</div>
-                            </div>
-                        </div>
-                        <div class="project-impact-notes">
-                            <p>Principales mejoras: Reducción de mortalidad materna (-30%), Ampliación de cobertura médica (+45%), Reducción de desnutrición aguda (-15%)</p>
-                        </div>
-                    </div>
-                    
-                    <div class="project-impact-card">
-                        <div class="project-impact-header">
-                            <h4>Mejoramiento Vial - Istmina</h4>
-                            <div class="project-cost">$2,500</div>
-                        </div>
-                        <div class="project-impact-dimensions">
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Infraestructura</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 90%"></div>
-                                </div>
-                                <div class="impact-value">Alta</div>
-                            </div>
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Desarrollo Económico</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 55%"></div>
-                                </div>
-                                <div class="impact-value">Media</div>
-                            </div>
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Seguridad</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 30%"></div>
-                                </div>
-                                <div class="impact-value">Baja</div>
-                            </div>
-                        </div>
-                        <div class="project-impact-notes">
-                            <p>Principales mejoras: Conectividad vial (+60%), Acceso a mercados (+40%), Reducción de costos logísticos (-25%)</p>
-                        </div>
-                    </div>
-                    
-                    <div class="project-impact-card">
-                        <div class="project-impact-header">
-                            <h4>Centro Educativo - Tadó</h4>
-                            <div class="project-cost">$2,000</div>
-                        </div>
-                        <div class="project-impact-dimensions">
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Educación</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 95%"></div>
-                                </div>
-                                <div class="impact-value">Alta</div>
-                            </div>
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Desarrollo Económico</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 40%"></div>
-                                </div>
-                                <div class="impact-value">Media</div>
-                            </div>
-                            <div class="impact-dimension">
-                                <div class="impact-dimension-name">Seguridad</div>
-                                <div class="impact-bar-container">
-                                    <div class="impact-bar" style="width: 25%"></div>
-                                </div>
-                                <div class="impact-value">Baja</div>
-                            </div>
-                        </div>
-                        <div class="project-impact-notes">
-                            <p>Principales mejoras: Reducción de analfabetismo (-35%), Acceso a educación media (+50%), Desarrollo de competencias técnicas (+45%)</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="results-section recommendations">
-                    <h3 class="section-title">RECOMENDACIONES ESTRATÉGICAS</h3>
-                    <ul class="recommendations-list">
-                        <li>Priorizar inversiones adicionales en la dimensión de Seguridad, que muestra el menor avance relativo</li>
-                        <li>Expandir el modelo de Centro Médico Regional a otros municipios para consolidar mejoras en Salud</li>
-                        <li>Desarrollar proyectos complementarios de infraestructura vial para maximizar el impacto económico</li>
-                        <li>Integrar componentes de agua potable en futuras inversiones para potenciar indicadores de Salud</li>
-                        <li>Fortalecer el componente de formación docente en iniciativas educativas para optimizar resultados</li>
-                    </ul>
                 </div>
             </div>
             
@@ -282,6 +142,10 @@
         </div>
     </div>
 
+    <!-- Mensajes de estado -->
+    <div id="statusMessage" class="status-message"></div>
+
+    <!-- Pie de página -->
     <footer class="military-footer">
         <div class="footer-content">
             <div class="military-stamp">CONFIDENCIAL</div>
@@ -289,68 +153,13 @@
         </div>
     </footer>
 
-    <script src="progressBar.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mostrar fecha actual
-            const now = new Date();
-            const options = { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            };
-            const dateStr = now.toLocaleString('es-ES', options).replace(',', ' / ');
-            document.getElementById('currentDate').textContent = dateStr;
-            document.getElementById('reportDate').textContent = "FECHA: " + dateStr;
-            
-            // Botón para reiniciar
-            const restartButton = document.getElementById('restart-button');
-            if (restartButton) {
-                restartButton.addEventListener('click', function() {
-                    window.location.href = 'step1.html';
-                });
-            }
-            
-            // Animación de barras de dimensiones
-            setTimeout(() => {
-                // Animar primero las barras de impacto
-                const dimensionBars = document.querySelectorAll('.bar-inner');
-                dimensionBars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0%';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 300);
-                });
-                
-                // Luego animar las mejoras
-                setTimeout(() => {
-                    const improvementBars = document.querySelectorAll('.bar-improvement');
-                    improvementBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0%';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 100);
-                    });
-                }, 1000);
-                
-                // Animar barras de impacto de proyectos
-                setTimeout(() => {
-                    const impactBars = document.querySelectorAll('.impact-bar');
-                    impactBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0%';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 100);
-                    });
-                }, 1500);
-            }, 500);
-        });
-    </script>
+    <!-- Script principal que carga módulos -->
+    <script src="main.js"></script>
+    
+    <!-- Componentes web personalizados -->
+    <script src="js/components/progress-stepper.js"></script>
+    
+    <!-- Script para cargar datos dinámicos -->
+    <script src="js/step3-data.js"></script>
 </body>
 </html>

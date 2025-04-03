@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HORIZONTE: JUEGO DE ESTRATEGIA</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos propios unificados -->
+    <link rel="stylesheet" href="main.css">
+</head>
+<body class="military-theme">
+    <!-- Navegación con Stepper -->
+    <div class="navigation-container">
+        <button id="prevStep" class="nav-arrow" aria-label="Paso Anterior">←</button>
+        <progress-stepper 
+            current-step="5" 
+            total-steps="5" 
+            steps='["Análisis Exploratorio", "Ciclo 1: Análisis", "Ciclo 1: Evaluación", "Ciclo 2: Análisis", "Ciclo 2: Evaluación"]'>
+        </progress-stepper>
+        <button id="nextStep" class="nav-arrow" disabled aria-label="Siguiente Paso">→</button>
+    </div>
+
+    <!-- Encabezado -->
+    <div class="military-header">
+        <div class="military-header-container">
+            <div class="military-header-content">
+                <div class="military-title">CENTRO DE EVALUACIÓN PEMSITIM</div>
+                <div class="military-subtitle">ANÁLISIS DE IMPACTO MULTIDIMENSIONAL (SEGUNDO CICLO-2035)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container military-container">
+        <div class="results-container">
+            <div class="results-header">
+                <h2 class="results-heading">INFORME DE IMPACTO EXPECTATIVA VIDA - CICLO 2</h2>
+                <div class="results-date" id="reportDate"></div>
+            </div>
+            
+            <div class="results-content">
+                <!-- Resumen de inversiones -->
+                <div class="results-section deployment-summary">
+                    <h3 class="section-title">RESUMEN DE INVERSIONES</h3>
+                    <div class="summary-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-value" id="operationsCount">4</div>
+                            <div class="stat-label">PROYECTOS DESPLEGADOS</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-value" id="investedResources">$8,500</div>
+                            <div class="stat-label">RECURSOS INVERTIDOS</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-value" id="pemsitimIncrease">+22%</div>
+                            <div class="stat-label">MEJORA GLOBAL PEMSITIM</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Detalles de proyectos -->
+                <div class="results-section operations-list">
+                    <h3 class="section-title">DETALLES DE PROYECTOS - CICLO 2</h3>
+                    <div class="data-table-container">
+                        <table class="military-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>PROYECTO</th>
+                                    <th>MUNICIPIO</th>
+                                    <th>RECURSOS</th>
+                                    <th>IMPACTO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="operationsTableBody">
+                                <tr>
+                                    <td>OP-004</td>
+                                    <td>Centro de Prevención</td>
+                                    <td>Nuquí</td>
+                                    <td>$2,500</td>
+                                    <td><span class="status-badge status-active">ALTO</span></td>
+                                </tr>
+                                <tr>
+                                    <td>OP-005</td>
+                                    <td>Mejoramiento Vial</td>
+                                    <td>Bahía Solano</td>
+                                    <td>$2,000</td>
+                                    <td><span class="status-badge status-active">MEDIO</span></td>
+                                </tr>
+                                <tr>
+                                    <td>OP-006</td>
+                                    <td>Planta Potabilizadora</td>
+                                    <td>Juradó</td>
+                                    <td>$4,000</td>
+                                    <td><span class="status-badge status-active">ALTO</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Impacto por dimensión -->
+                <div class="results-section dimension-impact">
+                    <h3 class="section-title">IMPACTO POR DIMENSIÓN PEMSITIM - ACUMULADO</h3>
+                    <div class="dimension-impact-container">
+                        <div class="dimension-impact-bars">
+                            <div class="dimension-bar-container">
+                                <div class="bar-label">Geografía</div>
+                                <div class="bar-outer">
+                                    <div class="bar-inner" style="width: 70%;"></div>
+                                    <div class="bar-improvement" style="width: 10%;"></div>
+                                </div>
+                                <div class="bar-value">70% <span class="improvement">+10%</span></div>
+                            </div>
+                            <div class="dimension-bar-container">
+                                <div class="bar-label">Seguridad</div>
+                                <div class="bar-outer">
+                                    <div class="bar-inner" style="width: 50%;"></div>
+                                    <div class="bar-improvement" style="width: 16%;"></div>
+                                </div>
+                                <div class="bar-value">50% <span class="improvement">+16%</span></div>
+                            </div>
+                            <div class="dimension-bar-container">
+                                <div class="bar-label">Salud</div>
+                                <div class="bar-outer">
+                                    <div class="bar-inner" style="width: 83%;"></div>
+                                    <div class="bar-improvement" style="width: 50%;"></div>
+                                </div>
+                                <div class="bar-value">83% <span class="improvement">+50%</span></div>
+                            </div>
+                            <div class="dimension-bar-container">
+                                <div class="bar-label">Infraestructura</div>
+                                <div class="bar-outer">
+                                    <div class="bar-inner" style="width: 60%;"></div>
+                                    <div class="bar-improvement" style="width: 44%;"></div>
+                                </div>
+                                <div class="bar-value">60% <span class="improvement">+44%</span></div>
+                            </div>
+                            <div class="dimension-bar-container">
+                                <div class="bar-label">Educación</div>
+                                <div class="bar-outer">
+                                    <div class="bar-inner" style="width: 61%;"></div>
+                                    <div class="bar-improvement" style="width: 19%;"></div>
+                                </div>
+                                <div class="bar-value">61% <span class="improvement">+19%</span></div>
+                            </div>
+                            <div class="dimension-bar-container">
+                                <div class="bar-label">Desarrollo Económico</div>
+                                <div class="bar-outer">
+                                    <div class="bar-inner" style="width: 60%;"></div>
+                                    <div class="bar-improvement" style="width: 30%;"></div>
+                                </div>
+                                <div class="bar-value">60% <span class="improvement">+30%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desglose de impacto por proyecto -->
+                <div class="results-section project-impact-details">
+                    <h3 class="section-title">DESGLOSE DE IMPACTO POR PROYECTO - CICLO 2</h3>
+                    
+                    <div class="project-impact-card">
+                        <div class="project-impact-header">
+                            <h4>Centro de Prevención - Nuquí</h4>
+                            <div class="project-cost">$2,500</div>
+                        </div>
+                        <div class="project-impact-dimensions">
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Seguridad</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 90%"></div>
+                                </div>
+                                <div class="impact-value">Alta</div>
+                            </div>
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Salud</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 45%"></div>
+                                </div>
+                                <div class="impact-value">Media</div>
+                            </div>
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Desarrollo Económico</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 30%"></div>
+                                </div>
+                                <div class="impact-value">Baja</div>
+                            </div>
+                        </div>
+                        <div class="project-impact-notes">
+                            <p>Principales mejoras: Reducción de delitos (-25%), Incremento en seguridad comunitaria (+35%), Mejora en prevención de salud (+20%)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="project-impact-card">
+                        <div class="project-impact-header">
+                            <h4>Mejoramiento Vial - Bahía Solano</h4>
+                            <div class="project-cost">$2,000</div>
+                        </div>
+                        <div class="project-impact-dimensions">
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Infraestructura</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 85%"></div>
+                                </div>
+                                <div class="impact-value">Alta</div>
+                            </div>
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Desarrollo Económico</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 65%"></div>
+                                </div>
+                                <div class="impact-value">Media</div>
+                            </div>
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Salud</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 25%"></div>
+                                </div>
+                                <div class="impact-value">Baja</div>
+                            </div>
+                        </div>
+                        <div class="project-impact-notes">
+                            <p>Principales mejoras: Conectividad vial (+45%), Acceso a servicios de emergencia (+30%), Reducción de tiempos de traslado (-35%)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="project-impact-card">
+                        <div class="project-impact-header">
+                            <h4>Planta Potabilizadora - Juradó</h4>
+                            <div class="project-cost">$4,000</div>
+                        </div>
+                        <div class="project-impact-dimensions">
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Salud</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 95%"></div>
+                                </div>
+                                <div class="impact-value">Alta</div>
+                            </div>
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Infraestructura</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 80%"></div>
+                                </div>
+                                <div class="impact-value">Alta</div>
+                            </div>
+                            <div class="impact-dimension">
+                                <div class="impact-dimension-name">Desarrollo Económico</div>
+                                <div class="impact-bar-container">
+                                    <div class="impact-bar" style="width: 45%"></div>
+                                </div>
+                                <div class="impact-value">Media</div>
+                            </div>
+                        </div>
+                        <div class="project-impact-notes">
+                            <p>Principales mejoras: Reducción de enfermedades gastrointestinales (-65%), Cobertura de agua potable (+85%), Calidad del agua (+90%)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recomendaciones estratégicas -->
+                <div class="results-section recommendations">
+                    <h3 class="section-title">CONCLUSIÓN FINAL DE IMPACTO</h3>
+                    <ul class="recommendations-list">
+                        <li>Los dos ciclos de inversión han logrado mejoras sustanciales en todas las dimensiones PEMSITIM</li>
+                        <li>La dimensión de Salud ha mostrado el mayor incremento (+50%), consolidándose como la mejor área de impacto</li>
+                        <li>La infraestructura muestra un incremento notable (+44%), mejorando la conectividad regional</li>
+                        <li>El Desarrollo Económico ha presentado un crecimiento sostenido (+30%), favoreciendo la sostenibilidad</li>
+                        <li>Las inversiones en Seguridad (+16%) requieren continuidad para su consolidación a largo plazo</li>
+                        <li>Se recomienda integrar componentes educativos en futuros ciclos de inversión para potenciar resultados</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="results-footer">
+                <div class="approval-section">
+                    <div class="approval-stamp">APROBADO</div>
+                    <div class="approver-info">COMITÉ ESTRATÉGICO PEMSITIM</div>
+                </div>
+                <button id="restart-button" class="military-button">REINICIAR SIMULACIÓN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensajes de estado -->
+    <div id="statusMessage" class="status-message"></div>
+
+    <!-- Pie de página -->
+    <footer class="military-footer">
+        <div class="footer-content">
+            <div class="military-stamp">CONFIDENCIAL</div>
+            <div class="military-date" id="currentDate"></div>
+        </div>
+    </footer>
+
+    <!-- Script principal que carga módulos -->
+    <script src="main.js"></script>
+    
+    <!-- Componentes web personalizados -->
+    <script src="js/components/progress-stepper.js"></script>
+</body>
+</html>

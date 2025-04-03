@@ -4,25 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HORIZONTE: JUEGO DE ESTRATEGIA</title>
+    
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="progress-stepper.js"></script>
-    <script src="teamModal.js"></script>
+    
+    <!-- Estilos propios unificados -->
+    <link rel="stylesheet" href="main.css">
 </head>
 <body class="military-theme">
+    <!-- Navegación con Stepper -->
     <div class="navigation-container">
         <button id="prevStep" class="nav-arrow" disabled aria-label="Paso Anterior">←</button>
         <progress-stepper 
             current-step="1" 
-            total-steps="3" 
-            steps='["Análisis Exploratorio", "Análisis Proyectos", "Evaluación Estratégica"]'>
+            total-steps="5" 
+            steps='["Análisis Exploratorio", "Ciclo 1: Análisis", "Ciclo 1: Evaluación", "Ciclo 2: Análisis", "Ciclo 2: Evaluación"]'>
         </progress-stepper>
         <button id="nextStep" class="nav-arrow" aria-label="Siguiente Paso">→</button>
     </div>
 
+    <!-- Encabezado -->
     <div class="military-header">
         <div class="military-header-container">
             <div class="military-header-content">
@@ -32,6 +36,7 @@
         </div>
     </div>
 
+    <!-- Contenido principal -->
     <div class="container military-container">
         <div class="intel-box">
             <h2 class="intel-heading">ANÁLISIS EXPLORATORIO DE DIMENSIONES PEMSITIM</h2>
@@ -46,18 +51,58 @@
                     </p>
                 </div>
                 
-                <!-- Nueva sección para el mapa de ArcGIS -->
+                <!-- Visualización territorial -->
                 <div class="intel-section">
                     <h3 class="section-title">VISUALIZACIÓN TERRITORIAL</h3>
-                    <div id="mapViewerContainer">
-                        <div class="map-title-container">
-                            <span>VISUALIZACIÓN TERRITORIAL ESTRATÉGICA</span>
-                            <span class="map-status-indicator">CARGANDO...</span>
-                        </div>
-                        <div id="arcgisMap" style="height: 500px; width: 100%;"></div>
-                    </div>
+                    <!-- Sistema de pestañas para step1.html -->
+                    <!-- Reemplaza el div id="mapViewerContainer" actual con esto -->
+                    <!-- Sistema de pestañas para step1.html -->
+<!-- Reemplaza el div id="mapViewerContainer" actual con esto -->
+<div id="mapViewerContainer">
+    <div class="map-title-container">
+        <span>VISUALIZACIÓN TERRITORIAL ESTRATÉGICA</span>
+        <span class="map-status-indicator">CARGANDO...</span>
+    </div>
+    
+    <!-- Barra de pestañas -->
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-button active" data-tab="map-tab">MAPA TERRITORIAL</button>
+            <button class="tab-button" data-tab="algebra-tab">ANALISIS MULTIDIMENSIONAL</button>
+        </div>
+        
+        <!-- Contenido de pestañas -->
+        <div class="tab-content-container">
+            <!-- Pestaña del mapa (contenido original) -->
+            <div id="map-tab" class="tab-content active">
+                <div class="tab-toolbar">
+                    <button class="fullscreen-button" data-target="map-tab">
+                        <span class="fullscreen-icon">⛶</span>
+                    </button>
+                </div>
+                <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
+                <div id="arcgisMap" style="height: 500px; width: 100%;"></div>
+            </div>
+            
+            <!-- Pestaña de álgebra de mapas (nuevo contenido) -->
+            <div id="algebra-tab" class="tab-content">
+                <div class="tab-toolbar">
+                    <button class="fullscreen-button" data-target="algebra-tab">
+                        <span class="fullscreen-icon">⛶</span>
+                    </button>
+                </div>
+                <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
+                <div id="algebraDinamicaContainer" style="height: 500px; width: 100%;">
+                    <!-- Aquí se cargará el contenido de AlgebraDinámica dinámicamente -->
+                    <iframe id="algebraFrame" style="width: 100%; height: 100%; border: none;" src="AlgebraDinamica/index.html"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
                 
+                <!-- Recursos disponibles 
                 <div class="intel-section">
                     <h3 class="section-title">EVALUACIÓN DE RECURSOS</h3>
                     <div class="resource-meter">
@@ -67,142 +112,104 @@
                             <div class="resource-bar" style="width: 100%"></div>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
+                <!-- Dimensiones -->
                 <div class="intel-section dimensions-analysis">
                     <h3 class="section-title">CAPAS DE ANÁLISIS DISPONIBLES</h3>
                     
-                    <div class="dimension-card">
-                        <div class="dimension-header">
-                            <div class="dimension-icon">🌍</div>
-                            <div class="dimension-title">GEOGRAFÍA</div>
+                    <div class="dimension-cards">
+                        <div class="dimension-card">
+                            <div class="dimension-header">
+                                <div class="dimension-icon">🔒</div>
+                                <div class="dimension-title">SEGURIDAD</div>
+                            </div>
+                            <ul class="dimension-variables">
+                                <li>Instituciones de salud</li>
+                                <li>Instituciones educativas</li>
+                                <li>Censo</li>
+                                <li>Comunidades étnicas</li>
+                                <li>Reservas indígenas</li>
+                                <li>Áreas protegidas</li>
+                                <li>Límites administrativos</li>
+                                <li>Desarrollo turístico</li>
+                            </ul>
                         </div>
-                        <ul class="dimension-variables">
-                            <li>Límites administrativos</li>
-                            <li>Censo hombre mujeres y total</li>
-                            <li>Áreas protegidas</li>
-                            <li>Reservas indígenas formalizadas</li>
-                            <li>DTM</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="dimension-card">
-                        <div class="dimension-header">
-                            <div class="dimension-icon">🔒</div>
-                            <div class="dimension-title">SEGURIDAD</div>
+                        
+                        <div class="dimension-card">
+                            <div class="dimension-header">
+                                <div class="dimension-icon">💼</div>
+                                <div class="dimension-title">DESARROLLO</div>
+                            </div>
+                            <ul class="dimension-variables">
+                                <li>Acueducto y Alcantarillado</li>
+                                <li>Energía Eléctrica</li>
+                                <li>Alfabetismo</li>
+                                <li>Nivel de Educación</li>
+                                <li>Desnutrición aguda</li>
+                                <li>Tasa de ocupación</li>
+                                <li>Internet</li>
+                                <li>Gas</li>
+                                <li>Bajo peso al nacer</li>
+                                <li>Cantidad de hoteles</li>
+                            </ul>
                         </div>
-                        <ul class="dimension-variables">
-                            <li>Delitos</li>
-                            <li>Cultivos ilícitos</li>
-                            <li>Bandas Criminales</li>
-                            <li>Narcotráfico (cercanía al puerto)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="dimension-card">
-                        <div class="dimension-header">
-                            <div class="dimension-icon">🏥</div>
-                            <div class="dimension-title">SALUD</div>
+                        
+                        <div class="dimension-card">
+                            <div class="dimension-header">
+                                <div class="dimension-icon">🏛️</div>
+                                <div class="dimension-title">GOBERNABILIDAD</div>
+                            </div>
+                            <ul class="dimension-variables">
+                                <li>Instituciones de salud</li>
+                                <li>Instituciones educativas</li>
+                                <li>Censo</li>
+                                <li>Comunidades étnicas</li>
+                                <li>Reservas indígenas</li>
+                                <li>Áreas protegidas</li>
+                                <li>Límites administrativos</li>
+                                <li>Desarrollo turístico</li>
+                            </ul>
                         </div>
-                        <ul class="dimension-variables">
-                            <li>Instituciones de salud (por niveles)</li>
-                            <li>Desnutrición aguda</li>
-                            <li>Mortalidad materna</li>
-                            <li>Bajo peso al nacer</li>
-                            <li>Epidemiología de la zona</li>
-                            <li>Calidad aire</li>
-                            <li>Agua potable</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="dimension-card">
-                        <div class="dimension-header">
-                            <div class="dimension-icon">🏗️</div>
-                            <div class="dimension-title">INFRAESTRUCTURA</div>
-                        </div>
-                        <ul class="dimension-variables">
-                            <li>Servicios públicos</li>
-                            <li>Vial</li>
-                            <li>Puertos y aeropuertos</li>
-                            <li>Índice alimentario por municipio</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="dimension-card">
-                        <div class="dimension-header">
-                            <div class="dimension-icon">🎓</div>
-                            <div class="dimension-title">EDUCACIÓN</div>
-                        </div>
-                        <ul class="dimension-variables">
-                            <li>Instituciones educativas (niveles)</li>
-                            <li>Analfabetismo</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="dimension-card">
-                        <div class="dimension-header">
-                            <div class="dimension-icon">💼</div>
-                            <div class="dimension-title">DESARROLLO ECONÓMICO</div>
-                        </div>
-                        <ul class="dimension-variables">
-                            <li>Tasa de ocupación (Informalidad y desempleo)</li>
-                            <li>Desarrollo Turístico</li>
-                            <li>Cantidad de hoteles (Urbano, Rural)</li>
-                            <li>Índice de Gentrificación</li>
-                            <li>Destino turístico, cultural y natural</li>
-                            <li>Producto más importante por municipio</li>
-                        </ul>
                     </div>
                 </div>
 
+                <!-- Estado actual PEMSITIM -->
                 <div class="intel-section status-summary">
-                    <h3 class="section-title">ESTADO ACTUAL DEL ÍNDICE PEMSITIM</h3>
+                    <h3 class="section-title">ESTADO ACTUAL DEL TERRITORIO</h3>
                     <div class="dimension-bars">
-                        <div class="dimension-bar-container">
-                            <div class="bar-label">Geografía</div>
-                            <div class="bar-outer">
-                                <div class="bar-inner" style="width: 65%;"></div>
-                            </div>
-                            <div class="bar-value">65%</div>
-                        </div>
                         <div class="dimension-bar-container">
                             <div class="bar-label">Seguridad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" style="width: 42%;"></div>
+                                <div class="bar-inner" data-value="68.83"></div>
                             </div>
-                            <div class="bar-value">42%</div>
+                            <div class="bar-value">68.83%</div>
                         </div>
                         <div class="dimension-bar-container">
-                            <div class="bar-label">Salud</div>
+                            <div class="bar-label">Desarrollo</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" style="width: 58%;"></div>
+                                <div class="bar-inner" data-value="42.60"></div>
                             </div>
-                            <div class="bar-value">58%</div>
+                            <div class="bar-value">42.60%</div>
                         </div>
                         <div class="dimension-bar-container">
-                            <div class="bar-label">Infraestructura</div>
+                            <div class="bar-label">Gobernabilidad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" style="width: 38%;"></div>
+                                <div class="bar-inner" data-value="25.04"></div>
                             </div>
-                            <div class="bar-value">38%</div>
+                            <div class="bar-value">25.04%</div>
                         </div>
-                        <div class="dimension-bar-container">
-                            <div class="bar-label">Educación</div>
+                        <div class="dimension-bar-container total-index">
+                            <div class="bar-label">Índice  Total</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" style="width: 61%;"></div>
+                                <div class="bar-inner" data-value="48.70"></div>
                             </div>
-                            <div class="bar-value">61%</div>
-                        </div>
-                        <div class="dimension-bar-container">
-                            <div class="bar-label">Desarrollo Económico</div>
-                            <div class="bar-outer">
-                                <div class="bar-inner" style="width: 45%;"></div>
-                            </div>
-                            <div class="bar-value">45%</div>
+                            <div class="bar-value">48.70%</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Próximos pasos -->
                 <div class="intel-section">
                     <h3 class="section-title">PRÓXIMOS PASOS</h3>
                     <div class="next-steps">
@@ -229,6 +236,10 @@
         </div>
     </div>
 
+    <!-- Mensajes de estado -->
+    <div id="statusMessage" class="status-message"></div>
+
+    <!-- Pie de página -->
     <footer class="military-footer">
         <div class="footer-content">
             <div class="military-stamp">CONFIDENCIAL</div>
@@ -236,49 +247,49 @@
         </div>
     </footer>
 
-    <script src="progressBar.js"></script>
-    <script>
-        // Mostrar fecha actual en formato militar
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            const options = { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            };
-            const dateStr = now.toLocaleString('es-ES', options).replace(',', ' / ');
-            document.getElementById('currentDate').textContent = dateStr;
+    <!-- Script principal que carga módulos -->
+    <script src="main.js"></script>
+    
+    <!-- Componentes web personalizados -->
+    <script src="js/components/progress-stepper.js"></script>
+    
+    <!-- Script para mapa estático si es necesario -->
+    <script src="js/components/map-viewer.js"></script>
+    <!-- Añade esto justo antes de cerrar el body (antes de </body>) -->
+    <script src="js/tabs.js"></script>
+<script>
+    // Script directo para animar las barras PEMSITIM
+    document.addEventListener('DOMContentLoaded', function() {
+        // Esperar a que todo esté cargado
+        setTimeout(function() {
+            console.log("Iniciando animación directa de barras PEMSITIM");
             
-            // Botón para proceder al siguiente paso
-            const proceedButton = document.getElementById('proceed-button');
-            if (proceedButton) {
-                proceedButton.addEventListener('click', function() {
-                    window.location.href = 'index.html';
-                });
-            }
+            // Obtener todas las barras internas
+            const bars = document.querySelectorAll('.bar-inner');
             
-            // Animación de barras de dimensiones
-            setTimeout(() => {
-                const bars = document.querySelectorAll('.bar-inner');
-                bars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0%';
+            bars.forEach(bar => {
+                // Obtener el valor del atributo data-value
+                const value = parseFloat(bar.getAttribute('data-value'));
+                
+                if (!isNaN(value)) {
+                    // Asignar clase según el valor
+                    const container = bar.closest('.dimension-bar-container');
+                    if (value < 30) {
+                        container.classList.add('level-low');
+                    } else if (value < 60) {
+                        container.classList.add('level-medium');
+                    } else {
+                        container.classList.add('level-high');
+                    }
+                    
+                    // Animar la barra
                     setTimeout(() => {
-                        bar.style.width = width;
+                        bar.style.width = `${value}%`;
                     }, 300);
-                });
-            }, 500);
-            
-            // Inicializar el mapa
-            if (window.arcgisMap && typeof window.arcgisMap.initialize === 'function') {
-                window.arcgisMap.initialize();
-            }
-        });
-    </script>
-    <script src="mapViewer.js"></script>
-
+                }
+            });
+        }, 1000);
+    });
+</script>
 </body>
 </html>

@@ -1,0 +1,284 @@
+/* 
+ * components/modals.css
+ * Estilos para ventanas modales
+ */
+
+/* Modal base */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: var(--z-index-modal-backdrop);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    background-color: var(--panel-bg-color);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius-md);
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    z-index: var(--z-index-modal);
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  .modal-header {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 2px solid var(--primary-color-dark);
+    text-align: center;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-monospace);
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-color);
+  }
+  
+  .modal-subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+    margin-top: var(--spacing-xs);
+  }
+  
+  .modal-body {
+    padding: var(--spacing-lg);
+  }
+  
+  .modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    text-align: center;
+    border-top: 1px solid var(--primary-color-dark);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    color: var(--text-color);
+    background: none;
+    border: none;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+  }
+  
+  .modal-close:hover {
+    opacity: 1;
+  }
+  
+  /* Animaciones para modales */
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Modal del equipo */
+  .team-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: var(--z-index-modal);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .team-modal-content {
+    background-color: var(--panel-bg-color);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius-md);
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .team-modal-header {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 2px solid var(--primary-color-dark);
+    text-align: center;
+  }
+  
+  .team-modal-header h2 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-monospace);
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-color);
+  }
+  
+  .team-modal-subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+    margin-top: var(--spacing-xs);
+  }
+  
+  .team-modal-body {
+    padding: var(--spacing-lg);
+  }
+  
+  .team-modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    text-align: center;
+    border-top: 1px solid var(--primary-color-dark);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Campos de formulario en modales */
+  .team-input-group {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .team-input-group label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-md);
+    color: var(--text-color);
+  }
+  
+  .team-input-group input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--primary-color-dark);
+    border-radius: var(--border-radius-sm);
+    color: var(--text-color);
+    font-family: var(--font-monospace);
+    outline: none;
+  }
+  
+  .team-input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(81, 127, 53, 0.5);
+  }
+  
+  .input-help {
+    font-size: var(--font-size-sm);
+    color: var(--secondary-color);
+    margin-top: var(--spacing-xs);
+  }
+  
+  .code-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .code-container input {
+    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: var(--font-size-lg);
+    letter-spacing: var(--letter-spacing-wide);
+    background-color: rgba(81, 127, 53, 0.1);
+  }
+  
+  .code-button {
+    height: 39px;
+    width: 39px;
+    background-color: var(--primary-color-dark);
+    border: 1px solid var(--primary-color-dark);
+    border-left: none;
+    border-top-right-radius: var(--border-radius-sm);
+    border-bottom-right-radius: var(--border-radius-sm);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+  }
+  
+  .code-button:hover {
+    background-color: var(--primary-color);
+  }
+  
+  .team-instruction {
+    background-color: rgba(81, 127, 53, 0.1);
+    border-left: 3px solid var(--primary-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+  }
+  
+  .instruction-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-xs);
+    color: var(--accent-color);
+    font-size: var(--font-size-sm);
+  }
+  
+  /* Panel de selección de ubicación (modal contextual en el mapa) */
+  .location-selection-panel {
+    font-family: var(--font-monospace);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--primary-color);
+    background-color: rgba(26, 34, 40, 0.9) !important;
+    padding: var(--spacing-md) !important;
+    max-width: 320px;
+  }
+  
+  .location-selection-panel h3 {
+    color: var(--primary-color);
+    font-size: var(--font-size-lg);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    border-bottom: 1px solid var(--primary-color);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .operation-info {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    background-color: rgba(0, 48, 116, 0.2);
+    border-left: 4px solid var(--primary-color);
+  }
+  
+  /* Media queries para responsive */
+  @media (max-width: 768px) {
+    .modal-content, .team-modal-content {
+      width: 95%;
+      max-width: none;
+      margin: var(--spacing-md);
+    }
+    
+    .modal-body, .team-modal-body {
+      padding: var(--spacing-md);
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    
+    .location-selection-panel {
+      left: var(--spacing-sm) !important;
+      right: var(--spacing-sm) !important;
+      width: auto !important;
+      max-height: 50vh !important;
+    }
+  }

@@ -16,17 +16,16 @@
     
     <!-- Estilos propios unificados -->
     <link rel="stylesheet" href="main.css">
-    
 </head>
 <body class="military-theme">
     <!-- Navegación con Stepper -->
     <div class="navigation-container">
         <button id="prevStep" class="nav-arrow" aria-label="Paso Anterior">←</button>
         <progress-stepper 
-        current-step="2" 
-        total-steps="5" 
-        steps='["Análisis Exploratorio", "Ciclo 1: Análisis", "Ciclo 1: Evaluación", "Ciclo 2: Análisis", "Ciclo 2: Evaluación"]'>
-    </progress-stepper>
+            current-step="4" 
+            total-steps="5" 
+            steps='["Análisis Exploratorio", "Ciclo 1: Análisis", "Ciclo 1: Evaluación", "Ciclo 2: Análisis", "Ciclo 2: Evaluación"]'>
+        </progress-stepper>
         <button id="nextStep" class="nav-arrow" aria-label="Siguiente Paso">→</button>
     </div>
 
@@ -35,7 +34,7 @@
         <div class="military-header-container">
             <div class="military-header-content">
                 <div class="military-title">CENTRO DE COMANDO Y CONTROL</div>
-                <div class="military-subtitle">SIMULADOR DE INVERSIONES ESTRATÉGICAS</div>
+                <div class="military-subtitle">SIMULADOR DE INVERSIONES ESTRATÉGICAS - CICLO 2</div>
             </div>
         </div>
     </div>
@@ -52,7 +51,7 @@
         
         <!-- Contenedor de proyectos -->
         <div id="projectListContainer">
-            <h2>OPERACIONES DISPONIBLES</h2>
+            <h2>OPERACIONES DISPONIBLES - CICLO 2</h2>
             <div class="presupuesto-container">
                 <div id="presupuestoTotal">RECURSOS ESTRATÉGICOS: $10.000</div>
                 <div class="presupuesto-bar-container">
@@ -88,7 +87,5 @@
     <script src="https://js.arcgis.com/4.32/"></script>
 
     <script src="js/resources.js"></script>
-    <script src="js/geoproceso.js"></script>
-
 </body>
 </html>

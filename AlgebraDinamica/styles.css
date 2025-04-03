@@ -1,0 +1,384 @@
+/* 
+ * styles.css - Estilos para HORIZONTE 2.0
+ * Simulador de Inversiones Estratégicas
+ */
+
+ :root {
+    --primary-color: #517f35;      /* Military green */
+    --primary-color-dark: #33502a; /* Darker military green */
+    --primary-color-light: #7da561; /* Lighter military green */
+    --secondary-color: #787D7D;    /* Military gray */
+    --accent-color: #A9724A;       /* Military bronze/brown */
+    --background-color: #0a0f14;   /* Dark background */
+    --text-color: #d0d3d4;         /* Light text for dark background */
+    --panel-bg-color: #1a2228;     /* Dark panel background */
+    --card-bg-color: #1e272e;      /* Dark card background */
+    
+    --success-color: #3c6d3f;      /* Success green */
+    --warning-color: #C68D30;      /* Warning yellow/amber */
+    --error-color: #AC1C1C;        /* Error red */
+    --info-color: #2a4d8f;         /* Info blue */
+    
+    --font-primary: 'Inter', 'Arial', sans-serif;
+    --font-monospace: 'Roboto Mono', monospace;
+}
+
+html, body, #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-primary);
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Header Militar */
+.military-header {
+    background-color: var(--panel-bg-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding: 10px 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.military-title {
+    font-family: var(--font-monospace);
+    font-size: 18px;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.military-subtitle {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Contenedor Principal */
+.container {
+    position: absolute;
+    top: 50px; /* Debajo del header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+}
+
+/* Panel de Control */
+#controlPanel {
+    width: 300px;
+    background-color: var(--panel-bg-color);
+    height: 100%;
+    overflow-y: auto;
+    padding: 15px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 99;
+    border-right: 1px solid var(--primary-color-dark);
+}
+
+.panel-header {
+    border-bottom: 1px solid var(--primary-color-dark);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-family: var(--font-monospace);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary-color);
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 15px 0 5px 0;
+    color: var(--primary-color);
+    font-family: var(--font-monospace);
+    border-left: 3px solid var(--primary-color);
+    padding-left: 8px;
+    text-transform: uppercase;
+}
+
+/* Dimensiones y Variables */
+.dimension-container {
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid var(--primary-color-dark);
+}
+
+.dimension-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--primary-color-dark);
+    padding-bottom: 5px;
+}
+
+.dimension-name {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.dimension-weight {
+    font-family: var(--font-monospace);
+    font-size: 12px;
+    background-color: rgba(81, 127, 53, 0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.variable-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
+}
+
+.variable-name {
+    flex-grow: 1;
+    font-size: 13px;
+}
+
+.variable-weight {
+    font-size: 12px;
+    font-family: var(--font-monospace);
+    color: var(--text-color);
+    opacity: 0.7;
+    min-width: 60px;
+    text-align: right;
+}
+
+.variable-checkbox {
+    margin-right: 8px;
+}
+
+/* Para los URLs de Servicios */
+.service-url-container {
+    margin-top: 15px;
+}
+
+.service-url-item {
+    margin-bottom: 10px;
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.service-url-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background-color: var(--primary-color-dark);
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.service-url-input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: var(--text-color);
+    border: none;
+    font-family: var(--font-monospace);
+    font-size: 12px;
+}
+
+.service-url-input:focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Footer y Botones de Acción */
+.panel-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--primary-color-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilos para los controles Calcite */
+calcite-button {
+    width: 100%;
+}
+
+/* Barra de Estado y Logs */
+#statusLog {
+    position: absolute;
+    bottom: 20px;
+    left: 350px;
+    right: 20px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--text-color);
+    padding: 5px 10px;
+    font-family: var(--font-monospace);
+    font-size: 12px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+#statusLog.visible {
+    opacity: 1;
+}
+
+#statusLog.success {
+    border-left: 4px solid var(--success-color);
+}
+
+#statusLog.error {
+    border-left: 4px solid var(--error-color);
+}
+
+#statusLog.warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+#statusLog.info {
+    border-left: 4px solid var(--info-color);
+}
+
+/* Controles Compactos para Calcite */
+calcite-checkbox {
+    --calcite-checkbox-size: 14px;
+}
+
+/* Loading Indicator */
+#loadingIndicator {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.loading-spinner {
+    border: 3px solid rgba(81, 127, 53, 0.2);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Leyenda */
+.color-legend {
+    display: flex;
+    height: 15px;
+    margin: 15px 0 5px 0;
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.color-stop {
+    flex-grow: 1;
+    height: 100%;
+}
+
+.legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+/* Estilos para los controles de grupo de dimensiones */
+.dimension-control {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.dimension-control-label {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Estilos para destacar el control de grupo */
+.dimension-checkbox {
+    --calcite-checkbox-size: 16px;
+}
+
+/* Separador para visualmente distinguir el control de grupo */
+.dimension-control::after {
+    content: '';
+    display: block;
+    position: relative;
+    margin-top: 8px;
+    height: 1px;
+    background: linear-gradient(to right, rgba(81, 127, 53, 0.5), transparent);
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    #controlPanel {
+        width: 250px;
+    }
+    
+    #statusLog {
+        left: 270px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    #controlPanel {
+        width: 100%;
+        height: 300px;
+        border-right: none;
+        border-bottom: 1px solid var(--primary-color-dark);
+    }
+    
+    #statusLog {
+        left: 20px;
+    }
+}

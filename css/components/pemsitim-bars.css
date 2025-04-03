@@ -1,0 +1,140 @@
+/**
+ * pemsitim-bars.css - Estilos para barras de progreso PEMSITIM
+ * Horizonte: Juego de Estrategia
+ */
+
+/* Animación para las rayas diagonales */
+@keyframes move-stripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 0; }
+}
+
+/* Mejoras para las barras de dimensión */
+.dimension-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.dimension-bar-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.bar-label {
+    width: 150px;
+    font-family: var(--font-monospace);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+}
+
+.bar-outer {
+    flex-grow: 1;
+    height: 18px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--primary-color-dark);
+    position: relative;
+}
+
+.bar-inner {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 0;
+    width: 0; /* Comienza en 0 y se anima con JS */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+    background-image: linear-gradient(45deg, 
+        var(--primary-color) 25%, 
+        rgba(255,255,255,0.15) 25%, 
+        rgba(255,255,255,0.15) 50%, 
+        var(--primary-color) 50%, 
+        var(--primary-color) 75%, 
+        rgba(255,255,255,0.15) 75%, 
+        rgba(255,255,255,0.15));
+    background-size: 20px 20px;
+    animation: move-stripes 2s linear infinite;
+}
+
+.bar-value {
+    width: 70px;
+    text-align: right;
+    font-family: var(--font-monospace);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+}
+
+/* Estilos para los diferentes niveles */
+.level-low .bar-inner {
+    background-color: var(--error-color);
+    background-image: linear-gradient(45deg, 
+        var(--error-color) 25%, 
+        rgba(255,255,255,0.15) 25%, 
+        rgba(255,255,255,0.15) 50%, 
+        var(--error-color) 50%, 
+        var(--error-color) 75%, 
+        rgba(255,255,255,0.15) 75%, 
+        rgba(255,255,255,0.15));
+}
+
+.level-medium .bar-inner {
+    background-color: var(--warning-color);
+    background-image: linear-gradient(45deg, 
+        var(--warning-color) 25%, 
+        rgba(255,255,255,0.15) 25%, 
+        rgba(255,255,255,0.15) 50%, 
+        var(--warning-color) 50%, 
+        var(--warning-color) 75%, 
+        rgba(255,255,255,0.15) 75%, 
+        rgba(255,255,255,0.15));
+}
+
+.level-high .bar-inner {
+    background-color: var(--success-color);
+    background-image: linear-gradient(45deg, 
+        var(--success-color) 25%, 
+        rgba(255,255,255,0.15) 25%, 
+        rgba(255,255,255,0.15) 50%, 
+        var(--success-color) 50%, 
+        var(--success-color) 75%, 
+        rgba(255,255,255,0.15) 75%, 
+        rgba(255,255,255,0.15));
+}
+
+/* Estilo especial para el índice total */
+.total-index {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--primary-color-dark);
+}
+
+.total-index .bar-label {
+    font-weight: bold;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .dimension-bar-container {
+        flex-wrap: wrap;
+    }
+    
+    .bar-label {
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .bar-outer {
+        flex: 1 1 100%;
+        order: 3;
+    }
+    
+    .bar-value {
+        width: auto;
+        margin-left: auto;
+        order: 2;
+    }
+}

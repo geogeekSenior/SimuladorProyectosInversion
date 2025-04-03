@@ -1,0 +1,35 @@
+/**
+ * main.css - Archivo principal que importa todos los estilos del proyecto
+ * Horizonte: Juego de Estrategia
+ */
+
+/* Base */
+@import 'css/theme.css';           /* Variables del tema */
+@import 'css/base.css';            /* Estilos base y reset */
+@import 'css/layout.css';          /* Estructura y layout */
+
+/* Componentes */
+@import 'css/components/header.css';     /* Encabezado */
+@import 'css/components/footer.css';     /* Pie de página */
+@import 'css/components/navigation.css'; /* Navegación y stepper */
+@import 'css/components/buttons.css';    /* Botones */
+@import 'css/components/cards.css';      /* Tarjetas y paneles */
+@import 'css/components/resources.css';  /* Recursos y presupuesto */
+@import 'css/components/tabs.css';          /* Sistema de pestañas - NUEVO */
+@import 'css/components/geoproceso.css';          /* Sistema de pestañas - NUEVO */
+
+/* @import 'css/components/tables.css'; */    /* Tablas - Comentado por falta de archivo */
+/* @import 'css/components/forms.css'; */     /* Formularios - Comentado por falta de archivo */
+@import 'css/components/modals.css';     /* Modales */
+@import 'css/components/maps.css';       /* Mapas */
+/* @import 'css/components/charts.css'; */    /* Gráficas - Comentado por falta de archivo */
+/* @import 'css/components/metrics.css'; */   /* Métricas y estadísticas - Comentado por falta de archivo */
+@import 'css/components/pemsitim-bars.css';  /* Barras de progreso PEMSITIM - NUEVO */
+
+/* Páginas */
+/* @import 'css/pages/analysis.css'; */      /* Página de análisis - Comentado por falta de archivo */
+/* @import 'css/pages/projects.css'; */      /* Página de proyectos - Comentado por falta de archivo */
+/* @import 'css/pages/evaluation.css'; */    /* Página de evaluación - Comentado por falta de archivo */
+
+/* Utilidades */
+@import 'css/utilities.css';            /* Clases utilitarias */

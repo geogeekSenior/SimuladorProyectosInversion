@@ -1,0 +1,206 @@
+/* 
+ * components/resources.css
+ * Estilos para recursos estratégicos y barras de presupuesto dinámicas 
+ */
+
+/* Contenedor de presupuesto */
+.presupuesto-container {
+    background-color: var(--panel-bg-color);
+    color: var(--text-color);
+    padding: var(--spacing-md);
+    text-align: center;
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 1px solid var(--primary-color);
+    position: relative;
+  }
+  
+  .presupuesto-container::before {
+    content: "RECURSO DISPONIBLE";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-size: var(--font-size-xs);
+    padding: 2px 8px;
+    border-bottom-right-radius: var(--border-radius-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+  
+  /* Texto del presupuesto */
+  #presupuestoTotal {
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    padding-top: var(--spacing-sm);
+  }
+  
+  /* Contenedor de la barra de presupuesto */
+  .presupuesto-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: rgba(0,0,0,0.3);
+    margin-top: var(--spacing-sm);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--primary-color-dark);
+  }
+  
+  /* Barra de presupuesto dinámica */
+  .presupuesto-bar {
+    height: 100%;
+    width: 100%; /* Comienza lleno, se reducirá con JavaScript */
+    background-color: var(--success-color);
+    border-radius: 0;
+    transition: width 0.8s ease-out, background-color 0.5s ease;
+    background-image: linear-gradient(45deg, 
+      var(--success-color) 25%, 
+      rgba(255,255,255,0.2) 25%, 
+      rgba(255,255,255,0.2) 50%, 
+      var(--success-color) 50%, 
+      var(--success-color) 75%, 
+      rgba(255,255,255,0.2) 75%, 
+      rgba(255,255,255,0.2));
+    background-size: 10px 10px;
+  }
+  
+  /* Estados de la barra según nivel de recursos */
+  .presupuesto-bar.high {
+    background-color: var(--success-color);
+    background-image: linear-gradient(45deg, 
+      var(--success-color) 25%, 
+      rgba(255,255,255,0.2) 25%, 
+      rgba(255,255,255,0.2) 50%, 
+      var(--success-color) 50%, 
+      var(--success-color) 75%, 
+      rgba(255,255,255,0.2) 75%, 
+      rgba(255,255,255,0.2));
+  }
+  
+  .presupuesto-bar.medium {
+    background-color: var(--warning-color);
+    background-image: linear-gradient(45deg, 
+      var(--warning-color) 25%, 
+      rgba(255,255,255,0.2) 25%, 
+      rgba(255,255,255,0.2) 50%, 
+      var(--warning-color) 50%, 
+      var(--warning-color) 75%, 
+      rgba(255,255,255,0.2) 75%, 
+      rgba(255,255,255,0.2));
+  }
+  
+  .presupuesto-bar.low {
+    background-color: var(--error-color);
+    background-image: linear-gradient(45deg, 
+      var(--error-color) 25%, 
+      rgba(255,255,255,0.2) 25%, 
+      rgba(255,255,255,0.2) 50%, 
+      var(--error-color) 50%, 
+      var(--error-color) 75%, 
+      rgba(255,255,255,0.2) 75%, 
+      rgba(255,255,255,0.2));
+    animation: pulse-warning 1.5s infinite;
+  }
+  
+  /* Animación para nivel crítico */
+  @keyframes pulse-warning {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+  }
+  
+  /* Estilos para recursos en tarjetas de proyecto */
+  .project-resources {
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacing-xs);
+  }
+  
+  .resource-icon {
+    margin-right: var(--spacing-xs);
+    font-size: var(--font-size-md);
+    color: var(--primary-color);
+  }
+  
+  .resource-amount {
+    font-family: var(--font-monospace);
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  /* Costos de recursos en listas de proyectos */
+  .project-cost {
+    display: inline-block;
+    background-color: rgba(81, 127, 53, 0.2);
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-monospace);
+  }
+  
+  /* Recurso insuficiente */
+  .recursos-insuficientes {
+    color: var(--error-color);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-xs);
+    display: none; /* Se muestra con JavaScript cuando corresponde */
+  }
+  
+  /* Medidor de recursos en análisis exploratorio */
+  .resource-meter {
+    background-color: rgba(0,0,0,0.2);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--primary-color-dark);
+  }
+  
+  .resource-label {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+    opacity: 0.8;
+  }
+  
+  .resource-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    font-family: var(--font-monospace);
+  }
+  
+  .resource-bar-container {
+    height: 10px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--primary-color-dark);
+  }
+  
+  .resource-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 0;
+    transition: width 1.5s ease-out;
+  }
+  
+  /* Media queries */
+  @media (max-width: 768px) {
+    .presupuesto-container {
+      padding: var(--spacing-sm);
+    }
+    
+    #presupuestoTotal {
+      font-size: var(--font-size-md);
+    }
+    
+    .resource-value {
+      font-size: var(--font-size-lg);
+    }
+  }

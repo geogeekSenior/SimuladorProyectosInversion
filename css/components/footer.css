@@ -1,0 +1,108 @@
+/* 
+ * components/footer.css
+ * Estilos para el pie de página
+ */
+
+/* Pie de página militar */
+.military-footer {
+    background-color: var(--panel-bg-color);
+    color: var(--text-color);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    border-top: 1px solid var(--primary-color);
+    font-family: var(--font-monospace);
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .military-stamp {
+    color: var(--accent-color);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-wide);
+    background-color: rgba(0,0,0,0.2);
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--accent-color);
+    text-transform: uppercase;
+  }
+  
+  .military-date {
+    font-family: var(--font-monospace);
+    letter-spacing: var(--letter-spacing-wide);
+  }
+  
+  /* Sección de aprobación */
+  .approval-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .approval-stamp {
+    background-color: var(--success-color);
+    color: var(--panel-bg-color);
+    padding: 5px 15px;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-wide);
+    border-radius: 3px;
+    transform: rotate(-3deg);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  
+  .approver-info {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+  }
+  
+  /* Intel Footer */
+  .intel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--primary-color-dark);
+  }
+  
+  /* Results Footer */
+  .results-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--primary-color-dark);
+  }
+  
+  /* Media queries para responsive */
+  @media (max-width: 768px) {
+    .military-footer {
+      padding: var(--spacing-xs) var(--spacing-md);
+    }
+    
+    .footer-content {
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+    
+    .military-stamp {
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .intel-footer, .results-footer {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+    
+    .approval-section {
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+    }
+  }
