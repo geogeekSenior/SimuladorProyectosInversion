@@ -47,14 +47,15 @@
 const serviceURLs = {
     // SERVICIOS DIMENSIÓN SEGURIDAD
     seguridad: [
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedInstitucionesSalud/ImageServer",
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedColegios/ImageServer",
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedCensoPersonasSectores/ImageServer",
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedComunidadesNegras/ImageServer", 
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTerritoriosIndigenas/ImageServer",
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAreasProtegidas/ImageServer",
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/AreaInteres1/ImageServer",
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDesarrolloTuristico/ImageServer"
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedHomicidiosRaster/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedLesionesPersonalesRaster/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTerrorismoRaster/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedExtorsionRaster/ImageServer", 
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDelitosSexualesRaster/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedMinasR22/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedEstacionPoliciaR22/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedCultivosilicitosRaster/ImageServer",
+        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDrogaRaster/ImageServer"
     ],
         
     // SERVICIOS DIMENSIÓN DESARROLLO
@@ -87,14 +88,15 @@ const serviceURLs = {
 // Matriz de pesos para las variables por dimensión
 const weightsMatrix = {
     seguridad: {
-        'Instituciones de salud': 0.10,
-        'Instituciones educativas': 0.08,
-        'Censo': 0.06,
-        'Comunidades étnicas': 0.04,
-        'Reservas indígenas': 0.04,
-        'Áreas protegidas': 0.04,
-        'Límites administrativos': 0.02,
-        'Desarrollo Turístico': 0.02
+        'Homicidios': 0.2,
+        'Lesiones personales': 0.1,
+        'Terrorismo': 0.1,
+        'Extorsión': 0.1,
+        'Delitos sexuales': 0.1,
+        'Minas antipersona': 0.1,
+        'Estaciones de Policía': 0.1,
+        'Cultivos ilícitos': 0.1,
+        'Narcotráfico (proximidad a puerto)': 0.05
     },
     desarrollo: {
         'Acueducto y Alcantarillado': 0.05,

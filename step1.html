@@ -55,64 +55,49 @@
                 <div class="intel-section">
                     <h3 class="section-title">VISUALIZACIÓN TERRITORIAL</h3>
                     <!-- Sistema de pestañas para step1.html -->
-                    <!-- Reemplaza el div id="mapViewerContainer" actual con esto -->
-                    <!-- Sistema de pestañas para step1.html -->
-<!-- Reemplaza el div id="mapViewerContainer" actual con esto -->
-<div id="mapViewerContainer">
-    <div class="map-title-container">
-        <span>VISUALIZACIÓN TERRITORIAL ESTRATÉGICA</span>
-        <span class="map-status-indicator">CARGANDO...</span>
-    </div>
-    
-    <!-- Barra de pestañas -->
-    <div class="tabs-container">
-        <div class="tabs-header">
-            <button class="tab-button active" data-tab="map-tab">MAPA TERRITORIAL</button>
-            <button class="tab-button" data-tab="algebra-tab">ANALISIS MULTIDIMENSIONAL</button>
-        </div>
-        
-        <!-- Contenido de pestañas -->
-        <div class="tab-content-container">
-            <!-- Pestaña del mapa (contenido original) -->
-            <div id="map-tab" class="tab-content active">
-                <div class="tab-toolbar">
-                    <button class="fullscreen-button" data-target="map-tab">
-                        <span class="fullscreen-icon">⛶</span>
-                    </button>
-                </div>
-                <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
-                <div id="arcgisMap" style="height: 500px; width: 100%;"></div>
-            </div>
-            
-            <!-- Pestaña de álgebra de mapas (nuevo contenido) -->
-            <div id="algebra-tab" class="tab-content">
-                <div class="tab-toolbar">
-                    <button class="fullscreen-button" data-target="algebra-tab">
-                        <span class="fullscreen-icon">⛶</span>
-                    </button>
-                </div>
-                <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
-                <div id="algebraDinamicaContainer" style="height: 500px; width: 100%;">
-                    <!-- Aquí se cargará el contenido de AlgebraDinámica dinámicamente -->
-                    <iframe id="algebraFrame" style="width: 100%; height: 100%; border: none;" src="AlgebraDinamica/index.html"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-                </div>
-                
-                <!-- Recursos disponibles 
-                <div class="intel-section">
-                    <h3 class="section-title">EVALUACIÓN DE RECURSOS</h3>
-                    <div class="resource-meter">
-                        <div class="resource-label">PRESUPUESTO DISPONIBLE</div>
-                        <div class="resource-value">$10,000</div>
-                        <div class="resource-bar-container">
-                            <div class="resource-bar" style="width: 100%"></div>
+                    <div id="mapViewerContainer">
+                        <div class="map-title-container">
+                            <span>VISUALIZACIÓN TERRITORIAL ESTRATÉGICA</span>
+                            <span class="map-status-indicator">CARGANDO...</span>
+                        </div>
+                        
+                        <!-- Barra de pestañas -->
+                        <div class="tabs-container">
+                            <div class="tabs-header">
+                                <button class="tab-button active" data-tab="map-tab">MAPA TERRITORIAL</button>
+                                <button class="tab-button" data-tab="algebra-tab">ANALISIS MULTIDIMENSIONAL</button>
+                            </div>
+                            
+                            <!-- Contenido de pestañas -->
+                            <div class="tab-content-container">
+                                <!-- Pestaña del mapa (contenido original) -->
+                                <div id="map-tab" class="tab-content active">
+                                    <div class="tab-toolbar">
+                                        <button class="fullscreen-button" data-target="map-tab">
+                                            <span class="fullscreen-icon">⛶</span>
+                                        </button>
+                                    </div>
+                                    <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
+                                    <div id="arcgisMap" style="height: 500px; width: 100%;"></div>
+                                </div>
+                                
+                                <!-- Pestaña de álgebra de mapas (nuevo contenido) -->
+                                <div id="algebra-tab" class="tab-content">
+                                    <div class="tab-toolbar">
+                                        <button class="fullscreen-button" data-target="algebra-tab">
+                                            <span class="fullscreen-icon">⛶</span>
+                                        </button>
+                                    </div>
+                                    <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
+                                    <div id="algebraDinamicaContainer" style="height: 500px; width: 100%;">
+                                        <!-- Aquí se cargará el contenido de AlgebraDinámica dinámicamente -->
+                                        <iframe id="algebraFrame" style="width: 100%; height: 100%; border: none;" src="AlgebraDinamica/index.html"></iframe>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>-->
+                </div>
 
                 <!-- Dimensiones -->
                 <div class="intel-section dimensions-analysis">
@@ -125,14 +110,15 @@
                                 <div class="dimension-title">SEGURIDAD</div>
                             </div>
                             <ul class="dimension-variables">
-                                <li>Instituciones de salud</li>
-                                <li>Instituciones educativas</li>
-                                <li>Censo</li>
-                                <li>Comunidades étnicas</li>
-                                <li>Reservas indígenas</li>
-                                <li>Áreas protegidas</li>
-                                <li>Límites administrativos</li>
-                                <li>Desarrollo turístico</li>
+                                <li>Homicidios</li>
+                                <li>Lesiones personales</li>
+                                <li>Terrorismo</li>
+                                <li>Extorsión</li>
+                                <li>Delitos sexuales</li>
+                                <li>Minas antipersona</li>
+                                <li>Estaciones de Policía</li>
+                                <li>Cultivos ilícitos</li>
+                                <li>Narcotráfico (proximidad a puerto)</li>
                             </ul>
                         </div>
                         
@@ -200,11 +186,11 @@
                             <div class="bar-value">25.04%</div>
                         </div>
                         <div class="dimension-bar-container total-index">
-                            <div class="bar-label">Índice  Total</div>
+                            <div class="bar-label">Expectativa de Vida</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="48.70"></div>
+                                <div class="bar-inner" data-value="68.00"></div>
                             </div>
-                            <div class="bar-value">48.70%</div>
+                            <div class="bar-value">68.00 años</div>
                         </div>
                     </div>
                 </div>
@@ -255,41 +241,54 @@
     
     <!-- Script para mapa estático si es necesario -->
     <script src="js/components/map-viewer.js"></script>
-    <!-- Añade esto justo antes de cerrar el body (antes de </body>) -->
+    
+    <!-- Script para pestañas -->
     <script src="js/tabs.js"></script>
-<script>
-    // Script directo para animar las barras PEMSITIM
-    document.addEventListener('DOMContentLoaded', function() {
-        // Esperar a que todo esté cargado
-        setTimeout(function() {
-            console.log("Iniciando animación directa de barras PEMSITIM");
-            
-            // Obtener todas las barras internas
-            const bars = document.querySelectorAll('.bar-inner');
-            
-            bars.forEach(bar => {
-                // Obtener el valor del atributo data-value
-                const value = parseFloat(bar.getAttribute('data-value'));
+    
+    <script>
+        // Script directo para animar las barras PEMSITIM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Esperar a que todo esté cargado
+            setTimeout(function() {
+                console.log("Iniciando animación directa de barras PEMSITIM");
                 
-                if (!isNaN(value)) {
-                    // Asignar clase según el valor
-                    const container = bar.closest('.dimension-bar-container');
-                    if (value < 30) {
-                        container.classList.add('level-low');
-                    } else if (value < 60) {
-                        container.classList.add('level-medium');
-                    } else {
-                        container.classList.add('level-high');
-                    }
+                // Obtener todas las barras internas
+                const bars = document.querySelectorAll('.bar-inner');
+                
+                bars.forEach(bar => {
+                    // Obtener el valor del atributo data-value
+                    const value = parseFloat(bar.getAttribute('data-value'));
                     
-                    // Animar la barra
-                    setTimeout(() => {
-                        bar.style.width = `${value}%`;
-                    }, 300);
+                    if (!isNaN(value)) {
+                        // Asignar clase según el valor
+                        const container = bar.closest('.dimension-bar-container');
+                        if (value < 30) {
+                            container.classList.add('level-low');
+                        } else if (value < 60) {
+                            container.classList.add('level-medium');
+                        } else {
+                            container.classList.add('level-high');
+                        }
+                        
+                        // Animar la barra
+                        setTimeout(() => {
+                            bar.style.width = `${value}%`;
+                        }, 300);
+                    }
+                });
+
+                // Calcular expectativa de vida basada en el índice
+                // EV(IndiceCompuesto) = 68 + (85 - 68) * IndiceCompuesto/100
+                const indiceCompuesto = 46.946; // Usando el valor original
+                const expectativaVida = 68 + (85 - 68) * (indiceCompuesto / 100);
+                
+                // Actualizar el valor mostrado para Expectativa de Vida
+                const evValue = document.querySelector('.total-index .bar-value');
+                if (evValue) {
+                    evValue.textContent = expectativaVida.toFixed(2) + ' años';
                 }
-            });
-        }, 1000);
-    });
-</script>
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

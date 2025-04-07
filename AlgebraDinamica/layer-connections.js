@@ -70,14 +70,15 @@ function syncCheckboxesWithLayers() {
 // Mapeo de nombres de variables a índices
 const variableLayerMapping = {
     seguridad: {
-        'Instituciones de salud': 0,
-        'Instituciones educativas': 1,
-        'Censo': 2,
-        'Comunidades étnicas': 3,
-        'Reservas indígenas': 4,
-        'Áreas protegidas': 5,
-        'Límites administrativos': 6,
-        'Desarrollo Turístico': 7
+        'Homicidios': 0.2,
+        'Lesiones personales': 0.1,
+        'Terrorismo': 0.1,
+        'Extorsión': 0.1,
+        'Delitos sexuales': 0.1,
+        'Minas antipersona': 0.1,
+        'Estaciones de Policía': 0.1,
+        'Cultivos ilícitos': 0.1,
+        'Narcotráfico (proximidad a puerto)': 0.05
     },
     desarrollo: {
         'Acueducto y Alcantarillado': 0,

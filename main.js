@@ -214,6 +214,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
+ * Obtiene la información actualizada del equipo
+ * @returns {Object} Información del equipo o valores por defecto
+ */
+function getUpdatedTeamInfo() {
+    // Intentar primero obtener la información desde HORIZONTE.team
+    if (HORIZONTE.team && HORIZONTE.team.isInitialized()) {
+        return {
+            name: HORIZONTE.team.getTeamName(),
+            code: HORIZONTE.team.getTeamCode()
+        };
+    }
+    
+    // Si no está disponible, intentar obtenerla de sessionStorage
+    try {
+        const teamInfoStr = sessionStorage.getItem('teamInfo');
+        if (teamInfoStr) {
+            const teamInfo = JSON.parse(teamInfoStr);
+            return {
+                name: teamInfo.name,
+                code: teamInfo.code
+            };
+        }
+    } catch (error) {
+        console.warn('Error al obtener información del equipo desde sessionStorage:', error);
+    }
+    
+    // Valor por defecto si no se encuentra en ningún lado
+    return { 
+        name: "Sin equipo", 
+        code: "0000-000000" 
+    };
+}
+
+/**
  * Inicializa el sistema para consultar puntos seleccionados desde consola
  */
 function initPuntosConsultaSystem() {
@@ -223,31 +257,35 @@ function initPuntosConsultaSystem() {
         
         // Configurar event listeners para mantener actualizado el FeatureSet
         // Cuando se seleccione un punto, añadirlo al FeatureSet
-document.addEventListener('horizonte:proyectoSeleccionado', function(event) {
-    if (window.miFeatureSet && event.detail && event.detail.punto) {
-      // Obtener información del equipo actual
-      const teamInfo = HORIZONTE.team && HORIZONTE.team.isInitialized() ? {
-        name: HORIZONTE.team.getTeamName(),
-        code: HORIZONTE.team.getTeamCode()
-      } : { name: "Sin equipo", code: "0000-000000" };
-      
-      // Asegurarse de que el punto tenga atributos
-      if (!event.detail.punto.attributes) {
-        event.detail.punto.attributes = {};
-      }
-      
-      // Añadir información del equipo a los atributos del punto
-      event.detail.punto.attributes.teamName = teamInfo.name;
-      event.detail.punto.attributes.teamCode = teamInfo.code;
-      
-      // Añadir el punto al FeatureSet
-      window.miFeatureSet.agregarFeature(event.detail.punto);
-      console.log('Punto añadido a miFeatureSet con info de equipo:', 
-                  event.detail.proyecto.objectid, 
-                  'Equipo:', teamInfo.name, 
-                  'Código:', teamInfo.code);
-    }
-  });
+        document.addEventListener('horizonte:proyectoSeleccionado', function(event) {
+            if (window.miFeatureSet && event.detail && event.detail.punto) {
+                // Obtener información ACTUAL del equipo (corregido)
+                const teamInfo = getUpdatedTeamInfo();
+                
+                // Asegurarse de que el punto tenga atributos
+                if (!event.detail.punto.attributes) {
+                    event.detail.punto.attributes = {};
+                }
+                
+                // Añadir información del equipo a los atributos del punto
+                event.detail.punto.attributes.teamName = teamInfo.name;
+                event.detail.punto.attributes.teamCode = teamInfo.code;
+                
+                // Actualizar la información del equipo en el FeatureSet también
+                window.miFeatureSet.teamInfo = {
+                    name: teamInfo.name,
+                    code: teamInfo.code,
+                    createdAt: window.miFeatureSet.teamInfo ? window.miFeatureSet.teamInfo.createdAt : new Date().toISOString()
+                };
+                
+                // Añadir el punto al FeatureSet
+                window.miFeatureSet.agregarFeature(event.detail.punto);
+                console.log('Punto añadido a miFeatureSet con info de equipo actualizada:', 
+                            event.detail.proyecto.objectid, 
+                            'Equipo:', teamInfo.name, 
+                            'Código:', teamInfo.code);
+            }
+        });
         
         // Agregar métodos a la consola global si no están disponibles
         if (!window.HORIZONTE.consola) {
@@ -285,7 +323,8 @@ document.addEventListener('horizonte:proyectoSeleccionado', function(event) {
                 resumen: function() {
                     const resumen = {
                         totalPuntos: window.miFeatureSet.features.length,
-                        puntosSeleccionados: window.miFeatureSet.obtenerGeometrias().length
+                        puntosSeleccionados: window.miFeatureSet.obtenerGeometrias().length,
+                        equipo: getUpdatedTeamInfo() // Usar la función para obtener info actualizada
                     };
                     
                     // Añadir información de presupuesto si está disponible
@@ -317,6 +356,20 @@ document.addEventListener('horizonte:proyectoSeleccionado', function(event) {
         console.log("%c[HORIZONTE] Sistema de consulta de puntos inicializado", "color:#517f35; font-weight:bold;");
         console.log("%cPuede usar HORIZONTE.consola.ayuda() para ver comandos disponibles", "color:#517f35;");
     }
+    
+    // Actualizar la información del equipo cada vez que cambie
+    document.addEventListener('horizonte:teamUpdated', function(event) {
+        if (window.miFeatureSet) {
+            // Actualizar la información del equipo en el FeatureSet
+            const teamInfo = getUpdatedTeamInfo();
+            window.miFeatureSet.teamInfo = {
+                name: teamInfo.name,
+                code: teamInfo.code,
+                createdAt: window.miFeatureSet.teamInfo ? window.miFeatureSet.teamInfo.createdAt : new Date().toISOString()
+            };
+            console.log('Información del equipo actualizada en miFeatureSet:', teamInfo);
+        }
+    });
 }
 
 // Actualizar fecha actual
@@ -341,9 +394,6 @@ document.addEventListener('horizonte:ready', () => {
     initPageSpecificControls();
 });
 
-/**
- * Inicializa controles específicos para cada página
- */
 /**
  * Inicializa controles específicos para cada página
  */
@@ -415,3 +465,23 @@ function initPageSpecificControls() {
         }
     }, 500);
 }
+
+// Asegurarse de que la información del equipo esté disponible y actualizada
+// Añadir un verificador periódico para mantener actualizados los datos del equipo
+setInterval(() => {
+    if (window.miFeatureSet) {
+        const currentTeamInfo = getUpdatedTeamInfo();
+        const featureSetTeamInfo = window.miFeatureSet.teamInfo || {};
+        
+        // Si la información del equipo ha cambiado, actualizarla en el FeatureSet
+        if (currentTeamInfo.code !== featureSetTeamInfo.code || 
+            currentTeamInfo.name !== featureSetTeamInfo.name) {
+            window.miFeatureSet.teamInfo = {
+                name: currentTeamInfo.name,
+                code: currentTeamInfo.code,
+                createdAt: featureSetTeamInfo.createdAt || new Date().toISOString()
+            };
+            console.log('Información del equipo actualizada periódicamente:', currentTeamInfo);
+        }
+    }
+}, 2000); // Verificar cada 2 segundos

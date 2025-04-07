@@ -74,7 +74,7 @@ async function ejecutarGeoproceso() {
     actualizarModalAnalisis(modalId, 'progress', `Preparando análisis para ${atributos.length} puntos...`, 10);
     
     // URL del servicio de geoprocesamiento
-    const gpUrl = 'https://arcgis.esri.co/server/rest/services/geoprocessing/SuitabilityModelCiclo1/GPServer/Script';
+    const gpUrl = 'https://arcgis.esri.co/server/rest/services/geoprocessing/SuitabilityModelCiclo2/GPServer/Script';
     
     // Formatear ambos como cadenas JSON con saltos de línea para el servicio
     const geometriasStr = JSON.stringify(geometrias, null, 2);

@@ -12,8 +12,25 @@ HORIZONTE.team = (function() {
         initialized: false
     };
     
+    // Array de páginas donde el modal debe activarse
+    const ELIGIBLE_PAGES = [
+        'step2.html',
+        'index.html',
+        'step3.html',
+        'step4.html',
+        'step5.html',
+
+    ];
+    
     // Inicializar el módulo
     function init() {
+        // Verificar si la página actual está en la lista de páginas elegibles
+        const currentPage = window.location.pathname.split('/').pop();
+        
+        if (!ELIGIBLE_PAGES.includes(currentPage)) {
+            return; // No hacer nada si no es una página elegible
+        }
+        
         // Comprobar si ya existe información de equipo en sessionStorage
         checkExistingTeam();
         
