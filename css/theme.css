@@ -1,25 +1,74 @@
-/* 
+/*
  * theme.css - Variables centralizadas para el tema PEMSITIM
- * Horizonte: Juego de Estrategia
+ * Horizonte: Juego de Estrategia - Versión Azul Militar
  */
 
- :root {
-    /* Color Palette - Base Theme */
-    --primary-color: #517f35;      /* Military green */
-    --primary-color-dark: #33502a; /* Darker military green */
-    --primary-color-light: #7da561; /* Lighter military green */
-    --secondary-color: #787D7D;    /* Military gray */
-    --accent-color: #A9724A;       /* Military bronze/brown */
-    --background-color: #0a0f14;   /* Dark background */
-    --text-color: #d0d3d4;         /* Light text for dark background */
-    --panel-bg-color: #1a2228;     /* Dark panel background */
-    --card-bg-color: #1e272e;      /* Dark card background */
+/* Reglas específicas para asegurar texto blanco en encabezados y títulos militares */
+.intel-heading, 
+.military-title, 
+.military-subtitle, 
+.section-title, 
+.intel-text, 
+.military-header-content, 
+.team-info-value, 
+.team-info-label,
+.team-info-display,
+.results-heading,
+.dimension-bar-container,
+.bar-label,
+.bar-value,
+.stat-label,
+.stat-value,
+.intel-stamp,
+.military-stamp,
+.dimension-title,
+.dimension-variables li,
+.step-desc,
+.project-details,
+.project-item h3,
+.status-message,
+.military-date,
+.footer-content {
+    color: #ffffff !important;
+}
+
+/* Estilos específicos para la barra de navegación y stepper */
+.nav-arrow,
+.progress-stepper {
+    color: #ffffff;
+}
+
+/* Texto blanco para los modales y paneles */
+.team-modal-content,
+.team-modal-header h2,
+.team-modal-subtitle,
+.team-input-group label,
+.team-instruction,
+.instruction-title,
+.analysis-status,
+.geoproceso-header h2 {
+    color: #ffffff !important;
+}
+
+:root {
+    /* Color Palette - Blue Military Theme */
+    --primary-color: #1a3a6e;      /* Navy blue */
+    --primary-color-dark: #0d2242; /* Darker navy blue */
+    --primary-color-light: #3a5d94; /* Lighter navy blue */
+    --secondary-color: #3a4a5a;    /* Military steel blue */
+    --accent-color: #6a8fb7;       /* Military blue accent */
+    --background-color: #0a1018;   /* Dark blue-black background */
+    --text-color: #ffffff;         /* White text for better contrast */
+    --panel-bg-color: #152238;     /* Dark blue panel background */
+    --card-bg-color: #1a2a3c;      /* Dark blue card background */
+    --link-color: #a8cbff;         /* Color para enlaces - azul claro */
+    --heading-color: #ffffff;      /* Color para encabezados - blanco */
     
     /* Functional Colors */
-    --success-color: #3c6d3f;      /* Success green */
-    --warning-color: #C68D30;      /* Warning yellow/amber */
-    --error-color: #AC1C1C;        /* Error red */
-    --info-color: #2a4d8f;         /* Info blue */
+    --success-color: #2a5f8a;      /* Blue-tinted success */
+    --warning-color: #a78838;      /* Military gold warning */
+    --error-color: #8a2a2a;        /* Military red error */
+    --info-color: #255a8c;         /* Info blue */
     
     /* Typography */
     --font-primary: 'Inter', 'Arial', sans-serif;
@@ -41,6 +90,8 @@
     --letter-spacing-normal: 0px;
     --letter-spacing-wide: 1px;
     --letter-spacing-wider: 2px;
+    --text-color-secondary: #ffffff;  /* Asegurando que todos los textos secundarios sean blancos */
+    --text-color-muted: #e6e6e6;      /* Versión ligeramente atenuada del blanco para textos de menor importancia */
     
     /* Spacing */
     --spacing-xs: 4px;
@@ -57,9 +108,9 @@
     --border-width-thin: 1px;
     --border-width-normal: 2px;
     --border-width-thick: 4px;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.6);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
-    --shadow-lg: 0 10px 20px rgba(0,0,0,0.3), 0 6px 6px rgba(0,0,0,0.2);
+    --shadow-sm: 0 1px 3px rgba(0,10,30,0.5), 0 1px 2px rgba(0,10,30,0.6);
+    --shadow-md: 0 4px 6px rgba(0,10,30,0.3);
+    --shadow-lg: 0 10px 20px rgba(0,10,30,0.3), 0 6px 6px rgba(0,10,30,0.2);
     
     /* Transitions */
     --transition-fast: 0.2s ease;
@@ -75,24 +126,64 @@
     --z-index-modal: 50;
     --z-index-popover: 60;
     --z-index-tooltip: 70;
-  }
-  
-  /* Tema alternativo (se puede activar añadiendo la clase 'alt-theme' al body) */
-  .alt-theme {
-    --primary-color: #3a6ea5;      /* Navy blue */
-    --primary-color-dark: #254b70; /* Darker blue */
-    --primary-color-light: #5c8fc1; /* Lighter blue */
-    --accent-color: #c0a080;       /* Sand/gold accent */
-    --success-color: #2d8879;      /* Teal success */
-  }
-  
-  /* Tema de alto contraste (accesibilidad) */
-  .high-contrast {
+}
+
+/* Tema alternativo (se puede activar añadiendo la clase 'alt-theme' al body) */
+.alt-theme {
+    --primary-color: #2a4580;      /* Deeper navy blue */
+    --primary-color-dark: #183055; /* Darker blue */
+    --primary-color-light: #4c6ca8; /* Lighter blue */
+    --accent-color: #a8945c;       /* Military bronze accent */
+    --success-color: #2a6087;      /* Blue-tinted success */
+    --text-color: #ffffff;         /* Texto blanco para el tema alternativo */
+    --text-color-secondary: #ffffff; /* Texto secundario blanco */
+    --text-color-muted: #e6e6e6;    /* Texto muted blanco ligeramente atenuado */
+}
+
+/* Tema de alto contraste (accesibilidad) */
+.high-contrast {
     --primary-color: #ffffff;
     --text-color: #ffffff;
-    --background-color: #000000;
-    --panel-bg-color: #0a0a0a;
-    --card-bg-color: #151515;
+    --background-color: #001030;
+    --panel-bg-color: #001a42;
+    --card-bg-color: #002152;
     --border-width-normal: 2px;
     --border-width-thick: 4px;
-  }
+}
+
+/* Estilos adicionales para los componentes y tablas */
+.military-table th,
+.military-table td,
+.tab-button,
+.analysis-progress-bar,
+.operation-info,
+.military-button,
+.approval-stamp,
+.approver-info,
+.next-steps,
+.step-number,
+.project-cost,
+.project-status,
+input, 
+textarea, 
+select,
+button {
+    color: #ffffff !important;
+}
+
+/* Asegurar que los tooltips y popups también tienen texto blanco */
+.esri-popup__content,
+.esri-popup__header-title, 
+.esri-widget,
+.esri-widget__heading,
+.esri-popup__footer {
+    color: #ffffff !important;
+}
+
+/* Para los elementos del mapa que muestran información */
+#map-instructions,
+.location-button,
+.map-status-indicator,
+.map-title-container span {
+    color: #ffffff !important;
+}
