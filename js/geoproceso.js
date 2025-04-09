@@ -3,6 +3,9 @@
  * Horizonte: Juego de Estrategia
  */
 
+// Variable para controlar si ya se ejecutó el proceso
+let procesoEjecutado = false;
+
 // Agregar el botón de geoprocesamiento a la interfaz
 function agregarBotonGeoproceso() {
   // Verificar si ya existe el botón
@@ -16,6 +19,14 @@ function agregarBotonGeoproceso() {
   
   // Agregar eventos
   geoprocessButton.addEventListener('click', ejecutarGeoproceso);
+  
+  // Verificar si el proceso ya fue ejecutado (recuperar de sessionStorage)
+  if (sessionStorage.getItem('ciclo1_procesado') === 'true') {
+    procesoEjecutado = true;
+    geoprocessButton.disabled = true;
+    geoprocessButton.classList.add('disabled');
+    geoprocessButton.title = 'Análisis ya ejecutado';
+  }
   
   // Agregar al contenedor del mapa o al documento
   const contenedores = [
@@ -43,10 +54,24 @@ function agregarBotonGeoproceso() {
 
 // Ejecutar el geoproceso con los puntos seleccionados
 async function ejecutarGeoproceso() {
+  // Verificar si ya se ejecutó el proceso
+  if (procesoEjecutado) {
+    mostrarMensajeEstado('Este análisis ya ha sido ejecutado', 'warning');
+    return;
+  }
+  
   try {
-    // Mostrar indicador de carga
+    // Marcar como ejecutado al inicio para prevenir múltiples clicks
+    procesoEjecutado = true;
+    sessionStorage.setItem('ciclo1_procesado', 'true');
+    
+    // Deshabilitar el botón visualmente
     const boton = document.getElementById('geoprocessButton');
-    if (boton) boton.classList.add('processing');
+    if (boton) {
+      boton.disabled = true;
+      boton.classList.add('disabled');
+      boton.classList.add('processing');
+    }
     
     // Abrir modal de análisis
     const modalId = abrirModalAnalisis();
@@ -103,9 +128,14 @@ async function ejecutarGeoproceso() {
     mostrarMensajeEstado('Error al ejecutar el análisis: ' + (error.message || 'Error desconocido'), 'error');
     actualizarModalAnalisis(null, 'error', 'Error al ejecutar el análisis: ' + (error.message || 'Error desconocido'));
     
-    // Restaurar botón
+    // Mantener el botón deshabilitado a pesar del error
     const boton = document.getElementById('geoprocessButton');
-    if (boton) boton.classList.remove('processing');
+    if (boton) {
+      boton.disabled = true;
+      boton.classList.add('disabled');
+      boton.classList.remove('processing');
+      boton.title = 'Análisis ya ejecutado';
+    }
   }
 }
 
@@ -143,9 +173,14 @@ async function procesarTrabajoAsincrono(url, params, modalId) {
           mostrarMensajeEstado('Error al enviar trabajo: ' + (error.message || 'Error desconocido'), 'error');
           actualizarModalAnalisis(modalId, 'error', 'Error al enviar trabajo: ' + (error.message || 'Error desconocido'));
           
-          // Restaurar botón
+          // Mantener el botón deshabilitado a pesar del error
           const boton = document.getElementById('geoprocessButton');
-          if (boton) boton.classList.remove('processing');
+          if (boton) {
+            boton.disabled = true;
+            boton.classList.add('disabled');
+            boton.classList.remove('processing');
+            boton.title = 'Análisis ya ejecutado';
+          }
           
           reject(error);
         });
@@ -190,9 +225,14 @@ function monitorizarTrabajo(url, jobId, modalId) {
               cerrarModalAnalisis(modalId);
               mostrarMensajeExito(jobId, jobInfo);
               
-              // Restaurar botón
+              // Asegurar que el botón quede deshabilitado permanentemente
               const boton = document.getElementById('geoprocessButton');
-              if (boton) boton.classList.remove('processing');
+              if (boton) {
+                boton.disabled = true;
+                boton.classList.add('disabled');
+                boton.classList.remove('processing');
+                boton.title = 'Análisis ya ejecutado';
+              }
             }, 3000);
             
           } else if (jobInfo.jobStatus === 'job-failed') {
@@ -201,17 +241,27 @@ function monitorizarTrabajo(url, jobId, modalId) {
             mostrarMensajeEstado('Trabajo fallido: ' + (jobInfo.messages ? jobInfo.messages[0].description : 'Error desconocido'), 'error');
             actualizarModalAnalisis(modalId, 'error', 'Trabajo fallido: ' + (jobInfo.messages ? jobInfo.messages[0].description : 'Error desconocido'));
             
-            // Restaurar botón
+            // Mantener el botón deshabilitado a pesar del error
             const boton = document.getElementById('geoprocessButton');
-            if (boton) boton.classList.remove('processing');
+            if (boton) {
+              boton.disabled = true;
+              boton.classList.add('disabled');
+              boton.classList.remove('processing');
+              boton.title = 'Análisis ya ejecutado';
+            }
           } else if (jobInfo.jobStatus === 'job-cancelled') {
             clearInterval(intervalo);
             mostrarMensajeEstado('Trabajo cancelado', 'warning');
             actualizarModalAnalisis(modalId, 'error', 'Trabajo cancelado');
             
-            // Restaurar botón
+            // Mantener el botón deshabilitado a pesar de la cancelación
             const boton = document.getElementById('geoprocessButton');
-            if (boton) boton.classList.remove('processing');
+            if (boton) {
+              boton.disabled = true;
+              boton.classList.add('disabled');
+              boton.classList.remove('processing');
+              boton.title = 'Análisis ya ejecutado';
+            }
           }
         })
         .catch(function(error) {
@@ -220,9 +270,14 @@ function monitorizarTrabajo(url, jobId, modalId) {
           mostrarMensajeEstado('Error al verificar estado del trabajo', 'error');
           actualizarModalAnalisis(modalId, 'error', 'Error al verificar estado del trabajo');
           
-          // Restaurar botón
+          // Mantener el botón deshabilitado a pesar del error
           const boton = document.getElementById('geoprocessButton');
-          if (boton) boton.classList.remove('processing');
+          if (boton) {
+            boton.disabled = true;
+            boton.classList.add('disabled');
+            boton.classList.remove('processing');
+            boton.title = 'Análisis ya ejecutado';
+          }
         });
     });
   }, 2000);
@@ -371,9 +426,14 @@ function abrirModalAnalisis() {
   modal.querySelector('.geoproceso-close').addEventListener('click', () => {
     cerrarModalAnalisis(modalId);
     
-    // Restaurar botón
+    // El botón debe mantenerse deshabilitado incluso si se cierra el modal
     const boton = document.getElementById('geoprocessButton');
-    if (boton) boton.classList.remove('processing');
+    if (boton) {
+      boton.disabled = true;
+      boton.classList.add('disabled');
+      boton.classList.remove('processing');
+      boton.title = 'Análisis ya ejecutado';
+    }
   });
   
   // Añadir al documento
@@ -424,9 +484,14 @@ function actualizarModalAnalisis(modalId, estado, mensaje, progreso) {
       closeButton.addEventListener('click', () => {
         cerrarModalAnalisis(modalId);
         
-        // Restaurar botón
+        // El botón debe mantenerse deshabilitado incluso si hay error
         const boton = document.getElementById('geoprocessButton');
-        if (boton) boton.classList.remove('processing');
+        if (boton) {
+          boton.disabled = true;
+          boton.classList.add('disabled');
+          boton.classList.remove('processing');
+          boton.title = 'Análisis ya ejecutado';
+        }
       });
       
       footerDiv.appendChild(closeButton);
@@ -494,9 +559,35 @@ function mostrarMensajeEstado(mensaje, tipo = 'info') {
   }, 5000);
 }
 
+// Añadir estilos CSS específicos para botones deshabilitados
+function addDisabledButtonStyles() {
+  // Verificar si ya existe el estilo
+  if (document.getElementById('disabled-button-styles')) return;
+  
+  const styleElement = document.createElement('style');
+  styleElement.id = 'disabled-button-styles';
+  styleElement.textContent = `
+    #geoprocessButton.disabled {
+      background-color: #3a4a5a !important; 
+      cursor: not-allowed !important;
+      opacity: 0.7 !important;
+      pointer-events: none !important;
+    }
+    
+    #geoprocessButton.disabled::after {
+      content: " (COMPLETADO)";
+      font-size: 0.8em;
+    }
+  `;
+  document.head.appendChild(styleElement);
+}
+
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Inicializando componente de geoproceso...');
+  
+  // Añadir estilos para botones deshabilitados
+  addDisabledButtonStyles();
   
   // Cargar estilos CSS si no existen
   if (!document.getElementById('geoproceso-styles')) {
