@@ -307,8 +307,8 @@
                 }
                 
                 // Crear nueva capa para opciones de ubicación
-                require(["esri/layers/GraphicsLayer", "esri/Graphic", "esri/geometry/Point"], 
-                    function(GraphicsLayer, Graphic, Point) {
+                require(["esri/layers/GraphicsLayer", "esri/Graphic", "esri/geometry/Point", "esri/symbols/TextSymbol"], 
+                    function(GraphicsLayer, Graphic, Point, TextSymbol) {
                         
                     // Crear capa para mostrar opciones de ubicación
                     state.locationOptionsLayer = new GraphicsLayer({
@@ -340,6 +340,9 @@
                             latitude: ubicacion.geometry.latitude
                         });
                         
+                        // Añadir atributo para el número de punto
+                        ubicacion.attributes.numeroPunto = index + 1;
+                        
                         const puntoGraphic = new Graphic({
                             geometry: punto,
                             symbol: locationSymbol,
@@ -353,6 +356,7 @@
                                             <div style="padding: 10px; font-family: 'Courier New', monospace;">
                                                 <h3 style="color: #d0d3d4; border-bottom: 1px solid #d0d3d4; padding-bottom: 5px;">${ubicacion.attributes.proyecto}</h3>
                                                 <p><strong>ID:</strong> ${ubicacion.attributes.objectid}</p>
+                                                <p><strong>Punto:</strong> ${index + 1}</p>
                                                 <p><strong>Recursos requeridos:</strong> $${ubicacion.attributes.valorinversion.toLocaleString()}</p>
                                             </div>
                                         `
@@ -361,14 +365,51 @@
                             }
                         });
                         
+                        // Añadir el punto a la capa
                         state.locationOptionsLayer.add(puntoGraphic);
+                        
+                        // Crear etiqueta con el número de punto
+                        const etiquetaSimbol = {
+                            type: "text",
+                            color: [255, 255, 255],
+                            halo: {
+                                color: [0, 0, 0, 0.7],
+                                size: 1
+                            },
+                            text: `PUNTO ${index + 1}`,
+                            font: {
+                                size: 12,
+                                family: "Courier New",
+                                weight: "bold"
+                            }
+                        };
+                        
+                        // Crear un punto ligeramente desplazado hacia arriba para la etiqueta
+                        const puntoEtiqueta = new Point({
+                            longitude: ubicacion.geometry.longitude,
+                            latitude: ubicacion.geometry.latitude,
+                            z: 25 // Desplazar la etiqueta hacia arriba
+                        });
+                        
+                        // Crear gráfico para la etiqueta
+                        const etiquetaGraphic = new Graphic({
+                            geometry: puntoEtiqueta,
+                            symbol: etiquetaSimbol,
+                            attributes: {
+                                id: `label-${ubicacion.attributes.objectid}`,
+                                numeroPunto: index + 1
+                            }
+                        });
+                        
+                        // Añadir la etiqueta a la capa
+                        state.locationOptionsLayer.add(etiquetaGraphic);
                     });
                     
                     // Animación de la cámara para centrar en las ubicaciones
                     state.view.goTo({ 
                         target: state.locationOptionsLayer.graphics,
-                        tilt: 60,
-                        zoom: 10
+                        tilt: 30,
+                        zoom: 9.3
                     }, {
                         duration: 1500,
                         easing: "out-expo"
@@ -386,17 +427,20 @@
                                     try {
                                         // Verificar si el método popup.open existe
                                         if (state.view.popup && typeof state.view.popup.open === 'function') {
-                                            state.view.popup.open({
-                                                features: [graphic],
-                                                location: event.mapPoint
-                                            });
+                                            // Mostrar popup solo para los puntos, no para las etiquetas
+                                            if (graphic.attributes && graphic.attributes.objectid) {
+                                                state.view.popup.open({
+                                                    features: [graphic],
+                                                    location: event.mapPoint
+                                                });
+                                            }
                                         } else {
                                             // Alternativa si el método popup.open no está disponible
                                             console.log("Punto seleccionado:", graphic.attributes);
                                             // Mostrar un mensaje al usuario
                                             if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
                                                 HORIZONTE.utils.showStatusMessage(
-                                                    `Seleccionado: ${graphic.attributes.proyecto} (ID: ${graphic.attributes.objectid})`, 
+                                                    `Seleccionado: ${graphic.attributes.proyecto} (Punto: ${graphic.attributes.numeroPunto})`, 
                                                     "info"
                                                 );
                                             }
@@ -406,7 +450,7 @@
                                         // Mostrar un mensaje alternativo
                                         if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
                                             HORIZONTE.utils.showStatusMessage(
-                                                `Seleccionado: ${graphic.attributes.proyecto} (ID: ${graphic.attributes.objectid})`, 
+                                                `Seleccionado: ${graphic.attributes.proyecto || 'Punto'} (ID: ${graphic.attributes.objectid || graphic.attributes.numeroPunto})`, 
                                                 "info"
                                             );
                                         }
@@ -514,7 +558,7 @@
     function crearPuntoProyecto(proyecto, coordenadas) {
         return new Promise((resolve, reject) => {
             try {
-                require(["esri/Graphic", "esri/geometry/Point"], function(Graphic, Point) {
+                require(["esri/Graphic", "esri/geometry/Point", "esri/symbols/TextSymbol"], function(Graphic, Point, TextSymbol) {
                     // Validar datos necesarios
                     if (!proyecto.objectid || 
                         !coordenadas?.longitude || 
@@ -547,13 +591,23 @@
                         latitude: coordenadas.latitude
                     });
                     
+                    // Determinar el número de punto (basado en cuántos proyectos de este tipo ya están usados)
+                    const numeroPunto = proyecto.numeropunto || 
+                                       (state.userPointsLayer.graphics.filter(g => 
+                                         g.attributes.proyecto && 
+                                         g.attributes.proyecto.toLowerCase() === proyecto.proyecto.toLowerCase()
+                                       ).length + 1);
+                    
+                    // Asegurar que el proyecto tiene el número de punto
+                    proyecto.numeroPunto = numeroPunto;
+                    
                     // Crear gráfico con estilo militar
                     const puntoGraphic = new Graphic({
                         geometry: punto,
                         symbol: pointSymbol,
                         attributes: proyecto,
                         popupTemplate: {
-                            title: `OPERACIÓN: ${proyecto.proyecto}`,
+                            title: `OPERACIÓN: ${proyecto.proyecto} - PUNTO ${numeroPunto}`,
                             content: [
                                 {
                                     type: "text",
@@ -563,6 +617,7 @@
                                                 ${proyecto.proyecto}
                                             </h3>
                                             <p style="margin-bottom: 8px;"><strong>ID:</strong> ${proyecto.objectid}</p>
+                                            <p style="margin-bottom: 8px;"><strong>Punto:</strong> ${numeroPunto}</p>
                                             <p style="margin-bottom: 8px;"><strong>Recursos asignados:</strong> $${proyecto.valorinversion.toLocaleString()}</p>
                                         </div>
                                     `
@@ -573,6 +628,43 @@
                     
                     // Añadir a la capa
                     state.userPointsLayer.add(puntoGraphic);
+                    
+                    // Crear etiqueta con el número de punto
+                    const etiquetaSimbol = {
+                        type: "text",
+                        color: [255, 255, 255],
+                        halo: {
+                            color: [0, 0, 0, 0.7],
+                            size: 1.5
+                        },
+                        text: `PUNTO ${numeroPunto}`,
+                        font: {
+                            size: 12,
+                            family: "Courier New",
+                            weight: "bold"
+                        }
+                    };
+                    
+                    // Crear un punto ligeramente desplazado hacia arriba para la etiqueta
+                    const puntoEtiqueta = new Point({
+                        longitude: coordenadas.longitude,
+                        latitude: coordenadas.latitude,
+                        z: 25 // Desplazar la etiqueta hacia arriba
+                    });
+                    
+                    // Crear gráfico para la etiqueta
+                    const etiquetaGraphic = new Graphic({
+                        geometry: puntoEtiqueta,
+                        symbol: etiquetaSimbol,
+                        attributes: {
+                            id: `label-${proyecto.objectid}`,
+                            numeroPunto: numeroPunto,
+                            proyecto: proyecto.proyecto
+                        }
+                    });
+                    
+                    // Añadir la etiqueta a la capa
+                    state.userPointsLayer.add(etiquetaGraphic);
                     
                     // Animar la cámara al punto
                     state.view.goTo({ 
