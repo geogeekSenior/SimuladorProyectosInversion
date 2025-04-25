@@ -3,54 +3,7 @@
  * Horizonte: Juego de Estrategia - Versión Azul Militar
  */
 
-/* Reglas específicas para asegurar texto blanco en encabezados y títulos militares */
-.intel-heading, 
-.military-title, 
-.military-subtitle, 
-.section-title, 
-.intel-text, 
-.military-header-content, 
-.team-info-value, 
-.team-info-label,
-.team-info-display,
-.results-heading,
-.dimension-bar-container,
-.bar-label,
-.bar-value,
-.stat-label,
-.stat-value,
-.intel-stamp,
-.military-stamp,
-.dimension-title,
-.dimension-variables li,
-.step-desc,
-.project-details,
-.project-item h3,
-.status-message,
-.military-date,
-.footer-content {
-    color: #ffffff !important;
-}
-
-/* Estilos específicos para la barra de navegación y stepper */
-.nav-arrow,
-.progress-stepper {
-    color: #ffffff;
-}
-
-/* Texto blanco para los modales y paneles */
-.team-modal-content,
-.team-modal-header h2,
-.team-modal-subtitle,
-.team-input-group label,
-.team-instruction,
-.instruction-title,
-.analysis-status,
-.geoproceso-header h2 {
-    color: #ffffff !important;
-}
-
-:root {
+ :root {
     /* Color Palette - Blue Military Theme */
     --primary-color: #1a3a6e;      /* Navy blue */
     --primary-color-dark: #0d2242; /* Darker navy blue */
@@ -151,7 +104,42 @@
     --border-width-thick: 4px;
 }
 
-/* Estilos adicionales para los componentes y tablas */
+/* Reglas específicas para asegurar texto blanco en encabezados y títulos militares */
+.intel-heading, 
+.military-title, 
+.military-subtitle, 
+.section-title, 
+.intel-text, 
+.military-header-content, 
+.team-info-value, 
+.team-info-label,
+.team-info-display,
+.results-heading,
+.dimension-bar-container,
+.bar-label,
+.bar-value,
+.stat-label,
+.stat-value,
+.intel-stamp,
+.military-stamp,
+.dimension-title,
+.dimension-variables li,
+.step-desc,
+.project-details,
+.project-item h3,
+.status-message,
+.military-date,
+.footer-content,
+.nav-arrow,
+.progress-stepper,
+.team-modal-content,
+.team-modal-header h2,
+.team-modal-subtitle,
+.team-input-group label,
+.team-instruction,
+.instruction-title,
+.analysis-status,
+.geoproceso-header h2,
 .military-table th,
 .military-table td,
 .tab-button,
@@ -167,20 +155,12 @@
 input, 
 textarea, 
 select,
-button {
-    color: #ffffff !important;
-}
-
-/* Asegurar que los tooltips y popups también tienen texto blanco */
+button,
 .esri-popup__content,
 .esri-popup__header-title, 
 .esri-widget,
 .esri-widget__heading,
-.esri-popup__footer {
-    color: #ffffff !important;
-}
-
-/* Para los elementos del mapa que muestran información */
+.esri-popup__footer,
 #map-instructions,
 .location-button,
 .map-status-indicator,

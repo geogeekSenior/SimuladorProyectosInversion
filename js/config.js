@@ -76,20 +76,20 @@ HORIZONTE.config = {
     mapViewer: {
         // Configuración del portal y mapa base
         portalUrl: "https://geospatialcenter.bd.esri.com/portal",
-        webmapId: "134c4e3a955b437084dc3ecce59f0dcd",
+        webmapId: "a70f6ac66fce4690b2341294e55ff087",
         
         // Opciones de visualización
         viewOptions: {
-            zoom: 8,
-            center: [-73.198537, 10.809386],
+            zoom: 7.9,
+            center: [-73.998537, 10.809386],
             padding: { top: 0, right: 0, bottom: 0, left: 0 },
             ui: { components: ["attribution"] },
-            constraints: { minZoom: 4, maxZoom: 18 }
+            constraints: { minZoom: 4, maxZoom: 14 }
         },
         
         // Configuración de widgets
         widgets: {
-            legend: { enabled: false, position: "bottom-left" },
+            legend: { enabled: true, position: "bottom-left" },
             layerList: { enabled: true, position: "top-right" },
             search: { enabled: false, position: "top-left" },
             scaleBar: { enabled: false, position: "bottom-right" },
@@ -97,6 +97,10 @@ HORIZONTE.config = {
                 enabled: true,
                 position: "bottom-right",
                 nextBasemap: "satellite"
+            },
+            home: {
+                enabled: true,
+                position: "top-left"
             }
         }
     },

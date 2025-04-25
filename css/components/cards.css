@@ -5,290 +5,395 @@
 
 /* Tarjeta base */
 .card {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--primary-color-dark);
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    box-shadow: var(--shadow-sm);
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--primary-color-dark);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  border-bottom: 1px solid var(--primary-color-dark);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.card-title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-color);
+}
+
+.card-subtitle {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--secondary-color);
+}
+
+.card-body {
+  margin-bottom: var(--spacing-md);
+}
+
+.card-footer {
+  border-top: 1px solid var(--primary-color-dark);
+  padding-top: var(--spacing-sm);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Variantes de tarjetas */
+.card-primary {
+  border-color: var(--primary-color);
+}
+
+.card-primary .card-header {
+  background-color: var(--primary-color-dark);
+  color: var(--text-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: calc(-1 * var(--spacing-md));
+  margin-bottom: var(--spacing-md);
+  border-top-left-radius: var(--border-radius-sm);
+  border-top-right-radius: var(--border-radius-sm);
+}
+
+.card-danger {
+  border-color: var(--error-color);
+}
+
+.card-danger .card-header {
+  background-color: var(--error-color);
+  color: var(--text-color);
+}
+
+/* Intel box (Caja de inteligencia) */
+.intel-box {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.intel-content {
+  margin-bottom: var(--spacing-lg);
+}
+
+.intel-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.intel-text {
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-md);
+}
+
+.intel-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--primary-color-dark);
+}
+
+.intel-stamp {
+  color: var(--accent-color);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  background-color: rgba(0,0,0,0.2);
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--accent-color);
+  text-transform: uppercase;
+}
+
+/* Results Container (Contenedor de resultados) */
+.results-container {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.results-header {
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--primary-color-dark);
+  padding-bottom: var(--spacing-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-content {
+  margin-bottom: var(--spacing-xl);
+}
+
+.results-section {
+  margin-bottom: var(--spacing-lg);
+  background-color: rgba(0,0,0,0.1);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--primary-color-dark);
+}
+
+.results-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--primary-color-dark);
+}
+
+.results-date {
+  font-family: var(--font-monospace);
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+/* Sección de aprobación */
+.approval-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.approval-stamp {
+  background-color: var(--success-color);
+  color: var(--panel-bg-color);
+  padding: 5px 15px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  border-radius: 3px;
+  transform: rotate(-3deg);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.approver-info {
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+/* Tarjetas específicas del proyecto */
+.dimension-card {
+  background-color: var(--panel-bg-color);
+  border: 1px solid var(--primary-color-dark);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.dimension-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  border-color: var(--primary-color);
+}
+
+.dimension-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--primary-color-dark);
+  padding-bottom: var(--spacing-sm);
+}
+
+.dimension-icon {
+  font-size: 20px;
+  margin-right: var(--spacing-sm);
+}
+
+.dimension-title {
+  font-family: var(--font-monospace);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  color: var(--primary-color);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.dimension-variables {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.dimension-variables li {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+  padding-left: 15px;
+  line-height: var(--line-height-normal);
+}
+
+.dimension-variables li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+/* Tarjeta de proyecto */
+.project-item {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--primary-color-dark);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.project-item:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(81, 127, 53, 0.3);
+  border-color: var(--primary-color);
+}
+
+.project-item:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.project-item.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: rgba(30, 39, 46, 0.7);
+  border-color: var(--secondary-color);
+}
+
+.project-item h3 {
+  color: var(--text-color);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  position: relative;
+  padding-left: 15px;
+  font-family: var(--font-monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-item h3::before {
+  content: '►';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--primary-color);
+}
+
+.project-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-cost {
+  font-weight: var(--font-weight-medium);
+  background-color: rgba(81, 127, 53, 0.2);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-monospace);
+}
+
+.excede-presupuesto {
+  color: var(--error-color);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+}
+
+.excede-presupuesto::before {
+  content: '■';
+  margin-right: 5px;
+  color: var(--error-color);
+}
+
+/* Resumen de estadísticas */  
+.summary-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+/* Tarjetas estadísticas */
+.stat-card {
+  flex: 1;
+  background-color: var(--panel-bg-color);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+  border: 1px solid var(--primary-color-dark);
+}
+
+.stat-icon {
+  font-size: 24px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+  font-family: var(--font-monospace);
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .project-impact-header {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+  
+  .project-cost {
+      margin-top: var(--spacing-sm);
   }
   
   .card-header {
-    border-bottom: 1px solid var(--primary-color-dark);
-    padding-bottom: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-  }
-  
-  .card-title {
-    margin: 0;
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--primary-color);
+      flex-direction: column;
+      align-items: flex-start;
   }
   
   .card-subtitle {
-    margin-top: var(--spacing-xs);
-    font-size: var(--font-size-sm);
-    color: var(--secondary-color);
-  }
-  
-  .card-body {
-    margin-bottom: var(--spacing-md);
-  }
-  
-  .card-footer {
-    border-top: 1px solid var(--primary-color-dark);
-    padding-top: var(--spacing-sm);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  
-  /* Variantes de tarjetas */
-  .card-primary {
-    border-color: var(--primary-color);
-  }
-  
-  .card-primary .card-header {
-    background-color: var(--primary-color-dark);
-    color: var(--text-color);
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin: calc(-1 * var(--spacing-md));
-    margin-bottom: var(--spacing-md);
-    border-top-left-radius: var(--border-radius-sm);
-    border-top-right-radius: var(--border-radius-sm);
-  }
-  
-  .card-danger {
-    border-color: var(--error-color);
-  }
-  
-  .card-danger .card-header {
-    background-color: var(--error-color);
-    color: var(--text-color);
-  }
-  
-  /* Tarjetas específicas del proyecto */
-  .dimension-card {
-    background-color: var(--panel-bg-color);
-    border: 1px solid var(--primary-color-dark);
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-md);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
-  }
-  
-  .dimension-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border-color: var(--primary-color);
-  }
-  
-  .dimension-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-    border-bottom: 1px solid var(--primary-color-dark);
-    padding-bottom: var(--spacing-sm);
-  }
-  
-  .dimension-icon {
-    font-size: 20px;
-    margin-right: var(--spacing-sm);
-  }
-  
-  .dimension-title {
-    font-family: var(--font-monospace);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-md);
-    color: var(--primary-color);
-    letter-spacing: var(--letter-spacing-wide);
-  }
-  
-  .dimension-variables {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-  }
-  
-  .dimension-variables li {
-    font-size: var(--font-size-sm);
-    margin-bottom: var(--spacing-sm);
-    position: relative;
-    padding-left: 15px;
-    line-height: var(--line-height-normal);
-  }
-  
-  .dimension-variables li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
-  }
-  
-  /* Tarjeta de proyecto */
-  .project-item {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--primary-color-dark);
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    transition: all var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: var(--shadow-sm);
-  }
-  
-  .project-item:hover:not(.disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px rgba(81, 127, 53, 0.3);
-    border-color: var(--primary-color);
-  }
-  
-  .project-item:active:not(.disabled) {
-    transform: translateY(0);
-  }
-  
-  .project-item.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: rgba(30, 39, 46, 0.7);
-    border-color: var(--secondary-color);
-  }
-  
-  .project-item h3 {
-    color: var(--text-color);
-    margin-bottom: var(--spacing-sm);
-    font-size: var(--font-size-md);
-    position: relative;
-    padding-left: 15px;
-    font-family: var(--font-monospace);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .project-item h3::before {
-    content: '►';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--primary-color);
-  }
-  
-  .project-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .project-cost {
-    font-weight: var(--font-weight-medium);
-  }
-  
-  .excede-presupuesto {
-    color: var(--error-color);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-sm);
-    margin-top: var(--spacing-sm);
-    display: flex;
-    align-items: center;
-  }
-  
-  .excede-presupuesto::before {
-    content: '■';
-    margin-right: 5px;
-    color: var(--error-color);
-  }
-  
-  /* Tarjetas estadísticas */
-  .stat-card {
-    flex: 1;
-    background-color: var(--panel-bg-color);
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius-sm);
-    text-align: center;
-    border: 1px solid var(--primary-color-dark);
-  }
-  
-  .stat-icon {
-    font-size: 24px;
-    margin-bottom: var(--spacing-xs);
-  }
-  
-  .stat-value {
-    font-size: 22px;
-    font-weight: var(--font-weight-bold);
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-xs);
-    font-family: var(--font-monospace);
-  }
-  
-  .stat-label {
-    font-size: var(--font-size-sm);
-    color: var(--text-color);
-    opacity: 0.8;
-  }
-  
-  /* Tarjetas de impacto del proyecto */
-  .project-impact-card {
-    background-color: var(--panel-bg-color);
-    border: 1px solid var(--primary-color-dark);
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
-  }
-  
-  .project-impact-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-    border-color: var(--primary-color);
-  }
-  
-  .project-impact-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-    border-bottom: 1px solid var(--primary-color-dark);
-    padding-bottom: var(--spacing-sm);
-  }
-  
-  .project-impact-header h4 {
-    margin: 0;
-    font-size: var(--font-size-lg);
-    color: var(--primary-color);
-    font-family: var(--font-monospace);
-  }
-  
-  .project-cost {
-    background-color: rgba(81, 127, 53, 0.2);
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-semibold);
-    font-family: var(--font-monospace);
-  }
-  
-  /* Media queries para responsive */
-  @media (max-width: 768px) {
-    .project-impact-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    
-    .project-cost {
-      margin-top: var(--spacing-sm);
-    }
-    
-    .card-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    
-    .card-subtitle {
       margin-top: var(--spacing-xs);
-    }
   }
+  
+  .summary-stats {
+      flex-direction: column;
+  }
+  
+  .intel-footer, 
+  .results-footer {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-md);
+  }
+  
+  .approval-section {
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+  }
+  
+  .results-section {
+      padding: var(--spacing-sm);
+  }
+}

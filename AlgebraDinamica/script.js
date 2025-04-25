@@ -4,6 +4,7 @@
  */
 
 // URLs de servicios
+/**
 const serviceURLs = {
      // SERVICIOS DIMENSIÓN SEGURIDAD
      seguridad: [
@@ -44,47 +45,47 @@ const serviceURLs = {
          "https://arcgis.esri.co/image/rest/services/DEX/TransformedDesarrolloTur/ImageServer"
      ]
  };
-
-// const serviceURLs = {
-//     // SERVICIOS DIMENSIÓN SEGURIDAD
-//     seguridad: [
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedHomicidiosRaster/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedLesionesPersonalesRaster/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTerrorismoRaster/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedExtorsionRaster/ImageServer", 
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDelitosSexualesRaster/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedMinasR22/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedEstacionPoliciaR22/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedCultivosilicitosRaster/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDrogaRaster/ImageServer"
-//     ],
+ */
+const serviceURLs = {
+     // SERVICIOS DIMENSIÓN SEGURIDAD
+     seguridad: [
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedHomicidiosRaster/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedLesionesPersonalesRaster/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTerrorismoRaster/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedExtorsionRaster/ImageServer", 
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDelitosSexualesRaster/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedMinasR22/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedEstacionPoliciaR22/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedCultivosilicitosRaster/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDrogaRaster/ImageServer"
+     ],
         
-//     // SERVICIOS DIMENSIÓN DESARROLLO
-//     desarrollo: [
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAcueductoSI/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedEnergiaElectrica/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAlfabetismo/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedNivelEducaci%C3%B3n/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTasaDesnutricionAguda/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDesempleo/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedInternet/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedGas/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedBajoPesoAlNacer/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedHotelesHosteles/ImageServer"
-//     ],
+     // SERVICIOS DIMENSIÓN DESARROLLO
+     desarrollo: [
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAcueductoSI/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedEnergiaElectrica/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAlfabetismo/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedNivelEducaci%C3%B3n/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTasaDesnutricionAguda/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDesempleo/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedInternet/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedGas/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedBajoPesoAlNacer/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedHotelesHosteles/ImageServer"
+     ],
         
-//     // SERVICIOS DIMENSIÓN GOBERNABILIDAD
-//     gobernabilidad: [
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedInstitucionesSalud/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedColegios/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedCensoPersonasSectores/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedComunidadesNegras/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTerritoriosIndigenas/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAreasProtegidas/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/AreaInteres1/ImageServer",
-//         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDesarrolloTuristico/ImageServer"
-//     ]
-// };
+     // SERVICIOS DIMENSIÓN GOBERNABILIDAD
+     gobernabilidad: [
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedInstitucionesSalud/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedColegios/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedCensoPersonasSectores/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedComunidadesNegras/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedTerritoriosIndigenas/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedAreasProtegidas/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/AreaInteres1/ImageServer",
+         "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/TransformedDesarrolloTuristico/ImageServer"
+     ]
+ };
 
 // Matriz de pesos para las variables por dimensión
 const weightsMatrix = {

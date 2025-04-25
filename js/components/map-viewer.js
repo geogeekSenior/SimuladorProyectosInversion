@@ -86,8 +86,7 @@
             "esri/views/MapView",
             "esri/widgets/Legend",
             "esri/widgets/LayerList",
-            "esri/widgets/Search",
-            "esri/widgets/ScaleBar",
+            "esri/widgets/Home",
             "esri/widgets/BasemapToggle",
             "esri/config"
         ], function(
@@ -95,9 +94,8 @@
             MapView,
             Legend,
             LayerList,
-            Search,
-            ScaleBar,
-            BasemapToggle, 
+            Home,
+            BasemapToggle,
             esriConfig
         ) {
             // Actualizar indicador de estado
@@ -109,7 +107,7 @@
             // Obtener configuración del módulo config
             const config = HORIZONTE.config ? HORIZONTE.config.mapViewer : {
                 portalUrl: "https://geospatialcenter.bd.esri.com/portal",
-                webmapId: "134c4e3a955b437084dc3ecce59f0dcd",
+                webmapId: "a70f6ac66fce4690b2341294e55ff087",
                 viewOptions: {
                     zoom: 8,
                     center: [-73.198537, 10.809386],
@@ -118,10 +116,12 @@
                     constraints: { minZoom: 4, maxZoom: 18 }
                 },
                 widgets: {
-                    legend: { enabled: false, position: "bottom-left" },
+                    legend: { enabled: true, position: "bottom-left" },
                     layerList: { enabled: true, position: "top-right" },
-                    search: { enabled: false, position: "top-left" },
-                    scaleBar: { enabled: false, position: "bottom-right" },
+                    home: {
+                        enabled: true,
+                        position: "top-left"
+                    },
                     basemapToggle: {
                         enabled: true,
                         position: "bottom-right",
@@ -158,16 +158,77 @@
                     statusIndicator.classList.add('map-status-operational');
                 }
                 
-                // Añadir widgets configurados
-                addWidgets(state.view, config.widgets);
+                console.log("Vista del mapa inicializada correctamente");
+                
+                // IMPORTANTE: Ahora añadimos los widgets directamente aquí en lugar de en una función separada
+                
+                // Añadir widget Home - Lo añadimos primero para asegurarnos de que aparezca
+                if (config.widgets.home && config.widgets.home.enabled) {
+                    try {
+                        const homeWidget = new Home({
+                            view: state.view
+                        });
+                        state.view.ui.add(homeWidget, config.widgets.home.position);
+                        console.log("✅ Widget Home añadido en la posición:", config.widgets.home.position);
+                    } catch (error) {
+                        console.error("❌ Error al añadir widget Home:", error);
+                    }
+                }
+                
+                // Añadir widget de leyenda
+                if (config.widgets.legend && config.widgets.legend.enabled) {
+                    try {
+                        const legend = new Legend({ 
+                            view: state.view
+                        });
+                        state.view.ui.add(legend, config.widgets.legend.position);
+                        console.log("✅ Widget Legend añadido en la posición:", config.widgets.legend.position);
+                    } catch (error) {
+                        console.error("❌ Error al añadir widget Legend:", error);
+                    }
+                }
+                
+                // Añadir widget de lista de capas
+                if (config.widgets.layerList && config.widgets.layerList.enabled) {
+                    try {
+                        const layerList = new LayerList({
+                            view: state.view,
+                            listItemCreatedFunction: function(event) {
+                                const item = event.item;
+                                if (item.layer && item.layer.type != "group") {
+                                    item.panel = {
+                                        content: "legend",
+                                        open: false
+                                    };
+                                }
+                            }
+                        });
+                        state.view.ui.add(layerList, config.widgets.layerList.position);
+                        console.log("✅ Widget LayerList añadido en la posición:", config.widgets.layerList.position);
+                    } catch (error) {
+                        console.error("❌ Error al añadir widget LayerList:", error);
+                    }
+                }
+                
+                // Añadir widget de cambio de mapa base
+                if (config.widgets.basemapToggle && config.widgets.basemapToggle.enabled) {
+                    try {
+                        const basemapToggle = new BasemapToggle({
+                            view: state.view,
+                            nextBasemap: config.widgets.basemapToggle.nextBasemap
+                        });
+                        state.view.ui.add(basemapToggle, config.widgets.basemapToggle.position);
+                        console.log("✅ Widget BasemapToggle añadido en la posición:", config.widgets.basemapToggle.position);
+                    } catch (error) {
+                        console.error("❌ Error al añadir widget BasemapToggle:", error);
+                    }
+                }
                 
                 // Notificar que el mapa está listo
                 dispatchReadyEvent();
                 
                 // Marcar como inicializado
                 state.initialized = true;
-                
-                console.log("Vista del mapa inicializada correctamente");
             }, function(error) {
                 console.error("Error al inicializar el mapa:", error);
                 
@@ -181,74 +242,6 @@
                 // Notificar error
                 dispatchErrorEvent("Error al inicializar el mapa");
             });
-        });
-    }
-    
-    /**
-     * Añade widgets configurados al mapa
-     * @param {MapView} view - Vista del mapa
-     * @param {Object} widgetsConfig - Configuración de widgets
-     */
-    function addWidgets(view, widgetsConfig) {
-        require([
-            "esri/widgets/Legend",
-            "esri/widgets/LayerList",
-            "esri/widgets/Search",
-            "esri/widgets/ScaleBar",
-            "esri/widgets/BasemapToggle"
-        ], function(
-            Legend,
-            LayerList,
-            Search,
-            ScaleBar,
-            BasemapToggle
-        ) {
-            // Añadir widget de leyenda
-            if (widgetsConfig.legend && widgetsConfig.legend.enabled) {
-                const legend = new Legend({ view: view });
-                view.ui.add(legend, widgetsConfig.legend.position);
-            }
-            
-            // Añadir widget de lista de capas
-            if (widgetsConfig.layerList && widgetsConfig.layerList.enabled) {
-                const layerList = new LayerList({
-                    view: view,
-                    listItemCreatedFunction: function(event) {
-                        const item = event.item;
-                        if (item.layer.type != "group") {
-                            item.panel = {
-                                content: "legend",
-                                open: false
-                            };
-                        }
-                    }
-                });
-                view.ui.add(layerList, widgetsConfig.layerList.position);
-            }
-            
-            // Añadir widget de búsqueda
-            if (widgetsConfig.search && widgetsConfig.search.enabled) {
-                const searchWidget = new Search({ view: view });
-                view.ui.add(searchWidget, widgetsConfig.search.position);
-            }
-            
-            // Añadir widget de escala
-            if (widgetsConfig.scaleBar && widgetsConfig.scaleBar.enabled) {
-                const scaleBar = new ScaleBar({
-                    view: view,
-                    unit: "dual"
-                });
-                view.ui.add(scaleBar, widgetsConfig.scaleBar.position);
-            }
-            
-            // Añadir widget de cambio de mapa base
-            if (widgetsConfig.basemapToggle && widgetsConfig.basemapToggle.enabled) {
-                const basemapToggle = new BasemapToggle({
-                    view: view,
-                    nextBasemap: widgetsConfig.basemapToggle.nextBasemap
-                });
-                view.ui.add(basemapToggle, widgetsConfig.basemapToggle.position);
-            }
         });
     }
     
@@ -285,6 +278,18 @@
             duration: 1000,
             easing: "ease-out"
         });
+    }
+    
+    /**
+     * Actualiza la vista del mapa cuando cambia el tamaño del contenedor
+     */
+    function refreshView() {
+        if (!state.view || !state.initialized) return;
+        
+        // Forzar una actualización del tamaño del mapa
+        state.view.padding = { ...state.view.padding };
+        
+        console.log("Vista del mapa actualizada");
     }
     
     /**
@@ -340,6 +345,7 @@
         init,
         changeBasemap,
         centerAt,
+        refreshView,
         isInitialized
     };
 })();

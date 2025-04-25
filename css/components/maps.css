@@ -5,182 +5,161 @@
 
 /* Contenedor principal del mapa */
 #viewDiv, #arcgisMap {
-    width: 100%;
-    height: 100%;
-    min-height: 500px;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+/* Instrucciones del mapa */
+#map-instructions {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  z-index: var(--z-index-sticky);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(26, 34, 40, 0.85);
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  box-shadow: var(--shadow-md);
+  max-width: 300px;
+  backdrop-filter: blur(4px);
+  border-left: 4px solid var(--primary-color);
+  border-top: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
+  font-family: var(--font-monospace);
+}
+
+/* Contenedor del mapa específico para visualización */
+#mapViewerContainer {
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+/* Barra de título del mapa */
+.map-title-container {
+  background-color: var(--primary-color-dark);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--primary-color);
+  font-family: var(--font-monospace);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-color);
+}
+
+/* Indicador de estado del mapa */
+.map-status-indicator {
+  font-size: var(--font-size-sm);
+  padding: 2px 8px;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0.2);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Estados del mapa */
+.map-status-loading {
+  background-color: var(--warning-color);
+}
+
+.map-status-operational {
+  background-color: var(--success-color);
+}
+
+.map-status-error {
+  background-color: var(--error-color);
+}
+
+/* Estilos para los widgets del mapa */
+.esri-widget {
+  font-family: var(--font-monospace) !important;
+}
+
+.esri-widget__heading {
+  font-family: var(--font-monospace) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Estilo para las etiquetas militares en mapa */
+.military-label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-color);
+  margin-right: var(--spacing-xs);
+}
+
+/* Mensajes de estado */
+.status-message {
+  position: fixed;
+  bottom: var(--spacing-lg);
+  right: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  box-shadow: var(--shadow-md);
+  z-index: var(--z-index-tooltip);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+  max-width: 300px;
+  border-left: 4px solid var(--primary-color);
+  font-family: var(--font-monospace);
+}
+
+.status-message.status-success {
+  background-color: rgba(60, 109, 63, 0.9);
+}
+
+.status-message.status-error {
+  background-color: rgba(172, 28, 28, 0.9);
+}
+
+.status-message.status-warning {
+  background-color: rgba(198, 141, 48, 0.9);
+}
+
+.status-message.status-info {
+  background-color: rgba(37, 90, 140, 0.9);
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  #arcgisMap {
+    height: 350px !important;
   }
   
-  /* Instrucciones del mapa */
-  #map-instructions {
-    position: absolute;
-    top: var(--spacing-md);
-    left: var(--spacing-md);
-    z-index: var(--z-index-sticky);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: rgba(26, 34, 40, 0.85);
-    color: var(--text-color);
-    font-weight: var(--font-weight-medium);
-    box-shadow: var(--shadow-md);
-    max-width: 300px;
-    backdrop-filter: blur(4px);
-    border-left: 4px solid var(--primary-color);
-    border-top: 1px solid var(--primary-color);
-    border-bottom: 1px solid var(--primary-color);
-    font-family: var(--font-monospace);
-  }
-  
-  /* Contenedor del mapa específico para visualización */
-  #mapViewerContainer {
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius-sm);
-    overflow: hidden;
-    margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    box-shadow: var(--shadow-md);
-    position: relative;
-  }
-  
-  /* Barra de título del mapa */
   .map-title-container {
-    background-color: var(--primary-color-dark);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-bottom: 1px solid var(--primary-color);
-    font-family: var(--font-monospace);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-md);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--text-color);
-  }
-  
-  /* Indicador de estado del mapa */
-  .map-status-indicator {
     font-size: var(--font-size-sm);
-    padding: 2px 8px;
-    border-radius: 2px;
-    background-color: rgba(0,0,0,0.2);
-    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-xs) var(--spacing-sm);
   }
   
-  /* Estados del mapa */
-  .map-status-loading {
-    background-color: var(--warning-color);
+  .map-status-indicator {
+    font-size: var(--font-size-xs);
   }
   
-  .map-status-operational {
-    background-color: var(--success-color);
+  #map-instructions {
+    top: auto;
+    bottom: var(--spacing-md);
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    width: calc(100% - 2 * var(--spacing-md));
+    max-width: none;
   }
   
-  .map-status-error {
-    background-color: var(--error-color);
-  }
-  
-  /* Estilos para los widgets del mapa */
-  .esri-widget {
-    font-family: var(--font-monospace) !important;
-  }
-  
-  .esri-widget__heading {
-    font-family: var(--font-monospace) !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  /* Estilo para las etiquetas militares en mapa */
-  .military-label {
-    font-weight: var(--font-weight-semibold);
-    color: var(--primary-color);
-    margin-right: var(--spacing-xs);
-  }
-  
-  /* Mensajes de estado */
   .status-message {
-    position: fixed;
-    bottom: var(--spacing-lg);
-    right: var(--spacing-lg);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius-sm);
-    color: var(--text-color);
-    font-weight: var(--font-weight-medium);
-    box-shadow: var(--shadow-md);
-    z-index: var(--z-index-tooltip);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s;
-    max-width: 300px;
-    border-left: 4px solid var(--primary-color);
-    font-family: var(--font-monospace);
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    left: var(--spacing-md);
+    max-width: none;
+    text-align: center;
   }
-  
-  .status-message.status-success {
-    background-color: rgba(60, 109, 63, 0.9);
-  }
-  
-  .status-message.status-error {
-    background-color: rgba(172, 28, 28, 0.9);
-  }
-  
-  .status-message.status-warning {
-    background-color: rgba(198, 141, 48, 0.9);
-  }
-  
-  /* Indicadores de carga */
-  .loading-spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(81, 127, 53, 0.2);
-    border-radius: 50%;
-    border-top-color: var(--primary-color);
-    animation: spin 1s ease-in-out infinite;
-    margin-right: var(--spacing-sm);
-  }
-  
-  .loading-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-lg);
-    color: var(--text-color);
-    font-family: var(--font-monospace);
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  
-  /* Media queries para responsive */
-  @media (max-width: 768px) {
-    #arcgisMap {
-      height: 350px !important;
-    }
-    
-    .map-title-container {
-      font-size: var(--font-size-sm);
-      padding: var(--spacing-xs) var(--spacing-sm);
-    }
-    
-    .map-status-indicator {
-      font-size: var(--font-size-xs);
-    }
-    
-    #map-instructions {
-      top: auto;
-      bottom: var(--spacing-md);
-      left: var(--spacing-md);
-      right: var(--spacing-md);
-      width: calc(100% - 2 * var(--spacing-md));
-      max-width: none;
-    }
-    
-    .status-message {
-      bottom: var(--spacing-md);
-      right: var(--spacing-md);
-      left: var(--spacing-md);
-      max-width: none;
-      text-align: center;
-    }
-  }
+}

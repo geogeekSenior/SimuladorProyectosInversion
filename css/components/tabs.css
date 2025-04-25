@@ -8,6 +8,7 @@
     background-color: var(--panel-bg-color);
     border: 1px solid var(--primary-color-dark);
     border-top: none;
+    margin-bottom: var(--spacing-md);
 }
 
 /* Barra de encabezados de pestañas */
@@ -79,30 +80,6 @@
     z-index: 10;
     display: flex;
     gap: 5px;
-}
-
-/* Botón de pantalla completa */
-.fullscreen-button {
-    width: 30px;
-    height: 30px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border: 1px solid var(--primary-color);
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.3s;
-    z-index: 100;
-}
-
-.fullscreen-button:hover {
-    background-color: var(--primary-color-dark);
-}
-
-.fullscreen-icon {
-    font-size: 16px;
 }
 
 /* Estado de pantalla completa */

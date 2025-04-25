@@ -5,215 +5,249 @@
 
 /* Botón militar estándar */
 .military-button {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-monospace);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--letter-spacing-wide);
-    cursor: pointer;
-    transition: all var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-  }
-  
-  .military-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: left 0.7s;
-  }
-  
-  .military-button:hover {
-    background-color: var(--primary-color-dark);
-    box-shadow: 0 0 10px rgba(81, 127, 53, 0.5);
-  }
-  
-  .military-button:hover::before {
-    left: 100%;
-  }
-  
-  .military-button:active {
-    transform: scale(0.98);
-  }
-  
-  .military-button:disabled {
-    background-color: var(--secondary-color);
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  
-  /* Botón de navegación */
-  .nav-arrow {
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--primary-color);
-    font-size: var(--font-size-xl);
-    color: var(--text-color);
-    cursor: pointer;
-    opacity: 0.9;
-    width: 36px;
-    height: 36px;
-    border-radius: var(--border-radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-fast);
-  }
-  
-  .nav-arrow:hover:not(:disabled) {
-    opacity: 1;
-    background-color: rgba(81, 127, 53, 0.3);
-    transform: scale(1.05);
-    box-shadow: 0 0 8px rgba(81, 127, 53, 0.5);
-  }
-  
-  .nav-arrow:active:not(:disabled) {
-    transform: scale(0.95);
-  }
-  
-  .nav-arrow:disabled {
-    color: var(--secondary-color);
-    cursor: not-allowed;
-    border-color: var(--secondary-color);
-    opacity: 0.5;
-  }
-  
-  .nav-arrow-disabled {
-    opacity: 0.5;
-  }
-  
-  /* Variantes de botones */
-  .military-button-danger {
-    background-color: var(--error-color);
-  }
-  
-  .military-button-danger:hover {
-    background-color: #8a1818;
-    box-shadow: 0 0 10px rgba(172, 28, 28, 0.5);
-  }
-  
-  .military-button-warning {
-    background-color: var(--warning-color);
-  }
-  
-  .military-button-warning:hover {
-    background-color: #a67728;
-    box-shadow: 0 0 10px rgba(198, 141, 48, 0.5);
-  }
-  
-  .military-button-small {
-    padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-monospace);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.military-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.7s;
+}
+
+.military-button:hover {
+  background-color: var(--primary-color-dark);
+  box-shadow: 0 0 10px rgba(81, 127, 53, 0.5);
+}
+
+.military-button:hover::before {
+  left: 100%;
+}
+
+.military-button:active {
+  transform: scale(0.98);
+}
+
+.military-button:disabled {
+  background-color: var(--secondary-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Botón de navegación */
+.nav-arrow {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--primary-color);
+  font-size: var(--font-size-xl);
+  color: var(--text-color);
+  cursor: pointer;
+  opacity: 0.9;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.nav-arrow:hover:not(:disabled) {
+  opacity: 1;
+  background-color: rgba(26, 58, 110, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(26, 58, 110, 0.5);
+}
+
+.nav-arrow:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.nav-arrow:disabled {
+  color: var(--secondary-color);
+  cursor: not-allowed;
+  border-color: var(--secondary-color);
+  opacity: 0.5;
+}
+
+.nav-arrow-disabled {
+  opacity: 0.5;
+}
+
+.nav-button-active {
+  animation: navButtonPulse 0.5s ease-in-out;
+}
+
+@keyframes navButtonPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Variantes de botones */
+.military-button-danger {
+  background-color: var(--error-color);
+}
+
+.military-button-danger:hover {
+  background-color: #8a1818;
+  box-shadow: 0 0 10px rgba(172, 28, 28, 0.5);
+}
+
+.military-button-warning {
+  background-color: var(--warning-color);
+}
+
+.military-button-warning:hover {
+  background-color: #a67728;
+  box-shadow: 0 0 10px rgba(198, 141, 48, 0.5);
+}
+
+.military-button-small {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.military-button-large {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+
+/* Botón de cerrar sesión */
+.logout-button {
+  background-color: var(--error-color);
+  color: var(--text-color);
+  border: none;
+  padding: 6px 10px;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-monospace);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.logout-button:hover {
+  background-color: #8a1818;
+}
+
+.logout-button:active {
+  transform: scale(0.95);
+}
+
+/* Botones de ubicación para mapas */
+.location-button {
+  background-color: rgba(60, 70, 80, 0.8);
+  color: var(--text-color);
+  border: 1px solid var(--primary-color-dark);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-normal);
+  font-family: var(--font-monospace);
+  text-align: left;
+  padding-left: 15px !important;
+  position: relative;
+  margin-bottom: var(--spacing-sm);
+  width: 100%;
+  cursor: pointer;
+}
+
+.location-button::before {
+  content: '►';
+  position: absolute;
+  left: 5px;
+  color: var(--primary-color);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.location-button:hover {
+  background-color: rgba(81, 127, 53, 0.2);
+  border-color: var(--primary-color);
+  padding-left: 25px !important;
+}
+
+.location-button:hover::before {
+  opacity: 1;
+}
+
+.location-button-cancel {
+  background-color: var(--error-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  transition: background-color var(--transition-normal);
+  font-family: var(--font-monospace);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  padding: var(--spacing-sm) var(--spacing-md);
+  width: 100%;
+  cursor: pointer;
+}
+
+.location-button-cancel:hover {
+  background-color: #8a1818;
+}
+
+/* Botón de pantalla completa en tabs */
+.fullscreen-button {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--primary-color);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.3s;
+  z-index: 100;
+}
+
+.fullscreen-button:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.fullscreen-icon {
+  font-size: 16px;
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .military-button {
     font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
   }
   
-  .military-button-large {
-    padding: var(--spacing-md) var(--spacing-xl);
+  .nav-arrow {
+    width: 30px;
+    height: 30px;
     font-size: var(--font-size-lg);
   }
-  
-  /* Botón de cerrar sesión */
-  .logout-button {
-    background-color: var(--error-color);
-    color: var(--text-color);
-    border: none;
-    padding: 6px 10px;
-    font-size: var(--font-size-xs);
-    font-family: var(--font-monospace);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    letter-spacing: var(--letter-spacing-wide);
-    text-transform: uppercase;
-    font-weight: var(--font-weight-semibold);
-    display: inline-block;
-    text-align: center;
-    white-space: nowrap;
-    align-self: center;
-  }
-  
-  .logout-button:hover {
-    background-color: #8a1818;
-  }
-  
-  .logout-button:active {
-    transform: scale(0.95);
-  }
-  
-  /* Botones de ubicación para mapas */
-  .location-button {
-    background-color: rgba(60, 70, 80, 0.8);
-    color: var(--text-color);
-    border: 1px solid var(--primary-color-dark);
-    border-radius: var(--border-radius-sm);
-    transition: all var(--transition-normal);
-    font-family: var(--font-monospace);
-    text-align: left;
-    padding-left: 15px !important;
-    position: relative;
-    margin-bottom: var(--spacing-sm);
-    width: 100%;
-    cursor: pointer;
-  }
-  
-  .location-button::before {
-    content: '►';
-    position: absolute;
-    left: 5px;
-    color: var(--primary-color);
-    opacity: 0;
-    transition: opacity var(--transition-normal);
-  }
-  
-  .location-button:hover {
-    background-color: rgba(81, 127, 53, 0.2);
-    border-color: var(--primary-color);
-    padding-left: 25px !important;
-  }
-  
-  .location-button:hover::before {
-    opacity: 1;
-  }
-  
-  .location-button-cancel {
-    background-color: var(--error-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: var(--border-radius-sm);
-    transition: background-color var(--transition-normal);
-    font-family: var(--font-monospace);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
-    padding: var(--spacing-sm) var(--spacing-md);
-    width: 100%;
-    cursor: pointer;
-  }
-  
-  .location-button-cancel:hover {
-    background-color: #8a1818;
-  }
-  
-  /* Media queries para responsive */
-  @media (max-width: 768px) {
-    .military-button {
-      font-size: var(--font-size-sm);
-      padding: var(--spacing-xs) var(--spacing-md);
-    }
-    
-    .nav-arrow {
-      width: 30px;
-      height: 30px;
-      font-size: var(--font-size-lg);
-    }
-  }
+}

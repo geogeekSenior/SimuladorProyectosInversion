@@ -26,84 +26,6 @@
   gap: 8px;
 }
 
-.analysis-error-spinner {
-  border-top-color: var(--error-color) !important;
-}
-
-.analysis-success-spinner {
-  border-top-color: var(--success-color) !important;
-}
-
-/* Iconos y mensajes de éxito */
-.success-icon {
-  width: 80px;
-  height: 80px;
-  background-color: var(--success-color);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  color: white;
-  margin: 0 auto 20px auto;
-  box-shadow: 0 0 10px rgba(60, 109, 63, 0.5);
-}
-
-.success-message {
-  text-align: center;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.success-message p {
-  margin-bottom: 10px;
-}
-
-.success-message strong {
-  color: var(--primary-color);
-  font-family: var(--font-monospace);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  #geoprocessButton {
-      bottom: 20px;
-      right: 20px;
-      font-size: 12px;
-      padding: 8px 12px;
-  }
-  
-  .geoproceso-modal-content {
-      width: 95%;
-      max-height: 90vh;
-  }
-  
-  .geoproceso-header h2 {
-      font-size: 14px;
-  }
-  
-  .analysis-spinner {
-      width: 40px;
-      height: 40px;
-      border-width: 4px;
-  }
-  
-  .analysis-status {
-      font-size: 13px;
-  }
-  
-  .geoproceso-results {
-      max-height: 200px;
-      font-size: 11px;
-  }
-  
-  .success-icon {
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
-  }
-}
-
 #geoprocessButton::before {
   content: '';
   position: absolute;
@@ -137,6 +59,19 @@
   background-color: var(--secondary-color);
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+/* Estilo para botón deshabilitado con mensaje de completado */
+#geoprocessButton.disabled {
+  background-color: #3a4a5a !important; 
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  pointer-events: none !important;
+}
+
+#geoprocessButton.disabled::after {
+  content: " (COMPLETADO)";
+  font-size: 0.8em;
 }
 
 /* Icono del botón */
@@ -355,4 +290,82 @@
       rgba(60, 109, 63, 0.8) 75%, 
       rgba(255,255,255,0.1) 75%, 
       rgba(255,255,255,0.1)) !important;
+}
+
+.analysis-error-spinner {
+  border-top-color: var(--error-color) !important;
+}
+
+.analysis-success-spinner {
+  border-top-color: var(--success-color) !important;
+}
+
+/* Iconos y mensajes de éxito */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--success-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: white;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 0 10px rgba(60, 109, 63, 0.5);
+}
+
+.success-message {
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.success-message p {
+  margin-bottom: 10px;
+}
+
+.success-message strong {
+  color: var(--primary-color);
+  font-family: var(--font-monospace);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #geoprocessButton {
+      bottom: 20px;
+      right: 20px;
+      font-size: 12px;
+      padding: 8px 12px;
+  }
+  
+  .geoproceso-modal-content {
+      width: 95%;
+      max-height: 90vh;
+  }
+  
+  .geoproceso-header h2 {
+      font-size: 14px;
+  }
+  
+  .analysis-spinner {
+      width: 40px;
+      height: 40px;
+      border-width: 4px;
+  }
+  
+  .analysis-status {
+      font-size: 13px;
+  }
+  
+  .geoproceso-results {
+      max-height: 200px;
+      font-size: 11px;
+  }
+  
+  .success-icon {
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+  }
 }

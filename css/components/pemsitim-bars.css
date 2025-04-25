@@ -9,26 +9,32 @@
     100% { background-position: 20px 0; }
 }
 
-/* Mejoras para las barras de dimensión */
+/* Contenedor principal de barras de dimensión */
 .dimension-bars {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
 }
 
+/* Contenedor individual de barra */
 .dimension-bar-container {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
 }
 
+/* Etiqueta de la dimensión */
 .bar-label {
     width: 150px;
     font-family: var(--font-monospace);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-md);
+    color: var(--text-color);
 }
 
+/* Contenedor externo de la barra */
 .bar-outer {
     flex-grow: 1;
     height: 18px;
@@ -39,6 +45,7 @@
     position: relative;
 }
 
+/* Barra interna que se anima */
 .bar-inner {
     height: 100%;
     background-color: var(--primary-color);
@@ -60,12 +67,41 @@
     animation: move-stripes 2s linear infinite;
 }
 
+/* Valor numérico */
 .bar-value {
     width: 70px;
     text-align: right;
     font-family: var(--font-monospace);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-md);
+    color: var(--text-color);
+}
+
+/* Barra de mejora (para mostrar el incremento) */
+.bar-improvement {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 0; /* Se anima con JS */
+    transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+    background-image: linear-gradient(45deg,
+        rgba(255, 255, 255, 0.3) 25%,
+        rgba(255, 255, 255, 0.5) 25%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.3) 75%,
+        rgba(255, 255, 255, 0.5) 75%,
+        rgba(255, 255, 255, 0.5));
+    background-size: 10px 10px;
+}
+
+/* Marca de mejora */
+.improvement {
+    color: var(--success-color);
+    font-weight: var(--font-weight-bold);
+    margin-left: var(--spacing-xs);
 }
 
 /* Estilos para los diferentes niveles */
@@ -113,7 +149,19 @@
 }
 
 .total-index .bar-label {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
+}
+
+/* Contenedor de impacto de dimensión */
+.dimension-impact-container {
+    background-color: rgba(0,0,0,0.1);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-top: var(--spacing-md);
+}
+
+.dimension-impact-bars {
+    margin-top: var(--spacing-md);
 }
 
 /* Media queries para responsividad */

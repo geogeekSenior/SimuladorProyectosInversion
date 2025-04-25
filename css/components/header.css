@@ -4,159 +4,159 @@
  */
 
  .military-header {
-    background-color: var(--panel-bg-color);
-    border-bottom: var(--border-width-normal) solid var(--primary-color);
-    padding: var(--spacing-md) var(--spacing-lg);
-    text-align: center;
-    text-transform: uppercase;
-    font-family: var(--font-monospace);
-    box-shadow: var(--shadow-md);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .military-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-  }
-  
-  /* Encabezados de secciones */
-  .intel-heading, .results-heading {
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: var(--spacing-sm);
-    margin-bottom: var(--spacing-lg);
-    font-family: var(--font-monospace);
-    letter-spacing: var(--letter-spacing-wider);
+  background-color: var(--panel-bg-color);
+  border-bottom: var(--border-width-normal) solid var(--primary-color);
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: center;
+  text-transform: uppercase;
+  font-family: var(--font-monospace);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.military-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-color), var(--accent-color), var(--primary-color));
+}
+
+.military-header-container {
+  position: relative;
+  width: 100%;
+}
+
+.military-header-content {
+  text-align: center;
+  width: 100%;
+}
+
+.military-title {
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.military-subtitle {
+  font-size: var(--font-size-md);
+  color: var(--text-color);
+  opacity: 0.8;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Equipo info en el header */
+.team-info-display {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  font-family: var(--font-monospace);
+  font-size: var(--font-size-sm);
+  color: var(--text-color);
+  z-index: var(--z-index-sticky);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.team-info-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.team-info-label {
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
+  margin-bottom: 1px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+}
+
+.team-info-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-color);
+  font-size: var(--font-size-md);
+  margin-bottom: 1px;
+}
+
+.team-info-code {
+  font-size: var(--font-size-xs);
+  opacity: 0.8;
+}
+
+/* Barra de navegación con stepper */
+.navigation-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--panel-bg-color);
+  box-shadow: var(--shadow-md);
+  border-bottom: 2px solid var(--primary-color);
+  position: relative;
+}
+
+.navigation-container::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, var(--primary-color), var(--accent-color), var(--primary-color));
+}
+
+/* Encabezados de secciones */
+.intel-heading, .results-heading {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  font-family: var(--font-monospace);
+  letter-spacing: var(--letter-spacing-wider);
+  font-size: var(--font-size-xl);
+}
+
+.section-title {
+  color: var(--accent-color);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-monospace);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .military-title {
     font-size: var(--font-size-xl);
   }
   
-  .section-title {
-    color: var(--accent-color);
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-sm);
-    font-family: var(--font-monospace);
-    letter-spacing: var(--letter-spacing-wide);
-  }
-  
-  /* Media queries para responsive */
-  @media (max-width: 768px) {
-    .military-title {
-      font-size: var(--font-size-xl);
-    }
-    
-    .military-subtitle {
-      font-size: var(--font-size-sm);
-    }
-    
-    .team-info-display {
-      position: relative;
-      top: auto;
-      right: auto;
-      flex-direction: column;
-      align-items: center;
-      margin-top: var(--spacing-sm);
-    }
-    
-    .team-info-block {
-      align-items: center;
-    }
-    
-    .navigation-container {
-      padding: var(--spacing-sm) var(--spacing-md);
-    }
-  }-color), var(--accent-color), var(--primary-color));
-  }
-  
-  .military-header-container {
-    position: relative;
-    width: 100%;
-  }
-  
-  .military-header-content {
-    text-align: center;
-    width: 100%;
-  }
-  
-  .military-title {
-    font-size: var(--font-size-xxl);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: var(--letter-spacing-wider);
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-xs);
-  }
-  
   .military-subtitle {
-    font-size: var(--font-size-md);
-    color: var(--text-color);
-    opacity: 0.8;
-    letter-spacing: var(--letter-spacing-wide);
+    font-size: var(--font-size-sm);
   }
   
-  /* Equipo info en el header */
   .team-info-display {
-    position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
-    font-family: var(--font-monospace);
-    font-size: var(--font-size-sm);
-    color: var(--text-color);
-    z-index: var(--z-index-sticky);
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-start;
-    gap: var(--spacing-sm);
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-direction: column;
+    align-items: center;
+    margin-top: var(--spacing-sm);
   }
   
   .team-info-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .team-info-label {
-    font-size: var(--font-size-xs);
-    opacity: 0.7;
-    margin-bottom: 1px;
-    text-transform: uppercase;
-    font-weight: var(--font-weight-semibold);
-  }
-  
-  .team-info-value {
-    font-weight: var(--font-weight-semibold);
-    color: var(--primary-color);
-    font-size: var(--font-size-md);
-    margin-bottom: 1px;
-  }
-  
-  .team-info-code {
-    font-size: var(--font-size-xs);
-    opacity: 0.8;
-  }
-  
-  /* Barra de navegación con stepper */
-  .navigation-container {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-md) var(--spacing-lg);
-    background-color: var(--panel-bg-color);
-    box-shadow: var(--shadow-md);
-    border-bottom: 2px solid var(--primary-color);
-    position: relative;
   }
   
-  .navigation-container::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, var(--primary
+  .navigation-container {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}

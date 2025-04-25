@@ -311,6 +311,19 @@ HORIZONTE.team = (function() {
             sessionStorage.removeItem('navigationState');
             sessionStorage.removeItem('lastStep');
             
+            // NUEVO: Eliminar variables de geoproceso
+            sessionStorage.removeItem('ciclo1_procesado');
+            sessionStorage.removeItem('ciclo2_procesado');
+            sessionStorage.removeItem('availableResources');
+            
+            // NUEVO: Limpiar todo el sessionStorage para asegurar un reinicio completo
+            try {
+                sessionStorage.clear();
+                console.log("SessionStorage limpiado completamente");
+            } catch (error) {
+                console.error("Error al limpiar sessionStorage:", error);
+            }
+            
             // Mostrar mensaje de cierre
             if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
                 HORIZONTE.utils.showStatusMessage("Abandonando misión. Reiniciando sistema...", "warning");
