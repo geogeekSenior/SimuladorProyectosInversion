@@ -111,7 +111,7 @@
                 title: "Puntos de Despliegue Táctico"
             });
             
-            // Cuando la escena esté cargada, añadir la capa de puntos de usuario
+            // Cuando la escena esté cargada, añadir las capas y widgets
             state.webscene.when(() => {
                 state.webscene.add(state.userPointsLayer);
                 
@@ -141,6 +141,55 @@
                 
                 // Añadir el widget a la esquina superior derecha
                 state.view.ui.add(layerListExpand, "top-right");
+
+                // --- INICIO: CÓDIGO PARA LEYENDA HTML FIJA ---
+                console.log("Creando leyenda HTML personalizada fija.");
+                // 1. Definir el contenido HTML de la leyenda 
+                const leyendaHtml = `<div style="padding: 10px; background-color: rgba(0, 0, 0, 0.7); color: white; font-family: sans-serif; font-size: 12px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+                    <div class="leyenda-item" style="display: flex; align-items: center; margin-bottom: 8px;">
+                        <span style="
+                            display: inline-block; 
+                            width: 0; 
+                            height: 0; 
+                            border-left: 8px solid transparent; 
+                            border-right: 8px solid transparent; 
+                            border-bottom: 14px solid rgb(191, 155, 48); /* Amarillo/Oro */
+                            margin-right: 8px; 
+                            flex-shrink: 0; 
+                        "></span>
+                        <span>Puntos de Despliegue Disponibles (Seleccionable)</span>
+                    </div>
+                    <div class="leyenda-item" style="display: flex; align-items: center;">
+                        <span style="
+                            display: inline-block; 
+                            width: 14px; 
+                            height: 14px; 
+                            background-color: rgb(0, 48, 116); /* Azul */
+                            border-radius: 50%; 
+                            border: 1.5px solid rgb(191, 155, 48); /* Contorno Amarillo/Oro */
+                            margin-right: 8px; 
+                            flex-shrink: 0; 
+                        "></span>
+                        <span>Puntos de Despliegue Táctico (Proyecto Elegido)</span>
+                    </div>
+                </div>`; // <-- Usar backticks para strings multilínea
+
+                const style = document.createElement('style');               style.textContent = `
+                    .leyenda-item span {
+                        font-family: var(--font-monospace);
+                        font-size: var(--font-size-md);
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // 2. Crear un nodo DOM para la leyenda 
+                const leyendaNode = document.createElement("div"); 
+                leyendaNode.innerHTML = leyendaHtml; 
+                console.log("Nodo DOM para leyenda HTML creado.");
+                // 3. Añadir el nodo HTML directamente a la UI (sin Expand) 
+                state.view.ui.add(leyendaNode, "bottom-left"); // Añade el DIV directamente a la esquina inferior izquierda 
+                console.log("Leyenda HTML fija añadida a la UI.");
+                // --- FIN: CÓDIGO PARA LEYENDA HTML FIJA ---
                 
                 // Cargar datos de proyectos
                 loadProyectos()
@@ -368,7 +417,7 @@
                         // Añadir el punto a la capa
                         state.locationOptionsLayer.add(puntoGraphic);
                         
-                        // Crear etiqueta con el número de punto
+                        // Crear etiqueta con el número de punto (SE MANTIENE PARA PUNTOS DISPONIBLES)
                         const etiquetaSimbol = {
                             type: "text",
                             color: [255, 255, 255],
@@ -550,7 +599,7 @@
     }
     
     /**
-     * Crea un punto de proyecto en el mapa
+     * Crea un punto de proyecto en el mapa (SIN ETIQUETA)
      * @param {Object} proyecto - Datos del proyecto
      * @param {Object} coordenadas - Coordenadas del punto {longitude, latitude}
      * @returns {Promise} Promesa que se resuelve con el punto creado
@@ -629,42 +678,44 @@
                     // Añadir a la capa
                     state.userPointsLayer.add(puntoGraphic);
                     
-                    // Crear etiqueta con el número de punto
-                    const etiquetaSimbol = {
-                        type: "text",
-                        color: [255, 255, 255],
-                        halo: {
-                            color: [0, 0, 0, 0.7],
-                            size: 1.5
-                        },
-                        text: `PUNTO ${numeroPunto}`,
-                        font: {
-                            size: 12,
-                            family: "Courier New",
-                            weight: "bold"
-                        }
-                    };
+                    // --- INICIO: CÓDIGO DE ETIQUETA ELIMINADO ---
+                    // // Crear etiqueta con el número de punto 
+                    // const etiquetaSimbol = {
+                    //     type: "text",
+                    //     color: [255, 255, 255],
+                    //     halo: {
+                    //         color: [0, 0, 0, 0.7],
+                    //         size: 1.5
+                    //     },
+                    //     text: `PUNTO ${numeroPunto}`,
+                    //     font: {
+                    //         size: 12,
+                    //         family: "Courier New",
+                    //         weight: "bold"
+                    //     }
+                    // };
                     
-                    // Crear un punto ligeramente desplazado hacia arriba para la etiqueta
-                    const puntoEtiqueta = new Point({
-                        longitude: coordenadas.longitude,
-                        latitude: coordenadas.latitude,
-                        z: 25 // Desplazar la etiqueta hacia arriba
-                    });
+                    // // Crear un punto ligeramente desplazado hacia arriba para la etiqueta
+                    // const puntoEtiqueta = new Point({
+                    //     longitude: coordenadas.longitude,
+                    //     latitude: coordenadas.latitude,
+                    //     z: 25 // Desplazar la etiqueta hacia arriba
+                    // });
                     
-                    // Crear gráfico para la etiqueta
-                    const etiquetaGraphic = new Graphic({
-                        geometry: puntoEtiqueta,
-                        symbol: etiquetaSimbol,
-                        attributes: {
-                            id: `label-${proyecto.objectid}`,
-                            numeroPunto: numeroPunto,
-                            proyecto: proyecto.proyecto
-                        }
-                    });
+                    // // Crear gráfico para la etiqueta
+                    // const etiquetaGraphic = new Graphic({
+                    //     geometry: puntoEtiqueta,
+                    //     symbol: etiquetaSimbol,
+                    //     attributes: {
+                    //         id: `label-${proyecto.objectid}`,
+                    //         numeroPunto: numeroPunto,
+                    //         proyecto: proyecto.proyecto
+                    //     }
+                    // });
                     
-                    // Añadir la etiqueta a la capa
-                    state.userPointsLayer.add(etiquetaGraphic);
+                    // // Añadir la etiqueta a la capa
+                    // state.userPointsLayer.add(etiquetaGraphic);
+                    // --- FIN: CÓDIGO DE ETIQUETA ELIMINADO ---
                     
                     // Animar la cámara al punto
                     state.view.goTo({ 
