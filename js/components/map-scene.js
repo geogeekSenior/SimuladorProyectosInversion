@@ -403,8 +403,8 @@
                                         type: "text",
                                         text: `
                                             <div style="padding: 10px; font-family: 'Courier New', monospace;">
-                                                <h3 style="color: #d0d3d4; border-bottom: 1px solid #d0d3d4; padding-bottom: 5px;">${ubicacion.attributes.proyecto}</h3>
-                                                <p><strong>ID:</strong> ${ubicacion.attributes.objectid}</p>
+                                                <h3 style="color: #d0d3d4; border-bottom: 1px solid #d0d3d4; padding-bottom: 5px;">Descripción</h3>
+                                                <p><strong></strong> ${ubicacion.attributes.descripcion}</p>
                                                 <p><strong>Punto:</strong> ${index + 1}</p>
                                                 <p><strong>Recursos requeridos:</strong> $${ubicacion.attributes.valorinversion.toLocaleString()}</p>
                                             </div>
@@ -663,9 +663,9 @@
                                     text: `
                                         <div style="padding: 12px; font-family: 'Courier New', monospace; border-left: 4px solid #d0d3d4;">
                                             <h3 style="color: #d0d3d4; border-bottom: 1px solid #d0d3d4; padding-bottom: 8px; margin-bottom: 10px;">
-                                                ${proyecto.proyecto}
+                                                Descripción
                                             </h3>
-                                            <p style="margin-bottom: 8px;"><strong>ID:</strong> ${proyecto.objectid}</p>
+                                            <p style="margin-bottom: 8px;"><strong></strong> ${proyecto.descripcion}</p>
                                             <p style="margin-bottom: 8px;"><strong>Punto:</strong> ${numeroPunto}</p>
                                             <p style="margin-bottom: 8px;"><strong>Recursos asignados:</strong> $${proyecto.valorinversion.toLocaleString()}</p>
                                         </div>

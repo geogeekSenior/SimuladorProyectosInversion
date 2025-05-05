@@ -1,13 +1,19 @@
 /**
+ * layer-connections.js - Conexión de checkboxes con capas del mapa
+ * Complemento para HORIZONTE 2.0
+ * Versión simplificada sin mapeo de respaldo.
+ */
+
+/**
  * Actualiza el estado del checkbox principal basado en los checkboxes individuales
  */
 function updateDimensionCheckbox(dimensionId) {
     const allVarCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
     const checkedVarCheckboxes = Array.from(allVarCheckboxes).filter(checkbox => checkbox.checked);
-    
+
     const dimensionCheckbox = document.getElementById(`${dimensionId}-all`);
     if (!dimensionCheckbox) return;
-    
+
     if (checkedVarCheckboxes.length === 0) {
         dimensionCheckbox.checked = false;
         dimensionCheckbox.indeterminate = false;
@@ -19,14 +25,7 @@ function updateDimensionCheckbox(dimensionId) {
     }
 }
 
-// Escuchar el evento cuando las capas estén cargadas
-window.addEventListener('horizonte:layersLoaded', function() {
-    console.log("Evento horizonte:layersLoaded recibido");
-    setupLayerCheckboxConnections();
-    
-    // Sincronizar los checkboxes con el estado de las capas cargadas
-    setTimeout(syncCheckboxesWithLayers, 500);
-});/**
+/**
  * Actualiza los checkboxes basado en qué capas están visibles actualmente
  */
 function syncCheckboxesWithLayers() {
@@ -34,75 +33,47 @@ function syncCheckboxesWithLayers() {
         console.warn("No hay capas cargadas para sincronizar checkboxes");
         return;
     }
-    
+
     ['seguridad', 'desarrollo', 'gobernabilidad'].forEach(dimensionId => {
-        const dimensionLayers = window.horizonte.layerByVariable[dimensionId];
-        
-        for (const variableName in dimensionLayers) {
-            const layer = dimensionLayers[variableName];
-            if (!layer) continue;
-            
-            // Buscar el checkbox correspondiente
-            const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
-            
-            for (const checkbox of variableCheckboxes) {
-                const checkboxVarName = checkbox.nextElementSibling ? 
-                    checkbox.nextElementSibling.textContent.trim() : '';
-                
-                if (checkboxVarName === variableName) {
-                    // Actualizar el estado del checkbox sin disparar eventos
-                    if (checkbox.checked !== layer.visible) {
-                        checkbox.checked = layer.visible;
-                    }
-                    break;
-                }
-            }
+        // Asegurarse que el objeto de capas para la dimensión exista
+        const dimensionLayersMap = window.horizonte.layerByVariable[dimensionId];
+        if (!dimensionLayersMap) {
+            console.warn(`No se encontró el mapa de capas para la dimensión '${dimensionId}' al sincronizar checkboxes.`);
+            return; // Continuar con la siguiente dimensión
         }
-        
-        // Actualizar el estado del checkbox principal
+
+        // Obtener todos los checkboxes para esta dimensión
+        const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
+
+        variableCheckboxes.forEach(checkbox => {
+            if (!checkbox.nextElementSibling) return; // Saltar si no hay etiqueta de nombre
+
+            const checkboxVarName = checkbox.nextElementSibling.textContent.trim();
+            const layer = dimensionLayersMap[checkboxVarName]; // Buscar la capa por el nombre del checkbox
+
+            if (layer && 'visible' in layer) {
+                // Actualizar el estado del checkbox basado en la visibilidad de la capa
+                // Solo actualizar si es diferente para evitar ciclos innecesarios
+                if (checkbox.checked !== layer.visible) {
+                     checkbox.checked = layer.visible;
+                     // No disparamos evento aquí para evitar bucles, solo sincronizamos estado visual
+                }
+            } else {
+                 // Si no encontramos la capa, asumimos que no está visible (o no cargó)
+                 if (checkbox.checked !== false) {
+                     checkbox.checked = false;
+                 }
+                 // console.log(`No se encontró capa o propiedad visible para ${checkboxVarName} al sincronizar.`);
+            }
+        });
+
+
+        // Actualizar el estado del checkbox principal de la dimensión después de sincronizar los individuales
         updateDimensionCheckbox(dimensionId);
     });
-}/**
- * layer-connections.js - Conexión de checkboxes con capas del mapa
- * Complemento para HORIZONTE 2.0
- */
+     console.log("Sincronización de checkboxes con estado de capas completada.");
+}
 
-// Mapeo de nombres de variables a índices
-const variableLayerMapping = {
-    seguridad: {
-        'Homicidios': 0.2,
-        'Lesiones personales': 0.1,
-        'Terrorismo': 0.1,
-        'Extorsión': 0.1,
-        'Delitos sexuales': 0.1,
-        'Minas antipersona': 0.1,
-        'Estaciones de Policía': 0.1,
-        'Cultivos ilícitos': 0.1,
-        'Narcotráfico (proximidad a puerto)': 0.05
-    },
-    desarrollo: {
-        'Acueducto y Alcantarillado': 0,
-        'Energía Eléctrica': 1,
-        'Alfabetismo': 2,
-        'Nivel de Educación': 3,
-        'Desnutrición aguda': 4,
-        'Tasa de ocupación': 5,
-        'Internet': 6,
-        'Gas': 7,
-        'Bajo peso al nacer': 8,
-        'Cantidad de hoteles': 9
-    },
-    gobernabilidad: {
-        'Instituciones de salud': 0,
-        'Instituciones educativas': 1,
-        'Censo': 2,
-        'Comunidades étnicas': 3,
-        'Reservas indígenas': 4,
-        'Áreas protegidas': 5,
-        'Límites administrativos': 6,
-        'Desarrollo Turístico': 7
-    }
-};
 
 /**
  * Configura las conexiones entre checkboxes y capas
@@ -110,81 +81,111 @@ const variableLayerMapping = {
 function setupLayerCheckboxConnections() {
     // Verificar si las capas están cargadas
     if (!window.horizonte || !window.horizonte.layerByVariable) {
-        console.warn("Las capas no están cargadas todavía. Usaremos los eventos cuando estén disponibles.");
+        console.warn("Las capas no están cargadas todavía. La configuración de conexiones se reintentará al recibir 'horizonte:layersLoaded'.");
         return;
     }
-    
+
     // Solo registrar en consola, no mostrar en visor
     console.log("Configurando conexiones entre checkboxes y capas...");
-    
+
     // Procesamos cada dimensión
     ['seguridad', 'desarrollo', 'gobernabilidad'].forEach(dimensionId => {
         const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
-        
-        variableCheckboxes.forEach((checkbox, index) => {
-            // Obtener el nombre de la variable
-            const variableName = checkbox.nextElementSibling ? 
-                checkbox.nextElementSibling.textContent.trim() : 
-                `Variable ${index+1}`;
-            
+
+        variableCheckboxes.forEach((checkbox) => {
+            // Obtener el nombre de la variable desde la etiqueta adyacente
+             const variableNameElement = checkbox.nextElementSibling;
+             if (!variableNameElement || !variableNameElement.classList.contains('variable-name')) {
+                 console.warn("No se pudo encontrar el nombre de la variable para el checkbox:", checkbox.id);
+                 return; // Saltar este checkbox si no tiene nombre asociado
+             }
+            const variableName = variableNameElement.textContent.trim();
+
             // Conectar el evento del checkbox con la visibilidad de la capa
             checkbox.addEventListener('calciteCheckboxChange', function(event) {
                 const isChecked = event.target.checked;
+                // Llamar a la función que cambia la visibilidad (esta ya no dispara applyWeights)
                 toggleLayerVisibilityByCheckbox(dimensionId, variableName, isChecked);
+                // El applyWeights se dispara globalmente desde script.js al detectar calciteCheckboxChange
             });
-            
-            // Verificar el estado inicial y aplicarlo
-            if (checkbox.checked) {
-                toggleLayerVisibilityByCheckbox(dimensionId, variableName, true);
+
+            // Verificar el estado inicial del checkbox y aplicarlo a la capa si ya está cargada
+            // Esto asegura que si una capa carga como visible/invisible, el checkbox lo refleje
+            // La función syncCheckboxesWithLayers se encarga mejor de esto después de que todo carga.
+            /*
+            if (window.horizonte.layerByVariable[dimensionId] && window.horizonte.layerByVariable[dimensionId][variableName]) {
+                 const layer = window.horizonte.layerByVariable[dimensionId][variableName];
+                 if ('visible' in layer && layer.visible !== checkbox.checked) {
+                    toggleLayerVisibilityByCheckbox(dimensionId, variableName, checkbox.checked);
+                 }
             }
+            */
         });
     });
-    
-    console.log("Conexiones entre checkboxes y capas configuradas correctamente");
+
+    console.log("Conexiones entre checkboxes y capas configuradas correctamente.");
 }
 
 /**
- * Cambia la visibilidad de una capa a través de un checkbox
- * Esta versión no actualiza el UI porque es llamada desde el evento de checkbox
+ * Cambia la visibilidad de una capa específica basado en el estado de su checkbox.
+ * NO llama a applyWeightsToLayers, ya que se asume que esa función se llama
+ * globalmente en respuesta al evento 'calciteCheckboxChange' en script.js.
  */
 function toggleLayerVisibilityByCheckbox(dimensionId, variableName, isVisible) {
-    // Verificar si tenemos el mapa de capas
-    if (!window.horizonte || !window.horizonte.layerByVariable) {
-        console.warn("Las capas no están disponibles para", dimensionId, variableName);
-        return false;
+    // Verificar si tenemos el mapa de capas y la dimensión específica
+    if (!window.horizonte || !window.horizonte.layerByVariable || !window.horizonte.layerByVariable[dimensionId]) {
+        console.warn(`Mapa de capas para la dimensión '${dimensionId}' no disponible al intentar cambiar visibilidad de '${variableName}'.`);
+        return false; // No se puede proceder
     }
-    
-    // Obtener la capa correspondiente
+
+    // Obtener la capa correspondiente directamente por nombre
     const layer = window.horizonte.layerByVariable[dimensionId][variableName];
-    
-    // Si no se encuentra la capa, buscar por índice como respaldo
-    if (!layer && variableLayerMapping[dimensionId] && 
-        typeof variableLayerMapping[dimensionId][variableName] !== 'undefined') {
-        
-        const index = variableLayerMapping[dimensionId][variableName];
-        const serviceDimension = window.horizonte.layers.filter(
-            l => l.dimensionName === dimensionId
-        );
-        
-        if (serviceDimension.length > index) {
-            const layerByIndex = serviceDimension[index];
-            if (layerByIndex) {
-                console.log(`Capa encontrada por índice: ${dimensionId}[${index}]`);
-                layerByIndex.visible = isVisible;
-                return true;
-            }
-        }
-        
-        console.warn(`No se pudo encontrar la capa: ${dimensionId} - ${variableName}`);
-        return false;
-    }
-    
+
     // Si encontramos la capa, cambiar su visibilidad
     if (layer) {
-        layer.visible = isVisible;
-        return true;
+        // Comprobar si la capa tiene la propiedad 'visible' antes de asignarla
+        if ('visible' in layer) {
+             // Solo cambiar si el estado es diferente
+             if (layer.visible !== isVisible) {
+                 layer.visible = isVisible;
+                 // console.log(`Visibilidad de capa '${variableName}' establecida a ${isVisible}`);
+             }
+             return true; // Se encontró y se estableció (o ya estaba) la visibilidad
+        } else {
+             console.warn(`La capa encontrada para '${variableName}' no tiene propiedad 'visible'.`, layer);
+             return false; // La capa existe pero no se puede controlar su visibilidad
+        }
     } else {
-        console.warn(`Capa no encontrada: ${dimensionId} - ${variableName}`);
-        return false;
+        // Si no se encontró la capa por nombre (puede pasar si aún no carga o hubo error al cargarla)
+        // No mostramos advertencia aquí siempre, puede ser normal durante la carga inicial
+        // console.log(`Capa no encontrada por nombre al intentar cambiar visibilidad: ${dimensionId} - ${variableName}`);
+        return false; // No se encontró la capa
     }
 }
+
+
+// --- Event Listener para iniciar la configuración ---
+
+// Escuchar el evento personalizado que dispara script.js cuando las capas terminan de cargarse
+window.addEventListener('horizonte:layersLoaded', function() {
+    console.log("Evento horizonte:layersLoaded recibido en layer-connections.js");
+
+    // 1. Configurar los listeners de los checkboxes para que afecten a las capas
+    setupLayerCheckboxConnections();
+
+    // 2. Sincronizar el estado inicial de los checkboxes con la visibilidad real de las capas cargadas
+    //    Usamos un pequeño retraso para asegurar que las capas estén completamente listas en el DOM/mapa.
+    setTimeout(syncCheckboxesWithLayers, 500);
+});
+
+// Podríamos añadir un listener DOMContentLoaded por si acaso, aunque layersLoaded es más específico
+/*
+document.addEventListener('DOMContentLoaded', () => {
+     // Si las capas ya están cargadas por alguna razón antes del evento
+     if (window.horizonte && window.horizonte.layers) {
+         console.log("DOM Cargado y capas ya existen, intentando configurar conexiones...");
+         setupLayerCheckboxConnections();
+         setTimeout(syncCheckboxesWithLayers, 500);
+     }
+});
+*/

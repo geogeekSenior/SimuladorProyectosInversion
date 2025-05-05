@@ -5,10 +5,10 @@
 
 // Valores de línea base (valores iniciales antes de las intervenciones)
 const baselineValues = {
-    seguridad: 6.883,    // Valores iniciales (divididos por 10 para escala correcta)
-    desarrollo: 4.260,
-    gobernabilidad: 2.504,
-    total: 4.695         // Total calculado como: (6.883*0.4 + 4.260*0.25 + 2.504*0.35)
+    seguridad: 5.0226,    // Valores iniciales (divididos por 10 para escala correcta)
+    desarrollo: 5.0734,
+    gobernabilidad: 3.8899,
+    total: 4.6388           // Total calculado como: (6.883*0.4 + 4.260*0.25 + 2.504*0.35)
 };
 
 // Configuración para evaluación de impacto

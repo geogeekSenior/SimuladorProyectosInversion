@@ -4,29 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HORIZONTE: JUEGO DE ESTRATEGIA</title>
-    
-    <!-- Fuentes -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Estilos propios unificados -->
-    <link rel="stylesheet" href="main.css">
+
+    <link rel="stylesheet" href="main.css"> <style>
+        .subcategory-details { /* Estilo para el contenedor <details> */
+            margin-top: 10px; /* Espacio entre desplegables */
+            background-color: rgba(var(--primary-color-rgb, 81, 127, 53), 0.05); /* Fondo sutil */
+            border-radius: 4px;
+            border: 1px solid rgba(var(--primary-color-rgb, 81, 127, 53), 0.2);
+            overflow: hidden; /* Para contener bordes redondeados */
+        }
+        .subcategory-summary { /* Estilo para el título <summary> */
+            padding: 8px 12px 8px 12px;;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: rgba(var(--text-color-rgb, 208, 211, 212), 0.9);
+            background-color: rgba(var(--primary-color-rgb, 72, 107, 160), 0.15);
+            transition: background-color 0.2s ease;
+            list-style: none; /* Ocultar marcador de flecha por defecto si se personaliza */
+            display: block; /* Asegurar que ocupe todo el ancho */
+            position: relative; /* Para posicionar el indicador personalizado */
+        }
+        .subcategory-summary:hover {
+            background-color: rgba(var(--primary-color-rgb, 81, 127, 53), 0.25);
+        }
+        /* Indicador de despliegue (flecha) */
+        .subcategory-summary::after {
+            content: '▼'; /* Flecha hacia abajo por defecto */
+            font-size: 0.8em;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.2s ease;
+            color: rgba(var(--text-color-rgb, 208, 211, 212), 0.7);
+        }
+        .subcategory-details[open] > .subcategory-summary::after {
+            transform: translateY(-50%) rotate(180deg); /* Flecha hacia arriba cuando está abierto */
+        }
+        /* Ocultar marcador de flecha por defecto en Webkit/Blink */
+        .subcategory-summary::-webkit-details-marker {
+            display: none;
+        }
+        .subcategory-variables-container { /* Contenedor para la lista ul */
+             padding: 10px 15px 15px 25px; /* Padding interno para la lista */
+             background-color: rgba(0,0,0, 0.1); /* Fondo ligeramente diferente para el contenido */
+        }
+        .subcategory-variables {
+            list-style: none; /* Quitar viñetas */
+            padding-left: 0; /* Resetear padding */
+            margin: 0;
+        }
+        .subcategory-variables li {
+             margin-bottom: 5px; /* Espacio entre variables */
+             font-size: 0.95em;
+             color: rgba(var(--text-color-rgb, 208, 211, 212), 0.9);
+        }
+        .dimension-variables { /* Contenedor principal dentro de la tarjeta */
+             padding: 5px 10px 10px 0px; /* Ajustar padding si es necesario */
+        }
+        /* Eliminar estilos anteriores de subcategory si ya no aplican */
+        .subcategory {
+            border-left: none;
+            padding-left: 0;
+            margin-top: 0;
+        }
+        .subcategory-title { /* Ya no es necesario si usamos summary */
+           /* display: none; */
+        }
+
+        /* --- ESTILO ELIMINADO --- */
+        /* .dashboard-buttons-container { ... } */
+
+        /* Estilos para el nuevo botón Dashboard */
+        .dashboard-button {
+            display: inline-block; /* Para que respete padding y margin */
+            background-color: #d8720da8 ; /* NUEVO Naranja más militar */
+            color: white;
+            padding: 10px 20px; /* Un poco más grande */
+            margin: 0 10px; /* Espacio entre botones si hubieran varios en una línea */
+            border: none;
+            border-radius: 4px;
+            text-decoration: none; /* Quitar subrayado del enlace */
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.9em;
+        }
+        .dashboard-button:hover {
+        background-color: #9A4D0C; /* NUEVO Color más oscuro para hover */
+        color: white; /* ASEGURA que el texto siga siendo blanco */
+        transform: translateY(-1px); /* Ligero efecto de elevación */
+        }
+        
+        .dashboard-button:active {
+             transform: translateY(0px); /* Efecto de presionado */
+        }
+
+        /* --- NUEVO ESTILO --- */
+        .card-button-container {
+        text-align: center; /* Centra el botón dentro de la tarjeta */
+        margin-top: auto;  /* ¡Este es el cambio clave! Empuja el botón hacia abajo */
+        padding-top: 15px; /* Añade espacio sobre el botón (antes era margin-top) */
+        padding-bottom: 5px; /* Mantiene espacio inferior */
+        flex-shrink: 0; /* Evita que el contenedor del botón se encoja */
+    }
+
+        /* Añadir algo de padding inferior a las tarjetas si se ve muy pegado */
+        .dimension-card {
+        /* --- Estilos existentes --- */
+        background-color: var(--panel-bg-color); /* Ejemplo, mantén tus estilos */
+        border: 1px solid var(--primary-color-dark); /* Ejemplo */
+        border-radius: var(--border-radius-sm); /* Ejemplo */
+        padding: var(--spacing-md); /* Ejemplo */
+        box-shadow: var(--shadow-sm); /* Ejemplo */
+        transition: all var(--transition-normal); /* Ejemplo */
+        padding-bottom: 15px; /* Ejemplo */
+
+        /* --- Nuevos estilos Flexbox --- */
+        display: flex;            /* Convierte la tarjeta en contenedor flex */
+        flex-direction: column; /* Organiza el contenido verticalmente */
+        flex: 1; /* Permite que las tarjetas compartan el espacio horizontal */
+        /* Asegúrate de que no haya una altura fija que impida el estiramiento */
+    }
+
+    </style>
 </head>
 <body class="military-theme">
-    <!-- Navegación con Stepper -->
     <div class="navigation-container">
         <button id="prevStep" class="nav-arrow" disabled aria-label="Paso Anterior">←</button>
-        <progress-stepper 
-            current-step="1" 
-            total-steps="5" 
+        <progress-stepper
+            current-step="1"
+            total-steps="5"
             steps='["Análisis Exploratorio", "Ciclo 1: Análisis", "Ciclo 1: Evaluación", "Ciclo 2: Análisis", "Ciclo 2: Evaluación"]'>
         </progress-stepper>
         <button id="nextStep" class="nav-arrow" aria-label="Siguiente Paso">→</button>
     </div>
 
-    <!-- Encabezado -->
     <div class="military-header">
         <div class="military-header-container">
             <div class="military-header-content">
@@ -36,7 +156,6 @@
         </div>
     </div>
 
-    <!-- Contenido principal -->
     <div class="container military-container">
         <div class="intel-box">
             <h2 class="intel-heading">ANÁLISIS EXPLORATORIO DE DIMENSIONES</h2>
@@ -44,53 +163,39 @@
                 <div class="intel-section">
                     <h3 class="section-title">RESUMEN EJECUTIVO</h3>
                     <p class="intel-text">
-                        Este análisis proporciona información crítica para las decisiones de inversión en operaciones estratégicas 
-                        basadas en las 7 dimensiones clave: Geografía, Seguridad, Salud, Infraestructura, 
-                        Alimentación, Educación y Desarrollo Económico. La inteligencia territorial integrada permite decisiones 
+                        Este análisis proporciona información crítica para las decisiones de inversión en operaciones estratégicas
+                        basadas en las 7 dimensiones clave: Geografía, Seguridad, Salud, Infraestructura,
+                        Alimentación, Educación y Desarrollo Económico. La inteligencia territorial integrada permite decisiones
                         óptimas para maximizar el impacto estratégico y social de los recursos disponibles.
                     </p>
                 </div>
-                
-                <!-- Visualización territorial -->
+
                 <div class="intel-section">
                     <h3 class="section-title">VISUALIZACIÓN TERRITORIAL</h3>
-                    <!-- Sistema de pestañas para step1.html -->
                     <div id="mapViewerContainer">
                         <div class="map-title-container">
                             <span>VISUALIZACIÓN TERRITORIAL ESTRATÉGICA</span>
                             <span class="map-status-indicator">CARGANDO...</span>
                         </div>
-                        
-                        <!-- Barra de pestañas -->
                         <div class="tabs-container">
                             <div class="tabs-header">
                                 <button class="tab-button active" data-tab="map-tab">MAPA TERRITORIAL</button>
                                 <button class="tab-button" data-tab="algebra-tab">ANALISIS MULTIDIMENSIONAL</button>
                             </div>
-                            
-                            <!-- Contenido de pestañas -->
                             <div class="tab-content-container">
-                                <!-- Pestaña del mapa (contenido original) -->
                                 <div id="map-tab" class="tab-content active">
                                     <div class="tab-toolbar">
-                                        <button class="fullscreen-button" data-target="map-tab">
-                                            <span class="fullscreen-icon">⛶</span>
-                                        </button>
+                                        <button class="fullscreen-button" data-target="map-tab"><span class="fullscreen-icon">⛶</span></button>
                                     </div>
                                     <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
                                     <div id="arcgisMap" style="height: 500px; width: 100%;"></div>
                                 </div>
-                                
-                                <!-- Pestaña de álgebra de mapas (nuevo contenido) -->
                                 <div id="algebra-tab" class="tab-content">
                                     <div class="tab-toolbar">
-                                        <button class="fullscreen-button" data-target="algebra-tab">
-                                            <span class="fullscreen-icon">⛶</span>
-                                        </button>
+                                        <button class="fullscreen-button" data-target="algebra-tab"><span class="fullscreen-icon">⛶</span></button>
                                     </div>
                                     <div class="fullscreen-indicator">MODO PANTALLA COMPLETA - Presione ESC para salir</div>
                                     <div id="algebraDinamicaContainer" style="height: 500px; width: 100%;">
-                                        <!-- Aquí se cargará el contenido de AlgebraDinámica dinámicamente -->
                                         <iframe id="algebraFrame" style="width: 100%; height: 100%; border: none;" src="AlgebraDinamica/index.html"></iframe>
                                     </div>
                                 </div>
@@ -99,103 +204,185 @@
                     </div>
                 </div>
 
-                <!-- Dimensiones -->
                 <div class="intel-section dimensions-analysis">
                     <h3 class="section-title">VARIABLES DE ANÁLISIS DISPONIBLES</h3>
-                    
-                    <div class="dimension-cards">
-                        <div class="dimension-card">
+
+                    <div class="dimension-cards"> <div class="dimension-card">
                             <div class="dimension-header">
                                 <div class="dimension-icon">🔒</div>
                                 <div class="dimension-title">SEGURIDAD</div>
                             </div>
-                            <ul class="dimension-variables">
-                                <li>Homicidios</li>
-                                <li>Lesiones personales</li>
-                                <li>Terrorismo</li>
-                                <li>Extorsión</li>
-                                <li>Delitos sexuales</li>
-                                <li>Minas antipersona</li>
-                                <li>Estaciones de Policía</li>
-                                <li>Cultivos ilícitos</li>
-                                <li>Narcotráfico (proximidad a puerto)</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="dimension-card">
+                            <div class="dimension-variables">
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">1. Violencia directa y homicidios</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Homicidios</li>
+                                            <li>Homicidios por accidente de tránsito</li>
+                                            <li>Lesiones Personales</li>
+                                            <li>Lesiones por accidentes de tránsito</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">2. Economía criminal y grupos armados</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Incautación Cocaína</li>
+                                            <li>Incautación Base de Coca</li>
+                                            <li>Incautación Basuco</li>
+                                            <li>Incautación de armas de fuego</li>
+                                            <li>Minas Antipersona</li>
+                                            <li>Minas Intervenidas</li>
+                                            <li>Capturas en minería ilegal</li>
+                                            <li>Grupos armados organizados</li>
+                                            <li>Presencia de áreas base</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">3. Criminalidad común y convivencia</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Delitos Sexuales</li>
+                                            <li>Extorsión y secuestro</li>
+                                            <li>Estaciones de policia</li>
+                                            <li>Abigeato</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">4. Factores emergentes y estructurales</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Migración irregular y tráfico de migrantes</li>
+                                            <li>Violencia terrorista (atentados)</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div> <div class="card-button-container">
+                                 <a href="https://geospatialcenter.bd.esri.com/portal/apps/dashboards/4ebe6b565ac14f23b4ddb796721e6c7d" target="_blank" class="dashboard-button">SEGURIDAD DASHBOARD</a>
+                            </div>
+                        </div> <div class="dimension-card">
                             <div class="dimension-header">
                                 <div class="dimension-icon">💼</div>
                                 <div class="dimension-title">DESARROLLO</div>
                             </div>
-                            <ul class="dimension-variables">
-                                <li>Acueducto y Alcantarillado</li>
-                                <li>Energía Eléctrica</li>
-                                <li>Alfabetismo</li>
-                                <li>Nivel de Educación</li>
-                                <li>Desnutrición aguda</li>
-                                <li>Tasa de ocupación</li>
-                                <li>Internet</li>
-                                <li>Gas</li>
-                                <li>Bajo peso al nacer</li>
-                                <li>Cantidad de hoteles</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="dimension-card">
+                            <div class="dimension-variables">
+                                 <details class="subcategory-details">
+                                     <summary class="subcategory-summary">1. Infraestructura Básica</summary>
+                                     <div class="subcategory-variables-container">
+                                         <ul class="subcategory-variables">
+                                            <li>Acueducto y Alcantarillado</li>
+                                            <li>Energía Eléctrica</li>
+                                            <li>Gas</li>
+                                            <li>Internet</li>
+                                         </ul>
+                                     </div>
+                                </details>
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">2. Riesgos Ambientales</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Amenaza por Deslizamiento de tierras</li>
+                                            <li>Alertas por Amenazas Hidrológicas</li>
+                                            <li>Alertas por incendios Vegetales</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">3. Desarrollo Humano</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Alfabetismo</li>
+                                            <li>Nivel de Educación</li>
+                                            <li>Bajo peso al nacer</li>
+                                            <li>Desnutrición aguda</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                 <details class="subcategory-details">
+                                    <summary class="subcategory-summary">4. Factores emergentes y estructurales</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Tasa de Ocupación</li>
+                                            <li>IPM - Pobreza Multidimensional</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div> <div class="card-button-container">
+                                  <a href="YOUR_LINK_HERE_DESARROLLO" target="_blank" class="dashboard-button">DESARROLLO DASHBOARD</a>
+                            </div>
+                         </div> <div class="dimension-card">
                             <div class="dimension-header">
                                 <div class="dimension-icon">🏛️</div>
                                 <div class="dimension-title">GOBERNABILIDAD</div>
                             </div>
-                            <ul class="dimension-variables">
-                                <li>Instituciones de salud</li>
-                                <li>Instituciones educativas</li>
-                                <li>Censo Vivienda</li>
-                                <li>Consejos Comunitarios Negros</li>
-                                <li>Reservas indígenas</li>
-                                <li>Áreas protegidas</li>
-                                <li>Límites administrativos</li>
-                                <li>Desarrollo turístico</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Estado actual sin mencionar PEMSITIM -->
-                <div class="intel-section status-summary">
+                            <div class="dimension-variables">
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">1. Infraestructura Institucional</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Instituciones de Salud</li>
+                                            <li>Instituciones Educativas</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details class="subcategory-details">
+                                     <summary class="subcategory-summary">2. Gestión Territorial y Social</summary>
+                                     <div class="subcategory-variables-container">
+                                         <ul class="subcategory-variables">
+                                            <li>Censo Poblacional</li>
+                                            <li>Comunidades Negras</li>
+                                            <li>Reservas Indígenas</li>
+                                            <li>Áreas Protegidas</li>
+                                         </ul>
+                                     </div>
+                                </details>
+                                <details class="subcategory-details">
+                                    <summary class="subcategory-summary">3. Planeación y desarrollo local</summary>
+                                    <div class="subcategory-variables-container">
+                                        <ul class="subcategory-variables">
+                                            <li>Desarrollo turístico (prestadores servicios formales)</li>
+                                            <li>Hoteles</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div> <div class="card-button-container">
+                                 <a href="YOUR_LINK_HERE_GOBERNABILIDAD" target="_blank" class="dashboard-button">GOBERNABILIDAD DASHBOARD</a>
+                            </div>
+                        </div> </div> </div> <div class="intel-section status-summary">
                     <h3 class="section-title">ESTADO ACTUAL DEL TERRITORIO</h3>
                     <div class="dimension-bars">
                         <div class="dimension-bar-container">
                             <div class="bar-label">Seguridad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="68.83"></div>
+                                <div class="bar-inner" data-value="50.22"></div>
                             </div>
-                            <div class="bar-value">68.83%</div>
+                            <div class="bar-value">50.22%</div>
                         </div>
                         <div class="dimension-bar-container">
                             <div class="bar-label">Desarrollo</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="42.60"></div>
+                                <div class="bar-inner" data-value="50.73"></div>
                             </div>
-                            <div class="bar-value">42.60%</div>
+                            <div class="bar-value">50.73%</div>
                         </div>
                         <div class="dimension-bar-container">
                             <div class="bar-label">Gobernabilidad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="25.04"></div>
+                                <div class="bar-inner" data-value="38.89"></div>
                             </div>
-                            <div class="bar-value">25.04%</div>
+                            <div class="bar-value">38.89%</div>
                         </div>
                         <div class="dimension-bar-container total-index">
                             <div class="bar-label">Expectativa de Vida</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="68.00"></div>
-                            </div>
-                            <div class="bar-value">68.00 años</div>
-                        </div>
+                                <div class="bar-inner" data-value="68.00"></div> </div>
+                            <div class="bar-value">68.00 años</div> </div>
                     </div>
                 </div>
 
-                <!-- Próximos pasos -->
                 <div class="intel-section">
                     <h3 class="section-title">PRÓXIMOS PASOS</h3>
                     <div class="next-steps">
@@ -213,19 +400,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="intel-footer">
+            </div> <div class="intel-footer">
                 <div class="intel-stamp">CONFIDENCIAL</div>
                 <button id="proceed-button" class="military-button">PROCEDER A DESPLIEGUE</button>
             </div>
-        </div>
-    </div>
+        </div> </div> <div id="statusMessage" class="status-message"></div>
 
-    <!-- Mensajes de estado -->
-    <div id="statusMessage" class="status-message"></div>
-
-    <!-- Pie de página -->
     <footer class="military-footer">
         <div class="footer-content">
             <div class="military-stamp">CONFIDENCIAL</div>
@@ -233,63 +413,78 @@
         </div>
     </footer>
 
-    <!-- Script principal que carga módulos -->
     <script src="main.js"></script>
-    
-    <!-- Componentes web personalizados -->
     <script src="js/components/progress-stepper.js"></script>
-    
-    <!-- Script para mapa estático si es necesario -->
     <script src="js/components/map-viewer.js"></script>
-    
-    <!-- Script para pestañas -->
     <script src="js/tabs.js"></script>
-
     <script src="js/sierra-nevada-modal.js"></script>
-    
+
     <script>
-        // Script directo para animar las barras PEMSITIM
+        // Script directo para animar las barras
         document.addEventListener('DOMContentLoaded', function() {
             // Esperar a que todo esté cargado
             setTimeout(function() {
-                console.log("Iniciando animación directa de barras PEMSITIM");
-                
-                // Obtener todas las barras internas
+                console.log("Iniciando animación directa de barras");
                 const bars = document.querySelectorAll('.bar-inner');
-                
                 bars.forEach(bar => {
-                    // Obtener el valor del atributo data-value
                     const value = parseFloat(bar.getAttribute('data-value'));
-                    
                     if (!isNaN(value)) {
-                        // Asignar clase según el valor
                         const container = bar.closest('.dimension-bar-container');
-                        if (value < 30) {
-                            container.classList.add('level-low');
-                        } else if (value < 60) {
-                            container.classList.add('level-medium');
-                        } else {
-                            container.classList.add('level-high');
+                        if (container) {
+                            if (value < 40) container.classList.add('level-low');
+                            else if (value < 60) container.classList.add('level-medium');
+                            else container.classList.add('level-high');
                         }
-                        
-                        // Animar la barra
-                        setTimeout(() => {
-                            bar.style.width = `${value}%`;
-                        }, 300);
+                        // Animar barra de porcentaje
+                        const barElement = container.querySelector('.bar-inner');
+                        if(barElement) setTimeout(() => { barElement.style.width = `${value}%`; }, 300); // Animar barra de porcentaje
                     }
                 });
 
-                // Calcular expectativa de vida basada en el índice
-                // EV(IndiceCompuesto) = 68 + (85 - 68) * IndiceCompuesto/100
-                const indiceCompuesto = 46.946; // Usando el valor original
-                const expectativaVida = 68 + (85 - 68) * (indiceCompuesto / 100);
-                
-                // Actualizar el valor mostrado para Expectativa de Vida
-                const evValue = document.querySelector('.total-index .bar-value');
-                if (evValue) {
-                    evValue.textContent = expectativaVida.toFixed(2) + ' años';
+                // Calcular y actualizar expectativa de vida dinámicamente
+                const segValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(1) .bar-inner')?.getAttribute('data-value') ?? 0);
+                const desValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(2) .bar-inner')?.getAttribute('data-value') ?? 0);
+                const gobValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(3) .bar-inner')?.getAttribute('data-value') ?? 0);
+
+                // Asegúrate que los pesos sumen 1 (ajusta según tu modelo)
+                const pesoSeg = 0.4;
+                const pesoDes = 0.25;
+                const pesoGob = 0.35; // Ajuste ligero para sumar 1
+
+                const indiceCompuesto = (segValue * pesoSeg) + (desValue * pesoDes) + (gobValue * pesoGob);
+
+                const expectativaVidaMin = 68; // Valor mínimo
+                const expectativaVidaMax = 85; // Valor máximo teórico al 100% del índice
+                const expectativaVidaCalculada = expectativaVidaMin + (expectativaVidaMax - expectativaVidaMin) * (indiceCompuesto / 100);
+
+                const evContainer = document.querySelector('.dimension-bar-container.total-index');
+                if (evContainer) {
+                    const evValueElement = evContainer.querySelector('.bar-value');
+                    const evBarElement = evContainer.querySelector('.bar-inner');
+                    const evPercentage = ((expectativaVidaCalculada - expectativaVidaMin) / (expectativaVidaMax - expectativaVidaMin)) * 100; // % relativo al rango
+
+                    if (evValueElement) evValueElement.textContent = expectativaVidaCalculada.toFixed(2) + ' años';
+                    if (evBarElement) {
+                        evBarElement.setAttribute('data-value', evPercentage.toFixed(2)); // Guardar el % relativo
+                         // Animar barra de expectativa de vida
+                         setTimeout(() => { evBarElement.style.width = `${evPercentage}%`; }, 300);
+                        // Aplicar clase de color si es necesario (opcional)
+                        if (evPercentage < 30) evContainer.classList.add('level-low');
+                        else if (evPercentage < 60) evContainer.classList.add('level-medium');
+                        else evContainer.classList.add('level-high');
+                    }
                 }
-            }, 1000);
+
+            }, 1000); // Delay para asegurar que todo esté renderizado
+
+            // Establecer fecha actual en el footer
+            const dateElement = document.getElementById('currentDate');
+             if (dateElement) {
+                 const today = new Date();
+                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                 // Usar 'es-CO' para formato colombiano si se prefiere
+                 dateElement.textContent = today.toLocaleDateString('es-ES', options); // Formato Español general
+            }
         });
     </script>
 </body>
