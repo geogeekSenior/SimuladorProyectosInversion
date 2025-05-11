@@ -52,6 +52,9 @@
         // Inicializar componentes si están disponibles
         initializeComponents();
         
+        // NUEVO: Renderizar lista de proyectos seleccionados
+        renderizarProyectosSeleccionados();
+        
         // Marcar como inicializado
         state.initialized = true;
         
@@ -86,6 +89,14 @@
         
         // Escuchar cuando se seleccione un proyecto desde la UI
         document.addEventListener('click', handleProjectClick);
+            document.addEventListener('horizonte:proyectoEliminado', function(event) {
+        renderizarProyectosSeleccionados();
+        });
+        
+        // NUEVO: Escuchar evento de proyecto seleccionado para actualizar la lista
+        document.addEventListener('horizonte:proyectoSeleccionado', function(event) {
+            renderizarProyectosSeleccionados();
+        });
     }
     
     /**
@@ -108,10 +119,6 @@
         }
     }
     
-    /**
-     * Maneja el evento de clic en proyectos
-     * @param {Event} event - Evento de clic
-     */
     function handleProjectClick(event) {
         const projectItem = event.target.closest('.project-item');
         if (!projectItem) return;
@@ -130,6 +137,9 @@
         // Obtener ID y nombre del proyecto
         const proyectoId = parseInt(projectItem.dataset.id);
         const proyectoNombre = projectItem.dataset.nombre;
+        
+        // NUEVO: Sincronizar estado de proyectos
+        sincronizarEstadoProyectos();
         
         // Buscar el proyecto completo
         if (HORIZONTE.mapScene && HORIZONTE.mapScene.getProyectos) {
@@ -349,8 +359,7 @@
             selectionPanel.remove();
         }
         
-        // Mostrar mensaje de operación cancelada
-        mostrarMensajeEstado("Operación de despliegue cancelada", "warning", 2000);
+   
     }
     
     /**
@@ -430,6 +439,13 @@
      * @param {number} duracion - Duración en milisegundos
      */
     function mostrarMensajeEstado(mensaje, tipo, duracion = config.timeoutMensaje) {
+        // En lugar de la implementación original, usar la función centralizada
+        if (window.HORIZONTE && HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
+            HORIZONTE.utils.showStatusMessage(mensaje, tipo, duracion);
+            return;
+        }
+        
+        // Fallback a la implementación original si utils no está disponible
         const statusMessage = document.getElementById('statusMessage');
         if (!statusMessage) return;
         
@@ -504,7 +520,8 @@
     }
     
     /**
-     * Renderiza la lista de proyectos
+     * Renderiza la lista de proyectos disponibles
+     * Versión optimizada para la nueva interfaz estática
      * @param {Array} proyectos - Lista de proyectos a renderizar
      */
     function renderizarProyectos(proyectos) {
@@ -518,6 +535,12 @@
         
         console.log("Elemento projectList encontrado, limpiando contenido anterior");
         projectListDiv.innerHTML = '';
+        
+        // Ocultar indicador de carga
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+        }
         
         // Verificar si hay proyectos para renderizar
         if (proyectos.length === 0) {
@@ -582,16 +605,31 @@
                     };
                 
                 // Contenido militar para el proyecto
-                projectDiv.innerHTML = `
+                let contenido = `
                     <h3>${proyecto.attributes.proyecto}</h3>
                     <div class="project-details">
                         <span class="project-cost">Recursos: $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
                         <span class="project-status">
-                            ${yaUtilizado ? `<span class="excede-presupuesto">${textos.alreadySelectedWarning}</span>` : ''}
-                            ${superaPresupuesto && !yaUtilizado ? `<span class="excede-presupuesto">${textos.lowBudgetWarning}</span>` : ''}
+                            ${!yaUtilizado && superaPresupuesto ? `<span class="excede-presupuesto">${textos.lowBudgetWarning}</span>` : ''}
                         </span>
                     </div>
                 `;
+                
+                // Si está ya utilizado, ajustamos el estilo pero no añadimos el botón (eso va en la otra lista)
+                if (yaUtilizado) {
+                    projectDiv.classList.add('used-project');
+                    contenido = `
+                        <h3>${proyecto.attributes.proyecto}</h3>
+                        <div class="project-details">
+                            <span class="project-cost">Recursos: $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
+                            <span class="project-status">
+                                <span class="proyecto-desplegado">${textos.alreadySelectedWarning}</span>
+                            </span>
+                        </div>
+                    `;
+                }
+                
+                projectDiv.innerHTML = contenido;
                 
                 // Manejador de eventos para click
                 const handleProyectoClick = (event) => {
@@ -665,7 +703,245 @@
     function getProyectosSeleccionados() {
         return state.proyectosSeleccionados;
     }
+    /**
+     * Elimina un proyecto seleccionado y actualiza todos los componentes
+     * @param {number} proyectoId - ID del proyecto a eliminar
+     * @returns {boolean} True si se eliminó correctamente
+     */
+    function eliminarProyecto(proyectoId) {
+        // Buscar el proyecto en la lista de seleccionados
+        const proyectoIndex = state.proyectosSeleccionados.findIndex(p => p.id === proyectoId);
+        
+        if (proyectoIndex === -1) {
+            mostrarMensajeEstado(`No se encontró el proyecto con ID ${proyectoId}`, "error");
+            return false;
+        }
+        
+        // Obtener datos del proyecto antes de eliminarlo
+        const proyecto = state.proyectosSeleccionados[proyectoIndex];
+        const nombreProyecto = proyecto.proyecto;
+        const valorInversion = proyecto.valor;
+        
+        // 1. Eliminar de la lista de proyectos seleccionados
+        state.proyectosSeleccionados.splice(proyectoIndex, 1);
+        
+        // 2. Liberar el proyecto para reutilización
+        state.proyectosUsados.delete(proyectoId);
+        
+        // 3. Verificar si hay otros proyectos con el mismo nombre aún seleccionados
+        const otrosProyectosMismoNombre = state.proyectosSeleccionados.some(p => 
+            p.proyecto.toLowerCase() === nombreProyecto.toLowerCase()
+        );
+        
+        // Si no hay otros proyectos con el mismo nombre, liberar el nombre para reutilización
+        if (!otrosProyectosMismoNombre) {
+            state.proyectosNombresUsados.delete(nombreProyecto.toLowerCase());
+        }
+        
+        // 4. Actualizar presupuesto (reintegrar valor del proyecto)
+        actualizarPresupuestoGlobal(state.presupuestoDisponible + valorInversion);
+        
+        // 5. Actualizar visualización de proyectos en la UI
+        const projectDivs = document.querySelectorAll(`.project-item[data-nombre="${nombreProyecto.toLowerCase()}"]`);
+        projectDivs.forEach(div => {
+            // Solo habilitar si no hay otros proyectos con el mismo nombre
+            if (!otrosProyectosMismoNombre) {
+                div.classList.remove('disabled');
+                div.removeAttribute('disabled');
+                div.dataset.usado = 'false';
+            }
+        });
+        
+        // 6. Eliminar el punto del mapa
+        if (HORIZONTE.mapScene && HORIZONTE.mapScene.eliminarPuntoProyecto) {
+            HORIZONTE.mapScene.eliminarPuntoProyecto(proyectoId);
+        }
+        
+        // 7. Eliminar del FeatureSet
+        if (window.miFeatureSet) {
+            window.miFeatureSet.eliminarFeature(proyectoId);
+        }
+        
+        // 8. Disparar evento de proyecto eliminado
+        document.dispatchEvent(new CustomEvent('horizonte:proyectoEliminado', {
+            detail: {
+                proyectoId,
+                nombreProyecto,
+                valorInversion
+            }
+        }));
+        
+        // 9. Mostrar mensaje de éxito
+        mostrarMensajeEstado(`Operación ${nombreProyecto} eliminada exitosamente. $${valorInversion.toLocaleString()} recuperados.`, "success");
+        
+        return true;
+    }
     
+    /**
+     * Renderiza la lista de proyectos seleccionados con opción de eliminación
+     * Versión optimizada para la nueva interfaz estática
+     */
+    function renderizarProyectosSeleccionados() {
+        // Buscar el contenedor (que ahora ya existe en el HTML)
+        const selectedProjectsList = document.getElementById('selectedProjectsList');
+        
+        if (!selectedProjectsList) {
+            console.warn('No se encontró el contenedor para proyectos seleccionados');
+            return;
+        }
+        
+        // Limpiar lista actual
+        selectedProjectsList.innerHTML = '';
+        
+        // Obtener proyectos seleccionados
+        const proyectos = state.proyectosSeleccionados;
+        
+        // Actualizar contador de proyectos
+        const projectCounter = document.getElementById('projectCounter');
+        if (projectCounter) {
+            projectCounter.textContent = proyectos.length;
+        }
+        
+        if (proyectos.length === 0) {
+            // Mostrar mensaje si no hay proyectos seleccionados
+            selectedProjectsList.innerHTML = `
+                <div class="selected-projects-empty">
+                    No hay operaciones desplegadas actualmente
+                </div>
+            `;
+            return;
+        }
+        
+        // Crear elementos para cada proyecto seleccionado
+        proyectos.forEach(proyecto => {
+            const item = document.createElement('div');
+            item.className = 'selected-project-item';
+            item.dataset.id = proyecto.id;
+            
+            // Agregar clase para animar nuevos proyectos
+            if (proyecto.isNew) {
+                item.classList.add('new-project');
+                // Quitar la marca después de la animación
+                setTimeout(() => {
+                    proyecto.isNew = false;
+                    item.classList.remove('new-project');
+                }, 1500);
+            }
+            
+            item.innerHTML = `
+                <div class="selected-project-info">
+                    <div class="selected-project-name">${proyecto.proyecto}</div>
+                    <div class="selected-project-cost">$${proyecto.valor.toLocaleString()}</div>
+                </div>
+                <button class="delete-project-button" title="Eliminar operación">✕</button>
+            `;
+            
+            // Añadir event listener al botón de eliminación
+            const deleteButton = item.querySelector('.delete-project-button');
+            deleteButton.addEventListener('click', function(e) {
+                e.stopPropagation(); // Evitar propagación del evento
+                
+                // Mostrar confirmación antes de eliminar
+                confirmarEliminarProyecto(proyecto.id, proyecto.proyecto, proyecto.valor);
+            });
+            
+            selectedProjectsList.appendChild(item);
+        });
+    }
+
+    /**
+     * Muestra un diálogo de confirmación antes de eliminar un proyecto
+     * @param {number} id - ID del proyecto
+     * @param {string} nombre - Nombre del proyecto
+     * @param {number} valor - Valor del proyecto
+     */
+    function confirmarEliminarProyecto(id, nombre, valor) {
+        // Crear modal de confirmación
+        const modalContainer = document.createElement('div');
+        modalContainer.className = 'military-modal confirmation-modal';
+        
+        modalContainer.innerHTML = `
+            <div class="military-modal-content">
+                <div class="military-modal-header">
+                    <h2>CONFIRMAR ELIMINACIÓN</h2>
+                </div>
+                <div class="military-modal-body">
+                    <p>¿Está seguro que desea eliminar esta operación?</p>
+                    <div class="confirmation-details">
+                        <p><strong>Operación:</strong> ${nombre}</p>
+                        <p><strong>Recursos a recuperar:</strong> $${valor.toLocaleString()}</p>
+                    </div>
+                    <p class="confirmation-warning">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="military-modal-footer">
+                    <button id="cancelEliminar" class="military-button military-button-secondary">CANCELAR</button>
+                    <button id="confirmarEliminar" class="military-button military-button-danger">CONFIRMAR ELIMINACIÓN</button>
+                </div>
+            </div>
+        `;
+        
+        // Añadir al DOM
+        document.body.appendChild(modalContainer);
+        
+        // Mostrar con animación
+        setTimeout(() => {
+            modalContainer.style.opacity = '1';
+        }, 10);
+        
+        // Configurar botones
+        document.getElementById('cancelEliminar').addEventListener('click', () => {
+            // Animar cierre
+            modalContainer.style.opacity = '0';
+            setTimeout(() => {
+                modalContainer.remove();
+            }, 300);
+        });
+        
+        document.getElementById('confirmarEliminar').addEventListener('click', () => {
+            // Ejecutar eliminación
+            HORIZONTE.app.eliminarProyecto(id);
+            
+            // Cerrar modal
+            modalContainer.style.opacity = '0';
+            setTimeout(() => {
+                modalContainer.remove();
+            }, 300);
+        });
+    }
+    /**
+     * Sincroniza el estado de proyectos usados con los realmente seleccionados
+     * Esta función corrige inconsistencias en el estado
+     */
+    function sincronizarEstadoProyectos() {
+        // Crear un nuevo Set con los nombres de proyectos que realmente están seleccionados
+        const nombresReales = new Set();
+        state.proyectosSeleccionados.forEach(p => {
+            nombresReales.add(p.proyecto.toLowerCase());
+        });
+        
+        // Reemplazar el Set de nombres usados
+        state.proyectosNombresUsados = nombresReales;
+        
+        // También actualizamos el Set de IDs usados
+        const idsReales = new Set();
+        state.proyectosSeleccionados.forEach(p => {
+            idsReales.add(p.id);
+        });
+        
+        state.proyectosUsados = idsReales;
+        
+        console.log("Estado de proyectos sincronizado:", {
+            nombresUsados: Array.from(state.proyectosNombresUsados),
+            idsUsados: Array.from(state.proyectosUsados),
+            proyectosSeleccionados: state.proyectosSeleccionados.length
+        });
+    }
+    /**
+     * Función auxiliar para iniciar la eliminación desde eventos inline
+     */
+    function iniciarEliminarProyecto(id, nombre, valor) {
+        confirmarEliminarProyecto(id, nombre, valor);
+    }
     // Exponer funciones públicas
     HORIZONTE.app = {
         init,
@@ -679,6 +955,10 @@
         seleccionarUbicacion,
         cerrarModal,
         mostrarUbicacionesProyecto,
-        getProyectosSeleccionados
+        getProyectosSeleccionados,
+        eliminarProyecto,
+        renderizarProyectosSeleccionados,
+        confirmarEliminarProyecto,
+        iniciarEliminarProyecto
     };
     })(); // <-- Estos paréntesis son importantes para invocar inmediatamente la función

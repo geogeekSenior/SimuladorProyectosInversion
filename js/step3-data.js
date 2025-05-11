@@ -31,7 +31,7 @@ const impactConfig = {
     },
     // Configuración para cálculo de expectativa de vida
     expectativaVida: {
-        base: 68,
+        base: 61,
         maximo: 85
     }
 };
@@ -200,8 +200,8 @@ async function initializeInterface() {
             
             // Valores de indicadores demostrativos que coinciden con la imagen
             valorSeguridad = 6.90;
-            valorDesarrollo = 4.29;
-            valorGobernabilidad = 2.52;
+            valorDesarrollo = 5.29;
+            valorGobernabilidad = 4.52;
             
             // Proyectos de demo
             const proyectosDemo = [

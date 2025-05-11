@@ -5,10 +5,10 @@
 
 // Valores de línea base (valores iniciales antes de las intervenciones)
 const baselineValues = {
-    seguridad: 5.0226,    // Valores iniciales (divididos por 10 para escala correcta)
-    desarrollo: 5.0734,
-    gobernabilidad: 3.8899,
-    total: 4.6388           // Total calculado como: (6.883*0.4 + 4.260*0.25 + 2.504*0.35)
+    seguridad: 6.7670,    // Valores iniciales (divididos por 10 para escala correcta)
+    desarrollo: 6.8356,
+    gobernabilidad: 5.2400,
+    total: 6.25           // Total calculado como: (6.883*0.4 + 4.260*0.25 + 2.504*0.35)
 };
 
 // Configuración para evaluación de impacto
@@ -31,7 +31,7 @@ const impactConfig = {
     },
     // Configuración para cálculo de expectativa de vida
     expectativaVida: {
-        base: 68,
+        base: 61,
         maximo: 85
     }
 };
@@ -199,9 +199,9 @@ async function initializeInterface() {
             totalInversion = 5280;
             
             // Valores de indicadores demostrativos que coinciden con la imagen
-            valorSeguridad = 6.90;
-            valorDesarrollo = 4.29;
-            valorGobernabilidad = 2.52;
+             valorSeguridad = 7.50;  
+            valorDesarrollo = 7.00; 
+            valorGobernabilidad = 5.50;
             
             // Proyectos de demo
             const proyectosDemo = [

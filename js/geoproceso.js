@@ -29,7 +29,7 @@ function createGeoprocessor(config) {
     const geoprocessButton = document.createElement('button');
     geoprocessButton.id = options.buttonId;
     geoprocessButton.className = 'military-button';
-    geoprocessButton.innerHTML = '<span class="geo-icon">📊</span> EJECUTAR ANÁLISIS';
+    geoprocessButton.innerHTML = '<span class="geo-icon">📊</span>GENERAR INFORME';
     
     // Agregar eventos
     geoprocessButton.addEventListener('click', ejecutarGeoproceso);

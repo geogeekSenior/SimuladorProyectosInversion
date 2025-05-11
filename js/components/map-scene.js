@@ -310,7 +310,27 @@
             try {
                 // Si el nombre del proyecto ya está usado, no hacer nada
                 const nombreProyecto = proyecto.attributes.proyecto.toLowerCase();
-                if (state.proyectosNombresUsados.has(nombreProyecto)) {
+
+                // CAMBIO IMPORTANTE: Verificar si el proyecto está realmente en uso consultando a app.js
+                let proyectoEnUso = false;
+
+                // Usar getProyectosSeleccionados de app.js para verificar si el proyecto está realmente en uso
+                if (HORIZONTE.app && HORIZONTE.app.getProyectosSeleccionados) {
+                    const proyectosSeleccionados = HORIZONTE.app.getProyectosSeleccionados();
+                    proyectoEnUso = proyectosSeleccionados.some(p => 
+                        p.proyecto.toLowerCase() === nombreProyecto.toLowerCase()
+                    );
+                }
+
+                // Si detectamos localmente que está usado, pero app.js dice que no,
+                // corregimos nuestro estado local
+                if (state.proyectosNombresUsados.has(nombreProyecto) && !proyectoEnUso) {
+                    console.log(`Corrigiendo estado local en map-scene.js: ${nombreProyecto} no está en uso según app.js`);
+                    state.proyectosNombresUsados.delete(nombreProyecto);
+                }
+
+                // Sólo rechazar si realmente está en uso según app.js
+                if (proyectoEnUso) {
                     reject({
                         code: 'PROYECTO_USADO',
                         message: `Operación ${proyecto.attributes.proyecto} ya desplegada`
@@ -807,6 +827,54 @@
     function isInitialized() {
         return state.initialized;
     }
+    /**
+    * Elimina un punto de proyecto del mapa
+    * @param {number} proyectoId - ID del proyecto a eliminar
+    * @returns {boolean} True si se eliminó correctamente
+    */
+    function eliminarPuntoProyecto(proyectoId) {
+        if (!state.userPointsLayer) {
+            console.error("Capa de puntos no inicializada");
+            return false;
+        }
+        
+        try {
+            // Buscar y eliminar el gráfico correspondiente al proyectoId
+            const puntosEliminar = state.userPointsLayer.graphics.filter(graphic => 
+                graphic.attributes && graphic.attributes.objectid === proyectoId
+            );
+            
+            if (puntosEliminar.length === 0) {
+                console.warn(`No se encontró punto para el proyecto ID ${proyectoId}`);
+                return false;
+            }
+            
+            // Eliminar todos los gráficos que coincidan (punto y posibles etiquetas)
+            puntosEliminar.forEach(punto => {
+                state.userPointsLayer.remove(punto);
+            });
+            
+            // Buscar y eliminar etiquetas asociadas
+            const etiquetasEliminar = state.userPointsLayer.graphics.filter(graphic => 
+                graphic.attributes && 
+                graphic.attributes.id && 
+                graphic.attributes.id.includes(`label-${proyectoId}`)
+            );
+            
+            etiquetasEliminar.forEach(etiqueta => {
+                state.userPointsLayer.remove(etiqueta);
+            });
+            
+            // Eliminar del conjunto de proyectos usados
+            state.proyectosUsados.delete(proyectoId);
+            
+            console.log(`Punto del proyecto ID ${proyectoId} eliminado del mapa`);
+            return true;
+        } catch (error) {
+            console.error("Error al eliminar punto del proyecto:", error);
+            return false;
+        }
+    }
     
     // Exponer API pública
     HORIZONTE.mapScene = {
@@ -815,6 +883,7 @@
         mostrarUbicacionesProyecto,
         seleccionarUbicacion,
         clearLocationOptions,
-        isInitialized
+        isInitialized,
+        eliminarPuntoProyecto
     };
 })();

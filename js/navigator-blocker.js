@@ -187,35 +187,32 @@
     }
   
     // Muestra un mensaje de estado
-    function mostrarMensajeEstado(mensaje, tipo, duracion = 3000) {
-      // Usar el sistema de mensajes existente si está disponible
-      if (window.HORIZONTE && HORIZONTE.app && HORIZONTE.app.mostrarMensajeEstado) {
-        HORIZONTE.app.mostrarMensajeEstado(mensaje, tipo, duracion);
-        return;
+  function mostrarMensajeEstado(mensaje, tipo, duracion = 3000) {
+      // Usar sistema de mensajes centralizado si está disponible
+      if (window.HORIZONTE && HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
+          HORIZONTE.utils.showStatusMessage(mensaje, tipo, duracion);
+          return;
       }
       
-      // Verificar si existe el elemento de mensaje de estado
+      // Fallback si utils no está disponible
       let statusMessage = document.getElementById('statusMessage');
       if (!statusMessage) {
-        // Crear el elemento si no existe
-        statusMessage = document.createElement('div');
-        statusMessage.id = 'statusMessage';
-        statusMessage.className = 'status-message';
-        document.body.appendChild(statusMessage);
+          statusMessage = document.createElement('div');
+          statusMessage.id = 'statusMessage';
+          statusMessage.className = 'status-message';
+          document.body.appendChild(statusMessage);
       }
       
-      // Mostrar mensaje
       statusMessage.textContent = mensaje;
       statusMessage.className = `status-message status-${tipo}`;
       statusMessage.style.opacity = '1';
       statusMessage.style.transform = 'translateY(0)';
       
-      // Ocultar después del tiempo indicado
       setTimeout(() => {
-        statusMessage.style.opacity = '0';
-        statusMessage.style.transform = 'translateY(20px)';
+          statusMessage.style.opacity = '0';
+          statusMessage.style.transform = 'translateY(20px)';
       }, duracion);
-    }
+  }
   
     // Exponer funciones públicas
     window.navigatorBlocker = {

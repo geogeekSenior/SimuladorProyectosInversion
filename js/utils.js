@@ -31,6 +31,30 @@ class FeatureSet {
     }
     return { name: "Sin equipo", code: "0000-000000", createdAt: new Date().toISOString() };
   }
+  /**
+   * Elimina un feature del conjunto basado en su ID
+   * @param {number} id - ID del feature a eliminar
+   * @returns {boolean} True si se eliminó correctamente
+   */
+  eliminarFeature(id) {
+      const initialLength = this.features.length;
+      
+      // Filtrar features para eliminar el que coincide con el ID
+      this.features = this.features.filter(feature => 
+          !feature.attributes || feature.attributes.objectid !== id
+      );
+      
+      // Verificar si se eliminó algún feature
+      const eliminados = initialLength - this.features.length;
+      
+      if (eliminados > 0) {
+          console.log(`Feature ID ${id} eliminado del FeatureSet`);
+          return true;
+      } else {
+          console.warn(`No se encontró feature con ID ${id} en el FeatureSet`);
+          return false;
+      }
+  }
 
   /**
    * Añade un feature al conjunto con información del equipo
@@ -630,4 +654,162 @@ document.addEventListener('DOMContentLoaded', function() {
           'Código:', teamInfo.code);
       }
     });
+    
 });
+/**
+ * Gestor de mensajes de estado mejorado para la aplicación HORIZONTE
+ * Esta versión elimina completamente el elemento del DOM cuando no está visible
+ */
+
+(function() {
+    // Referencia al módulo original
+    const originalUtils = window.HORIZONTE.utils || {};
+    
+    // Variables privadas para el control de mensajes
+    let activeMessageTimer = null;
+    let messageQueue = [];
+    let isProcessingQueue = false;
+    
+    /**
+     * Muestra un mensaje de estado con gestión mejorada
+     * @param {string} message - Mensaje a mostrar
+     * @param {string} type - Tipo de mensaje ('success', 'warning', 'error', 'info')
+     * @param {number} duration - Duración en milisegundos
+     * @param {boolean} queued - Si debe encolarse cuando hay otro mensaje activo
+     */
+    function enhancedShowStatusMessage(message, type = 'info', duration = 3000, queued = true) {
+        // Si hay un mensaje activo y queremos encolar, agregarlo a la cola
+        if (activeMessageTimer && queued) {
+            messageQueue.push({ message, type, duration });
+            return;
+        }
+        
+        // Cancelar cualquier temporizador activo
+        if (activeMessageTimer) {
+            clearTimeout(activeMessageTimer);
+            activeMessageTimer = null;
+        }
+        
+        // Eliminar cualquier mensaje existente
+        const existingMessage = document.getElementById('statusMessage');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+        
+        // Crear un nuevo elemento para el mensaje
+        const statusMessage = document.createElement('div');
+        statusMessage.id = 'statusMessage';
+        statusMessage.className = `status-message status-${type}`;
+        statusMessage.textContent = message;
+        
+        // Inicialmente oculto para la animación
+        statusMessage.style.opacity = '0';
+        statusMessage.style.transform = 'translateY(20px)';
+        
+        // Agregar al DOM
+        document.body.appendChild(statusMessage);
+        
+        // Forzar un reflow antes de aplicar las transiciones
+        statusMessage.offsetHeight;
+        
+        // Mostrar el mensaje con animación
+        setTimeout(() => {
+            statusMessage.style.opacity = '1';
+            statusMessage.style.transform = 'translateY(0)';
+        }, 10);
+        
+        // Configurar el temporizador para ocultarlo y eliminarlo
+        activeMessageTimer = setTimeout(() => {
+            hideStatusMessage(() => {
+                // Eliminar completamente el elemento del DOM
+                const messageToRemove = document.getElementById('statusMessage');
+                if (messageToRemove) {
+                    messageToRemove.remove();
+                }
+                
+                activeMessageTimer = null;
+                processMessageQueue(); // Procesar el siguiente mensaje si existe
+            });
+        }, duration);
+    }
+    
+    /**
+     * Oculta el mensaje de estado actual
+     * @param {Function} callback - Función a llamar después de ocultar el mensaje
+     */
+    function hideStatusMessage(callback) {
+        const statusMessage = document.getElementById('statusMessage');
+        if (!statusMessage) {
+            if (callback) callback();
+            return;
+        }
+        
+        // Ocultar con animación
+        statusMessage.style.opacity = '0';
+        statusMessage.style.transform = 'translateY(20px)';
+        
+        // Esperar a que termine la transición
+        setTimeout(() => {
+            if (callback) callback();
+        }, 300); // La transición CSS dura 0.3s
+    }
+    
+    /**
+     * Fuerza la desaparición inmediata del mensaje actual y lo elimina del DOM
+     */
+    function forceHideStatusMessage() {
+        if (activeMessageTimer) {
+            clearTimeout(activeMessageTimer);
+            activeMessageTimer = null;
+        }
+        
+        const statusMessage = document.getElementById('statusMessage');
+        if (statusMessage) {
+            // Eliminar directamente sin animación
+            statusMessage.remove();
+        }
+        
+        // Procesar el siguiente mensaje después de un breve retraso
+        setTimeout(processMessageQueue, 50);
+    }
+    
+    /**
+     * Procesa el siguiente mensaje en la cola
+     * @private
+     */
+    function processMessageQueue() {
+        if (isProcessingQueue || messageQueue.length === 0) return;
+        
+        isProcessingQueue = true;
+        const nextMessage = messageQueue.shift();
+        
+        enhancedShowStatusMessage(
+            nextMessage.message, 
+            nextMessage.type, 
+            nextMessage.duration, 
+            false // No encolar para evitar recursión
+        );
+        
+        isProcessingQueue = false;
+    }
+    
+    /**
+     * Limpia la cola de mensajes pendientes
+     */
+    function clearMessageQueue() {
+        messageQueue = [];
+    }
+    
+    // Extender el objeto utils con las nuevas funciones
+    window.HORIZONTE.utils = {
+        ...originalUtils,
+        
+        // Reemplazar la función existente
+        showStatusMessage: enhancedShowStatusMessage,
+        
+        // Agregar nuevas funciones
+        hideStatusMessage: hideStatusMessage,
+        forceHideStatusMessage: forceHideStatusMessage,
+        clearMessageQueue: clearMessageQueue
+    };
+})();

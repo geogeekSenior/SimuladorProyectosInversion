@@ -222,7 +222,11 @@ HORIZONTE.team = (function() {
         }, 300);
     }
     
-    // Actualizar la UI con la información del equipo
+    /**
+     * Modificación de la función updateTeamInfo en team.js para arreglar problemas de visualización
+     */
+
+    // Esta función debe reemplazar la actual updateTeamInfo en team.js
     function updateTeamInfo() {
         // Verificar si ya existe el contenedor del encabezado
         let headerContainer = document.querySelector('.military-header-container');
@@ -234,14 +238,17 @@ HORIZONTE.team = (function() {
             
             if (militaryHeader) {
                 // Obtener el contenido actual del encabezado
-                const headerContent = militaryHeader.innerHTML;
+                const headerContent = militaryHeader.querySelector('.military-header-content') 
+                    ? militaryHeader.querySelector('.military-header-content').outerHTML 
+                    : `<div class="military-header-content">
+                        <div class="military-title">CENTRO DE COMANDO Y CONTROL</div>
+                        <div class="military-subtitle">SIMULADOR DE INVERSIONES ESTRATÉGICAS</div>
+                    </div>`;
                 
-                // Crear un nuevo contenedor
+                // Crear un nuevo contenedor con estructura mejorada
                 militaryHeader.innerHTML = `
                     <div class="military-header-container">
-                        <div class="military-header-content">
-                            ${headerContent}
-                        </div>
+                        ${headerContent}
                         <div class="team-info-display">
                             <div class="team-info-block">
                                 <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
@@ -261,10 +268,16 @@ HORIZONTE.team = (function() {
             }
         } else {
             // Si ya existe el contenedor, solo actualizamos la información del equipo
-            const teamInfoDisplay = headerContainer.querySelector('.team-info-display');
+            let teamInfoDisplay = headerContainer.querySelector('.team-info-display');
             
             if (teamInfoDisplay) {
-                teamInfoDisplay.innerHTML = `
+                // Remover el display actual y crear uno nuevo para evitar problemas de estilos
+                teamInfoDisplay.remove();
+                
+                // Crear nuevo elemento
+                const newTeamInfoDisplay = document.createElement('div');
+                newTeamInfoDisplay.className = 'team-info-display';
+                newTeamInfoDisplay.innerHTML = `
                     <div class="team-info-block">
                         <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
                         <div class="team-info-value">${state.teamName}</div>
@@ -273,6 +286,9 @@ HORIZONTE.team = (function() {
                     <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
                 `;
                 
+                // Añadir al contenedor
+                headerContainer.appendChild(newTeamInfoDisplay);
+                
                 // Configurar evento para el botón de logout
                 const logoutButton = document.getElementById('logoutButton');
                 if (logoutButton) {
@@ -280,7 +296,7 @@ HORIZONTE.team = (function() {
                 }
             } else {
                 // Si existe el contenedor pero no la info del equipo, la añadimos
-                headerContainer.insertAdjacentHTML('beforeend', `
+                const teamInfoHTML = `
                     <div class="team-info-display">
                         <div class="team-info-block">
                             <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
@@ -289,7 +305,10 @@ HORIZONTE.team = (function() {
                         </div>
                         <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
                     </div>
-                `);
+                `;
+                
+                // Añadir al final del contenedor
+                headerContainer.insertAdjacentHTML('beforeend', teamInfoHTML);
                 
                 // Configurar evento para el botón de logout
                 const logoutButton = document.getElementById('logoutButton');
