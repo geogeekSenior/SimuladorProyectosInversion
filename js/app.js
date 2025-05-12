@@ -856,24 +856,28 @@
      * @param {number} valor - Valor del proyecto
      */
     function confirmarEliminarProyecto(id, nombre, valor) {
-        // Crear modal de confirmación
+        // Crear modal de confirmación con estilos militares
         const modalContainer = document.createElement('div');
-        modalContainer.className = 'military-modal confirmation-modal';
+        modalContainer.className = 'team-modal'; // Usar la misma clase base que otros modales
+        modalContainer.id = 'confirmationModal';
         
         modalContainer.innerHTML = `
-            <div class="military-modal-content">
-                <div class="military-modal-header">
+            <div class="team-modal-content confirmation-modal-content">
+                <div class="team-modal-header">
                     <h2>CONFIRMAR ELIMINACIÓN</h2>
                 </div>
-                <div class="military-modal-body">
-                    <p>¿Está seguro que desea eliminar esta operación?</p>
+                <div class="team-modal-body">
+                    <p class="confirmation-question">¿Está seguro que desea eliminar esta operación?</p>
                     <div class="confirmation-details">
                         <p><strong>Operación:</strong> ${nombre}</p>
                         <p><strong>Recursos a recuperar:</strong> $${valor.toLocaleString()}</p>
                     </div>
-                    <p class="confirmation-warning">Esta acción no se puede deshacer.</p>
+                    <p class="confirmation-warning">
+                        <span class="warning-icon">⚠</span>
+                        Esta acción no se puede deshacer.
+                    </p>
                 </div>
-                <div class="military-modal-footer">
+                <div class="team-modal-footer">
                     <button id="cancelEliminar" class="military-button military-button-secondary">CANCELAR</button>
                     <button id="confirmarEliminar" class="military-button military-button-danger">CONFIRMAR ELIMINACIÓN</button>
                 </div>
@@ -884,6 +888,9 @@
         document.body.appendChild(modalContainer);
         
         // Mostrar con animación
+        modalContainer.style.display = 'flex';
+        modalContainer.style.opacity = '0';
+        
         setTimeout(() => {
             modalContainer.style.opacity = '1';
         }, 10);
@@ -899,7 +906,7 @@
         
         document.getElementById('confirmarEliminar').addEventListener('click', () => {
             // Ejecutar eliminación
-            HORIZONTE.app.eliminarProyecto(id);
+            eliminarProyecto(id);
             
             // Cerrar modal
             modalContainer.style.opacity = '0';
@@ -907,6 +914,18 @@
                 modalContainer.remove();
             }, 300);
         });
+        
+        // Cerrar con ESC
+        const handleEscKey = (e) => {
+            if (e.key === 'Escape') {
+                modalContainer.style.opacity = '0';
+                setTimeout(() => {
+                    modalContainer.remove();
+                }, 300);
+                document.removeEventListener('keydown', handleEscKey);
+            }
+        };
+        document.addEventListener('keydown', handleEscKey);
     }
     /**
      * Sincroniza el estado de proyectos usados con los realmente seleccionados

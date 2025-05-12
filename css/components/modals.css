@@ -382,3 +382,167 @@
     max-height: 80vh;
   }
 }
+/* Modal de confirmación de eliminación */
+.confirmation-modal-content {
+    max-width: 500px;
+    width: 90%;
+}
+
+.confirmation-question {
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.confirmation-details {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-left: 4px solid var(--primary-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--border-radius-sm);
+}
+
+.confirmation-details p {
+    margin: var(--spacing-sm) 0;
+    font-family: var(--font-monospace);
+    color: var(--text-color);
+    font-size: var(--font-size-md);
+}
+
+.confirmation-details strong {
+    color: var(--primary-color);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+}
+
+.confirmation-warning {
+    color: var(--error-color);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    font-family: var(--font-monospace);
+    letter-spacing: var(--letter-spacing-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.warning-icon {
+    font-size: var(--font-size-xl);
+    color: var(--warning-color);
+}
+
+/* Actualización de botones militares específicos para el modal */
+.military-button-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-family: var(--font-monospace);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--primary-color-dark);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.military-button-secondary:hover {
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(26, 58, 110, 0.5);
+}
+
+.military-button-danger {
+    background-color: var(--error-color);
+    color: var(--text-color);
+    font-family: var(--font-monospace);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid #ac1c1c;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.military-button-danger:hover {
+    background-color: #ac1c1c;
+    box-shadow: 0 0 10px rgba(172, 28, 28, 0.5);
+    border-color: #ff4444;
+}
+
+/* Header específico para confirmación */
+.team-modal-content.confirmation-modal-content .team-modal-header {
+    background-color: var(--error-color);
+    border-bottom: 2px solid #ac1c1c;
+}
+
+.team-modal-content.confirmation-modal-content .team-modal-header h2 {
+    color: var(--text-color);
+    font-family: var(--font-monospace);
+    letter-spacing: var(--letter-spacing-wider);
+    font-size: var(--font-size-lg);
+}
+
+/* Animación de entrada para el modal */
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.team-modal-content.confirmation-modal-content {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+/* Footer específico para modal de confirmación */
+.team-modal-content.confirmation-modal-content .team-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-top: 1px solid var(--primary-color-dark);
+}
+
+/* Media queries para modal responsive */
+@media (max-width: 768px) {
+    .confirmation-modal-content {
+        width: 95%;
+        margin: var(--spacing-md);
+    }
+    
+    .confirmation-question {
+        font-size: var(--font-size-md);
+    }
+    
+    .confirmation-details {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .confirmation-details p {
+        font-size: var(--font-size-sm);
+    }
+    
+    .team-modal-content.confirmation-modal-content .team-modal-footer {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .military-button-secondary,
+    .military-button-danger {
+        width: 100%;
+    }
+}

@@ -25,32 +25,46 @@ function crearModalSierraNevada() {
         <div id="sierraModal" class="team-modal">
             <div class="team-modal-content sierra-modal-content">
                 <div class="team-modal-header">
-                    <h2>HORIZONTE:SIERRA NEVADA</h2>
+                    <h2>Sierra Nevada de Santa Marta: Un Tesoro en Crisis</h2>
                     <div class="team-modal-subtitle">Simulador de Inversiones Estratégicas</div>
                 </div>
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            La Sierra Nevada de Santa Marta es un macizo montañoso en el norte de Colombia, con picos que superan los 5,700 metros sobre el nivel del mar. Alberga una gran biodiversidad y es el hogar de cuatro pueblos indígenas: Kogui, Arhuaco, Wiwa y Kankuamo.
+            La Sierra Nevada de Santa Marta, un ecosistema de vital importancia estratégica para Colombia, atraviesa una profunda crisis multidimensional que pone en riesgo la vida y el bienestar de sus habitantes. Este imponente macizo montañoso, con cumbres que se elevan por encima de los 5,700 metros, es depositario de una extraordinaria biodiversidad y constituye el entorno vital para las poblaciones que residen en esta emblemática región.
                         </p>
                         
-                        <p class="sierra-text sierra-warning">
-                            Sin embargo, las comunidades indígenas y campesinas que habitan la Sierra enfrentan una esperanza de vida considerablemente inferior al promedio nacional. Mientras que en Colombia la esperanza de vida al nacer en 2022 fue de 77,1 años para mujeres y 70,9 años para hombres, en la Sierra Nevada esta cifra puede ser entre 7 y 20 años menor, ubicándose entre los 73,2 y 78,3 años dependiendo de diversos factores socioambientales.
-                        </p>
+                        <div class="sierra-warning">
+                            <p class="sierra-text">
+                                <strong>ALERTA CRÍTICA:</strong> Las comunidades de la Sierra Nevada presentan una expectativa de vida de 72.13 años, significativamente inferior al promedio nacional. Los indicadores muestran:
+                            </p>
+                            <ul>
+                                <li>Seguridad: 59.22% (incremento de violencia y presencia de MAP)</li>
+                                <li>Desarrollo: 59.73% (desnutrición infantil crítica del 12%)</li>
+                                <li>Gobernabilidad: 38.98% (erosión institucional severa)</li>
+                            </ul>
+                            <p class="sierra-text">
+                                <strong>Sin intervención inmediata, la expectativa de vida podría reducirse entre 1.5 y 2 años en los próximos 18 meses.</strong>
+                            </p>
+                        </div>
                         
                         <div class="life-expectancy-comparison">
+
                             <div class="life-bar-container">
-                                <div class="life-bar-label">SIERRA NEVADA</div>
+                                <div class="life-bar-label">SIERRA NEVADA (EV-ACTUAL)</div>
                                 <div class="life-bar-outer">
-                                    <div class="life-bar-inner sierra" style="width: 0%"></div>
+                                    <div class="life-bar-inner sierra"></div>
                                 </div>
-                                <div class="life-bar-value">70-75 años</div>
+                                <div class="life-bar-value">72.13 años</div>
                             </div>
+                       
                         </div>
+                        
+                       
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="sierraStartMission" class="military-button">INICIAR MISIÓN</button>
+                    <button id="sierraStartMission" class="military-button">ACEPTAR MISIÓN</button>
                 </div>
             </div>
         </div>
