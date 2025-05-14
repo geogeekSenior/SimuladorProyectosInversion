@@ -24,8 +24,8 @@ HORIZONTE.config = {
     mapScene: {
         // Configuración del portal de ArcGIS Enterprise
         portal: {
-            url: "https://geospatialcenter.bd.esri.com/portal",
-            websceneId: "1daba696f1cf45718f70fdf08e1ebb6d"
+            url: "https://arcgis.esri.co/portal",
+            websceneId: "6930d0a7f14640b89a3fdd33f83949a4"
         },
         
         // Cámara inicial para la vista 3D

@@ -7,56 +7,57 @@
 const serviceURLs = {
     // SERVICIOS DIMENSIÓN SEGURIDAD (19 URLs)
     seguridad: [
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Violencia_Homicidios/ImageServer", // Homicidios
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Violencia_HomicidiosTransito/ImageServer", // Homicidios por accidente de tránsito
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Violencia_Lesiones/ImageServer", // Lesiones Personales
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Violencia_LesionesTransito/ImageServer", // Lesiones por accidentes de tránsito
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Incautacion_Cocaina/ImageServer", // Incautación Cocaína
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Incautacion_Base_Coca/ImageServer", // Incautación Base de Coca
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Incautacion_Basuco/ImageServer", // Incautación Basuco
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Incautacion_Armas/ImageServer", // Incautación de armas de fuego
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Minas_Antipersona/ImageServer", // Minas Antipersona
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Mineria_Intervenida/ImageServer", // Minas Intervenidas
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Capturas_Mineria/ImageServer", // Capturas en minería ilegal
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Grupos_Armados_Guerrilla/ImageServer", // Grupos armados organizados
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Economia_Presencia_Ejercito/ImageServer", // Presencia de áreas base
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Criminalidad_Delitos_Sexuales/ImageServer", // Delitos Sexuales
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Criminalidad_Extorsion/ImageServer", // Extorsión y secuestro
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Criminalidad_Estaciones_Policia/ImageServer", // Estaciones de policia
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Criminalidad_Abiegato/ImageServer", // Abigeato
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Factores_MigrantesIrregulares/ImageServer", // Migración irregular y tráfico de migrantes
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Seguridad_Factores_AtentadosSIEVCAC/ImageServer" // Violencia terrorista (atentados)
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_Homicidios/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_HomicidiosTransito/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_Lesiones/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_LesionesTransito/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Cocaina/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Base_Coca/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Basuco/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Armas/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Minas_Antipersona/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Mineria_Intervenida/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Capturas_Mineria/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Grupos_Armados_Guerrilla/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Presencia_Ejercito/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Delitos_Sexuales/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Extorsion/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Estaciones_Policia/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Abiegato/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Factores_MigrantesIrregulares/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Factores_AtentadosSIEVCAC/imageserver"
     ],
 
     // SERVICIOS DIMENSIÓN DESARROLLO (13 URLs)
     desarrollo: [
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Infraestructura_Acueducto/ImageServer", // Acueducto y Alcantarillado
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Infraestructura_Energia/ImageServer", // Energía Eléctrica
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Infraestructura_Gas/ImageServer", // Gas
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Infraestructura_Internet/ImageServer", // Internet
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Riesgo_Deslizamiento/ImageServer", // Amenaza por Deslizamiento de tierras
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Riesgo_Hidrologica/ImageServer", // Alertas por Amenazas Hidrológicas
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Riesgo_Incendios/ImageServer", // Alertas por incendios Vegetales
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Humano_Alfabetismo/ImageServer", // Alfabetismo
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Humano_Educacion/ImageServer", // Nivel de Educación
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Humano_BajoPeso/ImageServer", // Bajo peso al nacer
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Humano_Desnutricion/ImageServer", // Desnutrición aguda
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Factores_Desempleo/ImageServer", // Tasa de Ocupación
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Desarrollo_Factores_IPM/ImageServer" // IPM - Pobreza Multidimensional
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Acueducto/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Energia/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Gas/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Internet/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Riesgo_Deslizamiento/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Riesgo_Hidrologica/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Riesgo_Incendios/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_Alfabetismo/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_Educacion/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_BajoPeso/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_Desnutricion/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Factores_Desempleo/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Factores_IPM/imageserver"
     ],
 
     // SERVICIOS DIMENSIÓN GOBERNABILIDAD (8 URLs)
     gobernabilidad: [
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Infraestructura_Salud/ImageServer", // Instituciones de Salud
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Infraestructura_Educacion/ImageServer", // Instituciones Educativas
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Territorio_Censo/ImageServer", // Censo Poblacional
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Territorio_Comunidades/ImageServer", // Comunidades Negras
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Territorio_Indigenas/ImageServer", // Reservas Indígenas
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Territorio_Protegidas/ImageServer", // Áreas Protegidas
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Planeacion_Turistico/ImageServer", // Desarrollo turístico (prestadores servicios formales)
-        "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Transformed_Gobernabilidad_Planeacion_Hoteles/ImageServer" // Hoteles
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Infraestructura_Salud/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Infraestructura_Educacion/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Censo/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Comunidades/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Indigenas/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Protegidas/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Planeacion_Turistico/imageserver",
+        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Planeacion_Hoteles/imageserver"
     ]
 };
+
 
 // Matriz de pesos para las variables por dimensión (ACTUALIZADA SEGÚN IMAGEN)
 const weightsMatrix = {

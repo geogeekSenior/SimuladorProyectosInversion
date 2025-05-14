@@ -54,8 +54,8 @@
             // Obtener configuración del módulo config
             const config = HORIZONTE.config ? HORIZONTE.config.mapScene : {
                 portal: {
-                    url: "https://geospatialcenter.bd.esri.com/portal",
-                    websceneId: "1daba696f1cf45718f70fdf08e1ebb6d"
+                    url: "https://arcgis.esri.co/portal",
+                    websceneId: "6930d0a7f14640b89a3fdd33f83949a4"
                 },
                 camera: {
                     position: {
