@@ -2,13 +2,20 @@
  * pemsitim-bars.css - Estilos para barras de progreso PEMSITIM
  * Horizonte: Juego de Estrategia
  * 
- * CORRECCIÓN: Mantener animación en ambas barras con colores correctos
+ * ACTUALIZACIÓN: Animación aplicada a todas las barras
  */
 
 /* Animación para las rayas diagonales */
 @keyframes move-stripes {
     0% { background-position: 0 0; }
     100% { background-position: 20px 0; }
+}
+
+/* Animación para el pulso suave de las barras */
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
 }
 
 /* Contenedor principal de barras de dimensión */
@@ -47,7 +54,7 @@
     position: relative;
 }
 
-/* Barra interna BASE - GRIS/BLANCA CON ANIMACIÓN */
+/* Barra interna BASE - Con animación de rayas para TODAS las barras */
 .bar-inner {
     height: 100%;
     background-color: #d0d3d4; /* Color gris claro para la base */
@@ -57,13 +64,13 @@
     top: 0;
     left: 0;
     transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-    /* Patrón rayado gris */
+    /* Patrón rayado con animación */
     background-image: linear-gradient(45deg,
-        #d0d3d4 25%,
+        currentColor 25%,
         rgba(255, 255, 255, 0.3) 25%,
         rgba(255, 255, 255, 0.3) 50%,
-        #d0d3d4 50%,
-        #d0d3d4 75%,
+        currentColor 50%,
+        currentColor 75%,
         rgba(255, 255, 255, 0.3) 75%,
         rgba(255, 255, 255, 0.3));
     background-size: 20px 20px;
@@ -89,7 +96,7 @@
     background-color: #1a3a6e; /* Color azul para la mejora */
     width: 0; /* Se anima con JS */
     transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
-    /* Patrón rayado azul */
+    /* Patrón rayado azul con animación */
     background-image: linear-gradient(45deg,
         #1a3a6e 25%,
         rgba(58, 93, 148, 0.5) 25%,
@@ -110,69 +117,74 @@
     font-size: var(--font-size-sm);
 }
 
-/* Estilos para los diferentes niveles - APLICADOS A LA BARRA BASE */
+/* Estilos para los diferentes niveles - CON ANIMACIÓN */
 .level-low .bar-inner {
     background-color: #AC1C1C; /* Rojo para valores bajos */
     background-image: linear-gradient(45deg,
         #AC1C1C 25%,
-        rgba(172, 28, 28, 0.3) 25%,
-        rgba(172, 28, 28, 0.3) 50%,
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
         #AC1C1C 50%,
         #AC1C1C 75%,
-        rgba(172, 28, 28, 0.3) 75%,
-        rgba(172, 28, 28, 0.3));
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0.2));
+    animation: move-stripes 2s linear infinite;
 }
 
 .level-medium .bar-inner {
     background-color: #C68D30; /* Amarillo/naranja para valores medios */
     background-image: linear-gradient(45deg,
         #C68D30 25%,
-        rgba(198, 141, 48, 0.3) 25%,
-        rgba(198, 141, 48, 0.3) 50%,
+        rgba(255, 255, 255, 0.25) 25%,
+        rgba(255, 255, 255, 0.25) 50%,
         #C68D30 50%,
         #C68D30 75%,
-        rgba(198, 141, 48, 0.3) 75%,
-        rgba(198, 141, 48, 0.3));
+        rgba(255, 255, 255, 0.25) 75%,
+        rgba(255, 255, 255, 0.25));
+    animation: move-stripes 2s linear infinite;
 }
 
 .level-high .bar-inner {
     background-color: #3c6d3f; /* Verde para valores altos */
     background-image: linear-gradient(45deg,
         #3c6d3f 25%,
-        rgba(60, 109, 63, 0.3) 25%,
-        rgba(60, 109, 63, 0.3) 50%,
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
         #3c6d3f 50%,
         #3c6d3f 75%,
-        rgba(60, 109, 63, 0.3) 75%,
-        rgba(60, 109, 63, 0.3));
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0.2));
+    animation: move-stripes 2s linear infinite;
 }
 
-/* Mantener colores de mejora según niveles */
+/* Mantener colores de mejora según niveles con animación */
 .level-low .bar-improvement {
     background-color: #e74c3c;
     background-image: linear-gradient(45deg,
         #e74c3c 25%,
-        rgba(231, 76, 60, 0.5) 25%,
-        rgba(231, 76, 60, 0.5) 50%,
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
         #e74c3c 50%,
         #e74c3c 75%,
-        rgba(231, 76, 60, 0.5) 75%,
-        rgba(231, 76, 60, 0.5));
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0.2));
+    animation: move-stripes 2s linear infinite;
 }
 
 .level-medium .bar-improvement {
     background-color: #f39c12;
     background-image: linear-gradient(45deg,
         #f39c12 25%,
-        rgba(243, 156, 18, 0.5) 25%,
-        rgba(243, 156, 18, 0.5) 50%,
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
         #f39c12 50%,
         #f39c12 75%,
-        rgba(243, 156, 18, 0.5) 75%,
-        rgba(243, 156, 18, 0.5));
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0.2));
+    animation: move-stripes 2s linear infinite;
 }
 
-/* Sobreescribir para mantener el azul en niveles altos */
+/* Azul para niveles altos y por defecto */
 .level-high .bar-improvement,
 .dimension-bar-container .bar-improvement {
     background-color: #1a3a6e;
@@ -184,6 +196,7 @@
         #1a3a6e 75%,
         rgba(58, 93, 148, 0.5) 75%,
         rgba(58, 93, 148, 0.5));
+    animation: move-stripes 2s linear infinite;
 }
 
 /* Estilo especial para el índice total (Expectativa de Vida) */
@@ -203,7 +216,7 @@
     color: var(--primary-color);
 }
 
-/* Asegurar que la expectativa de vida siempre tenga colores correctos */
+/* Asegurar que la expectativa de vida siempre tenga animación */
 .total-index .bar-inner {
     background-color: #d0d3d4;
     background-image: linear-gradient(45deg,
@@ -214,6 +227,7 @@
         #d0d3d4 75%,
         rgba(255, 255, 255, 0.3) 75%,
         rgba(255, 255, 255, 0.3));
+    animation: move-stripes 2s linear infinite, pulse 3s ease-in-out infinite;
 }
 
 .total-index .bar-improvement {
@@ -226,6 +240,19 @@
         #1a3a6e 75%,
         rgba(58, 93, 148, 0.5) 75%,
         rgba(58, 93, 148, 0.5));
+    animation: move-stripes 2s linear infinite;
+}
+
+/* ASEGURAR ANIMACIÓN CONTINUA PARA TODAS LAS BARRAS */
+.dimension-bar-container .bar-inner,
+.dimension-bar-container .bar-improvement {
+    animation: move-stripes 2s linear infinite !important;
+}
+
+/* Animación específica para nivel bajo - más rápida */
+.level-low .bar-inner,
+.level-low .bar-improvement {
+    animation: move-stripes 1.5s linear infinite !important;
 }
 
 /* Contenedor de impacto de dimensión */
@@ -265,13 +292,6 @@
 .dimension-bar-container:nth-child(3) { animation-delay: 0.3s; }
 .dimension-bar-container:nth-child(4) { animation-delay: 0.4s; }
 
-/* Sincronización de animaciones para que ambas barras se muevan juntas */
-.bar-inner, .bar-improvement {
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
 /* Media queries para responsividad */
 @media (max-width: 768px) {
     .dimension-bar-container {
@@ -298,4 +318,10 @@
         display: block;
         font-size: var(--font-size-xs);
     }
+}
+
+/* Debugging: Forzar animación en todas las barras visibles */
+[class*="bar-inner"],
+[class*="bar-improvement"] {
+    animation: move-stripes 2s linear infinite !important;
 }
