@@ -401,10 +401,23 @@ function initPageSpecificControls() {
     // Botón para proceder al paso siguiente en step1.html
     const proceedButton = document.getElementById('proceed-button');
     if (proceedButton) {
-        proceedButton.addEventListener('click', function() {
-            window.location.href = 'index.html';
-        });
-    }
+    proceedButton.addEventListener('click', function(event) {
+        // Prevenir comportamiento por defecto
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Abrir en nueva pestaña
+        window.open('index.html', '_blank');
+        
+        // Mostrar confirmación
+        if (window.HORIZONTE && HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
+            HORIZONTE.utils.showStatusMessage("Abriendo Ciclo 1 en nueva pestaña...", "success", 2000);
+        }
+        
+        // Retornar false para prevenir cualquier otra acción
+        return false;
+    });
+}
     
     // Botón para continuar al ciclo 2 en step3.html
     const restartButtonStep3 = document.getElementById('restart-button');
