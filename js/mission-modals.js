@@ -201,7 +201,7 @@ function crearModalCiclo1() {
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="misionStartButtonCiclo1" class="military-button">INICIAR DESPLIEGUE</button>
+                    <button id="misionStartButtonCiclo1" class="military-button">INICIAR EVALUACION DE PROYECTOS 2035</button>
                 </div>
             </div>
         </div>
@@ -315,7 +315,7 @@ function crearModalCiclo2() {
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="misionStartButtonCiclo2" class="military-button">INICIAR SEGUNDO CICLO</button>
+                    <button id="misionStartButtonCiclo2" class="military-button">INICIAR EVALUACION DE PROYECTOS 2045</button>
                 </div>
             </div>
         </div>

@@ -157,7 +157,7 @@
                             margin-right: 8px; 
                             flex-shrink: 0; 
                         "></span>
-                        <span>Puntos de Despliegue Disponibles (Seleccionable)</span>
+                        <span>Puntos de Proyectos Disponibles (Seleccionable)</span>
                     </div>
                     <div class="leyenda-item" style="display: flex; align-items: center;">
                         <span style="
@@ -170,7 +170,7 @@
                             margin-right: 8px; 
                             flex-shrink: 0; 
                         "></span>
-                        <span>Puntos de Despliegue Táctico (Proyecto Elegido)</span>
+                        <span>Puntos de Proyectos Elegidos (Proyecto Elegido)</span>
                     </div>
                 </div>`; // <-- Usar backticks para strings multilínea
 
