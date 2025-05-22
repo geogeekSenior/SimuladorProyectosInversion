@@ -1,6 +1,7 @@
 /* 
  * styles.css - Estilos para HORIZONTE 2.0
  * Simulador de Inversiones Estratégicas
+ * Versión actualizada para arquitectura RasterFunction
  */
 
  :root {
@@ -74,7 +75,7 @@ html, body, #viewDiv {
 
 /* Panel de Control */
 #controlPanel {
-    width: 300px;
+    width: 320px; /* Aumentado ligeramente para mejor legibilidad */
     background-color: var(--panel-bg-color);
     height: 100%;
     overflow-y: auto;
@@ -127,6 +128,7 @@ html, body, #viewDiv {
 .dimension-name {
     font-weight: bold;
     color: var(--primary-color);
+    font-size: 13px;
 }
 
 .dimension-weight {
@@ -149,22 +151,27 @@ html, body, #viewDiv {
 .variable-name {
     flex-grow: 1;
     font-size: 13px;
+    line-height: 1.3;
 }
 
 .variable-weight {
-    font-size: 12px;
+    font-size: 11px;
     font-family: var(--font-monospace);
     color: var(--text-color);
-    opacity: 0.7;
-    min-width: 60px;
+    opacity: 0.8;
+    min-width: 50px;
     text-align: right;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 2px 4px;
+    border-radius: 2px;
+    margin-left: 8px;
 }
 
 .variable-checkbox {
     margin-right: 8px;
 }
 
-/* Para los URLs de Servicios */
+/* Información del Sistema */
 .service-url-container {
     margin-top: 15px;
 }
@@ -211,7 +218,7 @@ html, body, #viewDiv {
     border-top: 1px solid var(--primary-color-dark);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 /* Estilos para los controles Calcite */
@@ -223,7 +230,7 @@ calcite-button {
 #statusLog {
     position: absolute;
     bottom: 20px;
-    left: 350px;
+    left: 360px; /* Ajustado para el panel más ancho */
     right: 20px;
     height: 30px;
     background-color: rgba(0, 0, 0, 0.6);
@@ -299,7 +306,7 @@ calcite-checkbox {
     100% { transform: rotate(360deg); }
 }
 
-/* Leyenda */
+/* Leyenda de Colores Actualizada */
 .color-legend {
     display: flex;
     height: 15px;
@@ -321,6 +328,7 @@ calcite-checkbox {
     color: var(--text-color);
     opacity: 0.7;
     margin-bottom: 15px;
+    font-family: var(--font-monospace);
 }
 
 /* Estilos para los controles de grupo de dimensiones */
@@ -355,14 +363,21 @@ calcite-checkbox {
     background: linear-gradient(to right, rgba(81, 127, 53, 0.5), transparent);
 }
 
+/* Mejoras para información técnica */
+.variable-weight[style*="font-size: 11px"] {
+    font-size: 10px !important;
+    opacity: 0.9;
+    color: var(--accent-color);
+}
+
 /* Media queries para responsividad */
 @media (max-width: 768px) {
     #controlPanel {
-        width: 250px;
+        width: 280px;
     }
     
     #statusLog {
-        left: 270px;
+        left: 300px;
     }
 }
 
@@ -373,12 +388,21 @@ calcite-checkbox {
     
     #controlPanel {
         width: 100%;
-        height: 300px;
+        height: 350px;
         border-right: none;
         border-bottom: 1px solid var(--primary-color-dark);
     }
     
     #statusLog {
         left: 20px;
+    }
+    
+    .variable-name {
+        font-size: 12px;
+    }
+    
+    .variable-weight {
+        font-size: 10px;
+        min-width: 45px;
     }
 }

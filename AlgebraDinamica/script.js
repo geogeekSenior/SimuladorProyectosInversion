@@ -1,646 +1,364 @@
 /**
  * script.js - Lógica principal para HORIZONTE 2.0
- * Simulador de Inversiones Estratégicas - Con modo lighten y pesos actualizados
+ * Simulador de Inversiones Estratégicas - Con RasterFunction y servicio único
  */
 
-// URLs de servicios (las que proporcionaste)
-const serviceURLs = {
-    // SERVICIOS DIMENSIÓN SEGURIDAD (19 URLs)
-    seguridad: [
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_Homicidios/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_HomicidiosTransito/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_Lesiones/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Violencia_LesionesTransito/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Cocaina/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Base_Coca/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Basuco/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Incautacion_Armas/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Minas_Antipersona/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Mineria_Intervenida/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Capturas_Mineria/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Grupos_Armados_Guerrilla/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Economia_Presencia_Ejercito/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Delitos_Sexuales/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Extorsion/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Estaciones_Policia/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Criminalidad_Abiegato/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Factores_MigrantesIrregulares/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Seguridad_Factores_AtentadosSIEVCAC/imageserver"
-    ],
-
-    // SERVICIOS DIMENSIÓN DESARROLLO (13 URLs)
-    desarrollo: [
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Acueducto/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Energia/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Gas/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Infraestructura_Internet/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Riesgo_Deslizamiento/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Riesgo_Hidrologica/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Riesgo_Incendios/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_Alfabetismo/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_Educacion/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_BajoPeso/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Humano_Desnutricion/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Factores_Desempleo/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Desarrollo_Factores_IPM/imageserver"
-    ],
-
-    // SERVICIOS DIMENSIÓN GOBERNABILIDAD (8 URLs)
-    gobernabilidad: [
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Infraestructura_Salud/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Infraestructura_Educacion/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Censo/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Comunidades/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Indigenas/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Territorio_Protegidas/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Planeacion_Turistico/imageserver",
-        "https://arcgis.esri.co/image/rest/services/DEX/Transformed_Gobernabilidad_Planeacion_Hoteles/imageserver"
-    ]
+// URLs del servicio de imagen (principal y respaldo)
+const imageServiceURLs = {
+    primary: "https://geocntr-imagery.bd.esri.com/server/rest/services/Colombia/Dimensiones_Scaled/ImageServer",
+    fallback: "https://arcgis.esri.co/image/rest/services/DEX/Dimensiones_Scaled/ImageServer"
 };
 
+let currentImageServiceURL = null;
 
-// Matriz de pesos para las variables por dimensión (ACTUALIZADA SEGÚN IMAGEN)
-const weightsMatrix = {
-   seguridad: {
-       'Homicidios': 0.15,
-       'Homicidios por accidente de tránsito': 0.05,
-       'Lesiones Personales': 0.05,
-       'Lesiones por accidentes de tránsito': 0.05,
-       'Incautación Cocaína': 0.04,
-       'Incautación Base de Coca': 0.04,
-       'Incautación Basuco': 0.02,
-       'Incautación de armas de fuego': 0.03,
-       'Minas Antipersona': 0.03,
-       'Minas Intervenidas': 0.03,
-       'Capturas en minería ilegal': 0.02,
-       'Grupos armados organizados': 0.05,
-       'Presencia de áreas base': 0.04,
-       'Delitos Sexuales': 0.08,
-       'Extorsión y secuestro': 0.10,
-       'Estaciones de policia': 0.05,
-       'Abigeato': 0.02,
-       'Migración irregular y tráfico de migrantes': 0.05,
-       'Violencia terrorista (atentados)': 0.10
-   },
-   desarrollo: {
-       'Acueducto y Alcantarillado': 0.05,
-       'Energía Eléctrica': 0.13,
-       'Gas': 0.09,
-       'Internet': 0.03,
-       'Amenaza por Deslizamiento de tierras': 0.08,
-       'Alertas por Amenazas Hidrológicas': 0.05,
-       'Alertas por incendios Vegetales': 0.07,
-       'Alfabetismo': 0.10,
-       'Nivel de Educación': 0.07,
-       'Bajo peso al nacer': 0.15,
-       'Desnutrición aguda': 0.03,
-       'Tasa de Ocupación': 0.05,
-       'IPM - Pobreza Multidimensional': 0.10
-   },
-   gobernabilidad: {
-       'Instituciones de Salud': 0.15,
-       'Instituciones Educativas': 0.15,
-       'Censo Poblacional': 0.15,
-       'Comunidades Negras': 0.10,
-       'Reservas Indígenas': 0.10,
-       'Áreas Protegidas': 0.05,
-       'Desarrollo turístico (prestadores servicios formales)': 0.15,
-       'Hoteles': 0.10
-   }
+// Mapeo de variables a bandas y sus pesos GLOBALES (ya normalizados)
+// Basado en el array de pesos del ejemplo: índices 0-39 corresponden a bandas 1-40
+const bandasConfig = {
+    desarrollo: {
+        'Tasa de Ocupación': { banda: 1, peso: 0.0375 },                         // índice 0
+        'IPM - Pobreza Multidimensional': { banda: 2, peso: 0.025 },            // índice 1
+        'Alfabetismo': { banda: 3, peso: 0.025 },                               // índice 2
+        'Bajo peso al nacer': { banda: 4, peso: 0.0375 },                       // índice 3
+        'Desnutrición aguda': { banda: 5, peso: 0.0075 },                       // índice 4
+        'Nivel de Educación': { banda: 6, peso: 0.0175 },                       // índice 5
+        'Acueducto y Alcantarillado': { banda: 7, peso: 0.0225 },               // índice 6
+        'Energía Eléctrica': { banda: 8, peso: 0.0375 },                        // índice 7
+        'Gas': { banda: 9, peso: 0.0075 },                                      // índice 8
+        'Internet': { banda: 10, peso: 0.0075 },                                // índice 9
+        'Amenaza por Deslizamiento de tierras': { banda: 11, peso: 0.02 },      // índice 10
+        'Alertas por Amenazas Hidrológicas': { banda: 12, peso: 0.0125 },       // índice 11
+        'Alertas por incendios Vegetales': { banda: 13, peso: 0.0175 }          // índice 12
+    },
+    gobernabilidad: {
+        'Instituciones Educativas': { banda: 14, peso: 0.045 },                 // índice 13
+        'Instituciones de Salud': { banda: 15, peso: 0.06 },                    // índice 14
+        'Hoteles': { banda: 16, peso: 0.03 },                                   // índice 15
+        'Desarrollo turístico (prestadores servicios formales)': { banda: 17, peso: 0.045 }, // índice 16
+        'Censo Poblacional': { banda: 18, peso: 0.045 },                        // índice 17
+        'Comunidades Negras': { banda: 19, peso: 0.03 },                        // índice 18
+        'Reservas Indígenas': { banda: 20, peso: 0.03 },                        // índice 19
+        'Áreas Protegidas': { banda: 21, peso: 0.015 }                          // índice 20
+    },
+    seguridad: {
+        'Abigeato': { banda: 22, peso: 0.009 },                                 // índice 21
+        'Delitos Sexuales': { banda: 23, peso: 0.036 },                         // índice 22
+        'Estaciones de policia': { banda: 24, peso: 0.0225 },                   // índice 23
+        'Extorsión y secuestro': { banda: 25, peso: 0.045 },                    // índice 24
+        'Capturas en minería ilegal': { banda: 26, peso: 0.009 },               // índice 25
+        'Grupos armados organizados': { banda: 27, peso: 0.0225 },              // índice 26
+        'Incautación de armas de fuego': { banda: 28, peso: 0.0135 },           // índice 27
+        'Incautación Base de Coca': { banda: 29, peso: 0.018 },                 // índice 28
+        'Incautación Basuco': { banda: 30, peso: 0.009 },                       // índice 29
+        'Incautación Cocaína': { banda: 31, peso: 0.018 },                      // índice 30
+        'Minas Antipersona': { banda: 32, peso: 0.0135 },                       // índice 31
+        'Minas Intervenidas': { banda: 33, peso: 0.0135 },                      // índice 32
+        'Presencia de áreas base': { banda: 34, peso: 0.018 },                  // índice 33
+        'Violencia terrorista (atentados)': { banda: 35, peso: 0.045 },         // índice 34
+        'Migración irregular y tráfico de migrantes': { banda: 36, peso: 0.0225 }, // índice 35
+        'Homicidios': { banda: 37, peso: 0.0675 },                              // índice 36
+        'Homicidios por accidente de tránsito': { banda: 38, peso: 0.0225 },    // índice 37
+        'Lesiones Personales': { banda: 39, peso: 0.0225 },                     // índice 38
+        'Lesiones por accidentes de tránsito': { banda: 40, peso: 0.0225 }      // índice 39
+    }
 };
 
-
-// Pesos globales para cada dimensión (Estos se mantienen)
-const dimensionWeights = {
-   seguridad: 0.40,
-   desarrollo: 0.25,
-   gobernabilidad: 0.35
-};
-
-// --- EL RESTO DEL CÓDIGO DE script.js PERMANECE IGUAL ---
-// --- EXCEPTO LA PARTE DE loadLayers DONDE SE MAPEAN LOS NOMBRES ---
+// Los pesos ya están normalizados globalmente en bandasConfig
+// No necesitamos pesos adicionales por dimensión
 
 // Función para actualizar la fecha y hora
 function updateDateTime() {
-   const now = new Date();
-   const options = {
-       year: 'numeric',
-       month: '2-digit',
-       day: '2-digit',
-       hour: '2-digit',
-       minute: '2-digit',
-       hour12: false
-   };
-   document.getElementById('currentDate').textContent = now.toLocaleString('es-ES', options).replace(',', ' / ');
+    const now = new Date();
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    };
+    document.getElementById('currentDate').textContent = now.toLocaleString('es-ES', options).replace(',', ' / ');
 }
 
 // Función para mostrar mensajes de estado
 function showStatus(message, type = 'info') {
-   const statusLog = document.getElementById('statusLog');
-   statusLog.textContent = message;
-   statusLog.className = type + ' visible';
+    const statusLog = document.getElementById('statusLog');
+    statusLog.textContent = message;
+    statusLog.className = type + ' visible';
 
-   // Registrar también en consola para depuración
-   console.log(`[${type.toUpperCase()}] ${message}`);
+    console.log(`[${type.toUpperCase()}] ${message}`);
 
-   // Ocultar automáticamente después de 5 segundos excepto si es error
-   if (type !== 'error') {
-       setTimeout(() => {
-           statusLog.classList.remove('visible');
-       }, 5000);
-   }
+    if (type !== 'error') {
+        setTimeout(() => {
+            statusLog.classList.remove('visible');
+        }, 5000);
+    }
 }
 
 // Mostrar/ocultar indicador de carga
 function toggleLoading(show) {
-   document.getElementById('loadingIndicator').style.display = show ? 'flex' : 'none';
+    document.getElementById('loadingIndicator').style.display = show ? 'flex' : 'none';
 }
 
 // Inicializar el mapa de ArcGIS cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-   // Actualizar fecha ahora y cada minuto
-   updateDateTime();
-   setInterval(updateDateTime, 60000);
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
 
-   // Mostrar mensaje inicial
-   showStatus('Sistema HORIZONTE 2.0 inicializado', 'info');
+    showStatus('Sistema HORIZONTE 2.0 inicializado', 'info');
 
-   require([
-       "esri/Map",
-       "esri/views/MapView",
-       "esri/layers/ImageryLayer",
-       "esri/renderers/RasterStretchRenderer",
-       "esri/Color"
-   ], function(Map, MapView, ImageryLayer, RasterStretchRenderer, Color) {
-       // Crear mapa base
-       const map = new Map({
-           basemap: "dark-gray-vector"
-       });
-
-       // Crear vista del mapa
-       const view = new MapView({
-           container: "viewDiv",
-           map: map,
-           center: [-73.198537, 10.809386], // Colombia
-           zoom: 7,
-           ui: {
-               components: ["zoom", "compass", "attribution"] // Solo componentes esenciales
-           }
-       });
-
-       // Mapa para rastrear las capas por nombre de variable
-       let layerByVariable = {
-           seguridad: {},
-           desarrollo: {},
-           gobernabilidad: {}
-       };
-
-       // Función para crear un renderizador para valores (rojo a verde)
-       function createRenderer() {
-        // *** AJUSTE: Usar el rango 1-10 de tus datos originales ***
-        const minValue = 1;
-        const maxValue = 10;
-
-        return new RasterStretchRenderer({
-            stretchType: "min-max",
-            // Usa el rango real de tus datos de entrada
-            minInput: minValue,
-            maxInput: maxValue,
-            // Puedes ajustar min y max (opcional) si quieres cortar valores extremos
-            // min: minValue,
-            // max: maxValue,
-            colorRamp: {
-                type: "multipart",
-                colorRamps: [{
-                    type: "algorithmic",
-                    fromColor: new Color([255, 0, 0]), // Rojo (valor menor = 1)
-                    toColor: new Color([255, 255, 0]), // Amarillo
-                    algorithm: "linear"
-                }, {
-                    type: "algorithmic",
-                    fromColor: new Color([255, 255, 0]), // Amarillo
-                    toColor: new Color([0, 255, 0]), // Verde (valor mayor = 10)
-                    algorithm: "linear"
-                }]
-            }
-            // Opcionalmente, define un NoData value si aplica a tus capas
-            // noDataValue: [0], // Ejemplo si 0 es NoData
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/ImageryLayer",
+        "esri/layers/support/RasterFunction",
+        "esri/renderers/RasterStretchRenderer",
+        "esri/rest/support/AlgorithmicColorRamp",
+        "esri/rest/support/MultipartColorRamp",
+        "esri/Color"
+    ], function(Map, MapView, ImageryLayer, RasterFunction, RasterStretchRenderer, AlgorithmicColorRamp, MultipartColorRamp, Color) {
+        
+        // Crear mapa base
+        const map = new Map({
+            basemap: "dark-gray-vector"
         });
-    }
 
-       // Array para almacenar capas cargadas
-       let loadedLayers = [];
-
-       // Función para cargar las capas desde los servicios configurados
-       function loadLayers() {
-           toggleLoading(true);
-           showStatus('Cargando capas desde servicios preconfigurados...', 'info');
-
-           // Primero, eliminar capas existentes si hay
-           if (loadedLayers.length > 0) {
-               loadedLayers.forEach(layer => {
-                   map.remove(layer);
-               });
-           }
-
-           // Arrays para rastrear capas y contadores
-           loadedLayers = [];
-           layerByVariable = {
-               seguridad: {},
-               desarrollo: {},
-               gobernabilidad: {}
-           };
-
-           let loadedCount = 0;
-           let errorCount = 0;
-           const totalLayers =
-               serviceURLs.seguridad.length +
-               serviceURLs.desarrollo.length +
-               serviceURLs.gobernabilidad.length;
-
-           // Función para crear y cargar una capa
-           function loadLayer(url, dimensionName, variableName, weight) {
-               // Verificar que la URL no esté vacía
-               if (!url || !url.trim()) {
-                   console.error(`URL vacía para ${dimensionName}: ${variableName}`);
-                   errorCount++;
-                   if (loadedCount + errorCount === totalLayers) {
-                       finishLoading();
-                   }
-                   return;
-               }
-
-               try {
-                   // Crear la capa de imagen
-                   const layer = new ImageryLayer({
-                       url: url,
-                       title: `${dimensionName}: ${variableName}`,
-                       visible: false,          // Comienza invisible
-                       opacity: 0.7,            // Opacidad base
-                       format: "png",           // Usar PNG para transparencia
-                       renderer: createRenderer()
-                   });
-
-                   // Almacenar metadatos adicionales en la capa
-                   layer.dimensionName = dimensionName.toLowerCase();
-                   layer.variableName = variableName;
-                   layer.weight = weight;  // Peso individual de la variable
-
-                   // Aplicar el peso de la dimensión
-                   const dimensionWeight = dimensionWeights[dimensionName.toLowerCase()] || 1.0;
-                   layer.dimensionWeight = dimensionWeight;
-
-                   // Cálculo del peso combinado
-                   layer.combinedWeight = weight * dimensionWeight;
-
-                   // Guardar referencia a la capa en el mapa por variable
-                   if (dimensionName.toLowerCase() === "seguridad") {
-                       layerByVariable.seguridad[variableName] = layer;
-                   } else if (dimensionName.toLowerCase() === "desarrollo") {
-                       layerByVariable.desarrollo[variableName] = layer;
-                   } else if (dimensionName.toLowerCase() === "gobernabilidad") {
-                       layerByVariable.gobernabilidad[variableName] = layer;
-                   }
-
-                   // Añadir manejador para errores de renderizado
-                   layer.on("error", function(error) {
-                       console.warn(`Error en capa ${variableName}:`, error);
-                   });
-
-                   // Mostrar progreso
-                   layer.load().then(() => {
-                       // Añadir la capa al mapa solo si se cargó correctamente
-                       map.add(layer);
-                       loadedLayers.push(layer);
-
-                       loadedCount++;
-                       // Solo actualizar en consola el progreso
-                       console.log(`Cargando capa ${loadedCount} de ${totalLayers}...`);
-
-                       // Cuando todas las capas están cargadas
-                       if (loadedCount + errorCount === totalLayers) {
-                           finishLoading();
-                       }
-                   }).catch(error => {
-                       console.error(`Error al cargar capa ${variableName} desde ${url}:`, error);
-                       errorCount++;
-
-                       // Incluso con errores, continuar cuando todas las capas se hayan procesado
-                       if (loadedCount + errorCount === totalLayers) {
-                           finishLoading();
-                       }
-                   });
-               } catch (error) {
-                   console.error(`Error al crear capa ${variableName} desde ${url}:`, error);
-                   errorCount++;
-                   if (loadedCount + errorCount === totalLayers) {
-                       finishLoading();
-                   }
-               }
-           }
-
-           // Función para finalizar la carga
-           function finishLoading() {
-               toggleLoading(false);
-
-               if (errorCount > 0) {
-                   showStatus(`Carga completada con ${errorCount} errores. ${loadedCount} capas cargadas correctamente.`, 'warning');
-               } else if (loadedCount === 0) {
-                   showStatus(`No se pudo cargar ninguna capa. Verifica la conexión al servidor.`, 'error');
-               } else {
-                   showStatus(`${loadedCount} capas cargadas exitosamente.`, 'success');
-               }
-
-               // Activar las capas iniciales basadas en los checkboxes marcados
-               if (loadedLayers.length > 0) {
-                   // Almacenar las capas cargadas para uso posterior
-                   window.horizonte = window.horizonte || {};
-                   window.horizonte.layers = loadedLayers;
-                   window.horizonte.layerByVariable = layerByVariable;
-
-                   // Aplicar pesos inmediatamente después de cargar
-                   applyWeightsToLayers();
-
-                   // Disparar evento para que layer-connections.js configure las conexiones
-                   window.dispatchEvent(new CustomEvent('horizonte:layersLoaded'));
-               }
-           }
-
-           // *** MAPEO ACTUALIZADO ***
-           // Obtener los nombres de las variables directamente de las claves de weightsMatrix
-           // Asegura que el orden de carga coincida con el orden de las URLs
-           const dimensionVariableNames = {
-               seguridad: Object.keys(weightsMatrix.seguridad),
-               desarrollo: Object.keys(weightsMatrix.desarrollo),
-               gobernabilidad: Object.keys(weightsMatrix.gobernabilidad)
-           };
-
-           // Cargar capas de seguridad
-           serviceURLs.seguridad.forEach((url, index) => {
-               if (index < dimensionVariableNames.seguridad.length) {
-                   const varName = dimensionVariableNames.seguridad[index];
-                   loadLayer(
-                       url,
-                       "Seguridad",
-                       varName,
-                       weightsMatrix.seguridad[varName]
-                   );
-               } else {
-                   console.warn(`URL extra en seguridad[${index}]: ${url}. No hay variable correspondiente.`);
-                   errorCount++; // Contar como error si hay URL sin variable
-               }
-           });
-
-           // Cargar capas de desarrollo
-           serviceURLs.desarrollo.forEach((url, index) => {
-               if (index < dimensionVariableNames.desarrollo.length) {
-                   const varName = dimensionVariableNames.desarrollo[index];
-                   loadLayer(
-                       url,
-                       "Desarrollo",
-                       varName,
-                       weightsMatrix.desarrollo[varName]
-                   );
-               } else {
-                    console.warn(`URL extra en desarrollo[${index}]: ${url}. No hay variable correspondiente.`);
-                    errorCount++;
-               }
-           });
-
-           // Cargar capas de gobernabilidad
-           serviceURLs.gobernabilidad.forEach((url, index) => {
-               if (index < dimensionVariableNames.gobernabilidad.length) {
-                   const varName = dimensionVariableNames.gobernabilidad[index];
-                   loadLayer(
-                       url,
-                       "Gobernabilidad",
-                       varName,
-                       weightsMatrix.gobernabilidad[varName]
-                   );
-               } else {
-                   console.warn(`URL extra en gobernabilidad[${index}]: ${url}. No hay variable correspondiente.`);
-                   errorCount++;
-               }
-           });
-
-            // Si todos los procesamientos (correctos o con error) han terminado y no se llamó a finishLoading antes
-            if (loadedCount + errorCount === totalLayers && !document.getElementById('loadingIndicator').style.display !== 'none') {
-                finishLoading();
+        // Crear vista del mapa
+        const view = new MapView({
+            container: "viewDiv",
+            map: map,
+            center: [-73.198537, 10.809386], // Colombia
+            zoom: 7,
+            ui: {
+                components: ["zoom", "compass", "attribution"]
             }
-       }
+        });
 
-       // Función para aplicar pesos a las capas basados en los checkboxes seleccionados
-       function applyWeightsToLayers() {
-           // Verificar si las capas están cargadas
-           if (!window.horizonte || !window.horizonte.layers || window.horizonte.layers.length === 0) {
-               console.warn('No hay capas cargadas aún. Espere mientras se cargan las capas...');
-               return;
-           }
+        // Crear la capa de imagen única con sistema de respaldo
+        let imageryLayer = null;
 
-           console.log("Aplicando pesos a las capas...");
+        // Función para crear capa con un servicio específico
+        function createImageryLayer(serviceURL, isRetry = false) {
+            return new Promise((resolve, reject) => {
+                const layer = new ImageryLayer({
+                    url: serviceURL,
+                    title: "HORIZONTE - Análisis Multidimensional",
+                    visible: false,
+                    opacity: 0.8
+                });
 
-           // Recopilar los checkboxes activos para cada dimensión
-           const activeVariables = {
-               seguridad: [],
-               desarrollo: [],
-               gobernabilidad: []
-           };
+                // Intentar cargar la capa
+                layer.load().then(() => {
+                    currentImageServiceURL = serviceURL;
+                    const serviceType = serviceURL === imageServiceURLs.primary ? "principal" : "respaldo";
+                    
+                    if (isRetry) {
+                        showStatus(`Conectado al servicio de respaldo correctamente`, 'warning');
+                        console.log(`🔄 Usando servicio de respaldo: ${serviceURL}`);
+                    } else {
+                        showStatus(`Servicio ${serviceType} conectado correctamente`, 'success');
+                        console.log(`✅ Usando servicio ${serviceType}: ${serviceURL}`);
+                    }
+                    
+                    resolve(layer);
+                }).catch(error => {
+                    console.error(`❌ Error al cargar servicio desde ${serviceURL}:`, error);
+                    reject(error);
+                });
+            });
+        }
 
-           // Obtener todas las dimensiones y sus checkboxes activos
-           ['seguridad', 'desarrollo', 'gobernabilidad'].forEach(dimensionId => {
-               const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
-                variableCheckboxes.forEach(checkbox => {
-                   if (!checkbox.nextElementSibling) return; // Seguridad
-                   const variableName = checkbox.nextElementSibling.textContent.trim();
-                   if (checkbox.checked) {
-                       activeVariables[dimensionId].push(variableName);
-                   }
-               });
-           });
-
-
-           console.log("Variables activas:", activeVariables);
-
-           // Calcular el peso total por dimensión y el peso total general
-           const totalWeightByDimension = {};
-           let totalCombinedWeight = 0;
-
-           for (const dimension in activeVariables) {
-               totalWeightByDimension[dimension] = 0;
-               activeVariables[dimension].forEach(varName => {
-                   // Asegurarse que la variable exista en la matriz de pesos
-                   if (weightsMatrix[dimension] && weightsMatrix[dimension][varName] !== undefined) {
-                       const variableWeight = weightsMatrix[dimension][varName];
-                       const dimensionWeight = dimensionWeights[dimension] || 1.0;
-                       const combinedWeight = variableWeight * dimensionWeight;
-
-                       totalWeightByDimension[dimension] += variableWeight; // Suma pesos relativos a la dimensión
-                       totalCombinedWeight += combinedWeight; // Suma pesos combinados
-                   } else {
-                        console.warn(`Variable activa "${varName}" en dimensión "${dimension}" no encontrada en weightsMatrix.`);
-                   }
-               });
-           }
-
-           console.log("Peso total relativo por dimensión:", totalWeightByDimension);
-           console.log("Peso combinado total:", totalCombinedWeight);
-
-           // Primero, ocultar todas las capas (más eficiente que iterar para ocultar)
-           // map.layers.forEach(layer => {
-           //     if(layer.declaredClass === "esri.layers.ImageryLayer") { // Asegurar que solo afectamos las capas de imagen
-           //         layer.visible = false;
-           //     }
-           // });
-           // Alternativa más segura usando nuestro array:
-            if (window.horizonte && window.horizonte.layers) {
-                window.horizonte.layers.forEach(layer => layer.visible = false);
-            }
-
-
-           // Contador para el orden visual
-           let activeLayerCount = 0;
-
-           // Inicializar arrays para construir un log detallado
-           const activeLayersLog = [];
-
-           // Recopilar todas las capas activas para ordenarlas por peso
-           const processLayers = [];
-
-           for (const dimensionName in layerByVariable) {
-               for (const varName in layerByVariable[dimensionName]) {
-                   const layer = layerByVariable[dimensionName][varName];
-                   if (!layer) continue;
-
-                   // Verificar si está activa
-                   const isActive = activeVariables[dimensionName].includes(varName);
-                   if (!isActive) continue;
-
-                    // Asegurarse que la variable exista en la matriz de pesos antes de procesar
-                   if (weightsMatrix[dimensionName] && weightsMatrix[dimensionName][varName] !== undefined) {
-                       // Calcular peso ajustado
-                       const variableWeight = weightsMatrix[dimensionName][varName];
-                       const dimensionWeight = dimensionWeights[dimensionName] || 1.0;
-                       const combinedWeight = variableWeight * dimensionWeight;
-                       const normalizedWeight = totalCombinedWeight > 0 ? combinedWeight / totalCombinedWeight : 0;
-
-                       // Añadir al array para procesamiento
-                       processLayers.push({
-                           layer: layer,
-                           dimensionName: dimensionName,
-                           variableName: varName,
-                           variableWeight: variableWeight,
-                           dimensionWeight: dimensionWeight,
-                           combinedWeight: combinedWeight,
-                           normalizedWeight: normalizedWeight
-                       });
-                   }
-               }
-           }
-
-           // Ordenar capas por peso combinado (de mayor a menor)
-           processLayers.sort((a, b) => b.combinedWeight - a.combinedWeight);
-
-           // Ahora procesar las capas en orden de peso
-           processLayers.forEach((layerInfo, index) => {
-               const { layer, dimensionName, variableName, variableWeight, dimensionWeight,
-                     combinedWeight, normalizedWeight } = layerInfo;
-
-               // Activar la capa
-               layer.visible = true;
-               activeLayerCount++;
-
-               // Calcular la opacidad basada en el peso normalizado
-               // Usar un rango de opacidad de 0.3 a 0.7 para evitar que sea demasiado transparente o demasiado opaca
-               const minOpacity = 0.3;
-               const maxOpacity = 0.7;
-               const opacityRange = maxOpacity - minOpacity;
-               // Ajuste para que la capa con más peso tenga más opacidad
-               const calculatedOpacity = minOpacity + (normalizedWeight * opacityRange);
-
-               // Limitar la opacidad a valores razonables
-               layer.opacity = Math.min(maxOpacity, Math.max(minOpacity, calculatedOpacity));
-
-               // Asignar modo "lighten" a todas las capas como solicitado
-               layer.blendMode = "lighten";
-
-               // Especificar el orden de renderizado para que las capas más importantes estén más arriba
-               // Cuanto mayor sea el índice, más arriba estará en la pila de visualización
-               // El índice 0 (la capa más pesada) debe estar arriba. map.reorder(layer, map.layers.length - 1 - index) podría ser más robusto.
-               // O simplemente usar el index directamente si se añaden secuencialmente.
-               map.reorder(layer, index); // El índice 0 (más pesado) se renderiza último (más arriba)
-
-               // Registrar para análisis
-               activeLayersLog.push({
-                   dimensión: dimensionName,
-                   variable: variableName,
-                   peso: variableWeight.toFixed(3),
-                   pesoDimensión: dimensionWeight.toFixed(2),
-                   pesoCombinado: combinedWeight.toFixed(3),
-                   pesoNormalizado: normalizedWeight.toFixed(3),
-                   opacidad: layer.opacity.toFixed(2),
-                   modo: layer.blendMode,
-                   orden: index // Orden visual (0 = arriba)
-               });
-
-               // Registrar en la consola
-               console.log(`Capa ${dimensionName}:${variableName} - Opacidad: ${layer.opacity.toFixed(2)}, Modo: ${layer.blendMode} (Peso Comb: ${combinedWeight.toFixed(3)}, Orden: ${index})`);
-           });
-
-           // Mostrar tabla resumen de capas activas
-           console.table(activeLayersLog);
-           console.log(`Visualización actualizada: ${activeLayerCount} capas activas (Peso total combinado: ${totalCombinedWeight.toFixed(3)})`);
-       }
-
-       // Añadir event listeners para los checkboxes en el panel de control
-       document.addEventListener('calciteCheckboxChange', function(event) {
-           // Verificar si el cambio fue en un checkbox de variable o de dimensión
-           if (event.target && (event.target.classList.contains('variable-checkbox') || event.target.classList.contains('dimension-checkbox'))) {
-               // Aplicar pesos automáticamente cuando cambia un checkbox relevante
-               console.log("Checkbox changed, applying weights:", event.target.id);
-               applyWeightsToLayers();
-           }
-       });
-
-       // Exponer la función toggleDimensionLayers para que se pueda usar desde otros scripts
-       window.toggleDimensionLayers = function(dimensionName, isChecked) {
-           if (!window.horizonte || !window.horizonte.layerByVariable) return;
-
-           const dimensionLayersMap = window.horizonte.layerByVariable[dimensionName.toLowerCase()];
-           if (!dimensionLayersMap) return;
-
-           for (const varName in dimensionLayersMap) {
-                const layer = dimensionLayersMap[varName];
-                if (layer) {
-                   // La visibilidad ya se maneja por los checkboxes individuales y su evento
-                   // Este manejador de grupo sólo necesita gatillar la recalculación de pesos
+        // Intentar cargar servicio principal, luego respaldo si falla
+        async function initializeImageryLayer() {
+            try {
+                // Intentar servicio principal
+                showStatus('Conectando al servicio principal...', 'info');
+                imageryLayer = await createImageryLayer(imageServiceURLs.primary);
+                
+            } catch (primaryError) {
+                console.warn("🔄 Servicio principal no disponible, intentando servicio de respaldo...");
+                showStatus('Servicio principal no disponible, conectando al respaldo...', 'warning');
+                
+                try {
+                    // Intentar servicio de respaldo
+                    imageryLayer = await createImageryLayer(imageServiceURLs.fallback, true);
+                    
+                } catch (fallbackError) {
+                    console.error("❌ Ambos servicios no están disponibles:", {
+                        primary: primaryError,
+                        fallback: fallbackError
+                    });
+                    showStatus('Error: Ningún servicio de imagen está disponible. Intente más tarde.', 'error');
+                    throw new Error("Servicios de imagen no disponibles");
                 }
             }
 
-           // Aplicar los pesos para actualizar todo correctamente
-            // applyWeightsToLayers(); // Esto ya se llama desde el evento 'calciteCheckboxChange' que se dispara programáticamente en index.html
-       };
+            // Agregar la capa al mapa una vez cargada exitosamente
+            map.add(imageryLayer);
+            return imageryLayer;
+        }
 
-       // Manejador para el botón de reinicio
-       document.getElementById('resetBtn').addEventListener('click', function() {
-           showStatus('Reiniciando sistema...', 'warning');
+        // Crear rampa de colores rojo → verde
+        const hexSteps = [
+            "#a50026", "#d73027", "#f46d43", "#fdae61", "#fee08b",
+            "#d9ef8b", "#a6d96a", "#66bd63", "#1a9850", "#006837"
+        ];
 
-           // Recargar la página después de un segundo
-           setTimeout(() => {
-               location.reload();
-           }, 1000);
-       });
+        const ramps = hexSteps.slice(0, -1).map((c, i) =>
+            new AlgorithmicColorRamp({
+                fromColor: new Color(c),
+                toColor: new Color(hexSteps[i + 1])
+            })
+        );
 
-       // Cargar capas automáticamente al inicio
-       setTimeout(() => {
-           loadLayers();
-       }, 1000); // Dar tiempo a que el DOM y Calcite se estabilicen
+        const colorRampRG = new MultipartColorRamp({ colorRamps: ramps });
 
-       // Inicialización completada
-       view.when(() => {
-           showStatus('Vista del mapa inicializada. Sistema operativo.', 'success');
-       }).catch(error => {
+        // Función principal para aplicar la combinación ponderada
+        function applyWeightedCombination() {
+            // Verificar que la capa esté disponible
+            if (!imageryLayer) {
+                showStatus('Error: Servicio de imagen no disponible', 'error');
+                return;
+            }
+
+            console.log("Aplicando combinación ponderada de bandas...");
+
+            const selectedBands = [];
+            let totalWeight = 0;
+
+            // Recopilar bandas seleccionadas por dimensión
+            ['seguridad', 'desarrollo', 'gobernabilidad'].forEach(dimensionId => {
+                const variableCheckboxes = document.querySelectorAll(`.${dimensionId}-variable`);
+
+                variableCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const variableName = checkbox.nextElementSibling.textContent.trim();
+                        const config = bandasConfig[dimensionId][variableName];
+                        
+                        if (config) {
+                            // Usar directamente el peso global (ya normalizado)
+                            selectedBands.push({
+                                banda: config.banda,
+                                peso: config.peso,
+                                variable: variableName,
+                                dimension: dimensionId
+                            });
+                            totalWeight += config.peso;
+                        }
+                    }
+                });
+            });
+
+            // Si no hay bandas seleccionadas, ocultar la capa
+            if (selectedBands.length === 0) {
+                imageryLayer.visible = false;
+                showStatus('Seleccione al menos una variable para visualizar', 'warning');
+                return;
+            }
+
+            // Crear expresión BandArithmetic
+            const expression = `(${selectedBands
+                .map(s => `(B${s.banda}*${s.peso})`)
+                .join(" + ")})/${totalWeight}`;
+
+            console.log("🧮 Expresión BandArithmetic:", expression);
+            console.log("📊 Bandas seleccionadas:", selectedBands.length);
+            console.log("🌐 Servicio activo:", currentImageServiceURL);
+            console.table(selectedBands);
+
+            try {
+                // Crear RasterFunction
+                const rasterFn = new RasterFunction({
+                    rasterFunction: "BandArithmetic",
+                    rasterFunctionArguments: {
+                        Method: 0,
+                        BandIndexes: expression,
+                        VariableName: "Raster"
+                    },
+                    outputPixelType: "F32"
+                });
+
+                // Aplicar función y renderer
+                imageryLayer.rasterFunction = rasterFn;
+                imageryLayer.renderer = new RasterStretchRenderer({
+                    stretchType: "standard-deviation",
+                    numberOfStandardDeviations: 3,
+                    dynamicRangeAdjustment: true,
+                    colorRamp: colorRampRG
+                });
+
+                imageryLayer.visible = true;
+                imageryLayer.refresh();
+
+                const serviceType = currentImageServiceURL === imageServiceURLs.primary ? "principal" : "respaldo";
+                showStatus(`Visualizando combinación de ${selectedBands.length} variables (Servicio ${serviceType})`, 'success');
+                
+            } catch (error) {
+                console.error("Error aplicando RasterFunction:", error);
+                showStatus('Error al procesar la combinación de bandas', 'error');
+            }
+        }
+
+        // Función para obtener información del servicio activo
+        window.getServiceInfo = function() {
+            const serviceType = currentImageServiceURL === imageServiceURLs.primary ? "Principal" : "Respaldo";
+            const info = {
+                serviceType: serviceType,
+                url: currentImageServiceURL,
+                status: imageryLayer ? "Conectado" : "Desconectado"
+            };
+            console.table(info);
+            return info;
+        };
+
+        // Event listener para cambios en checkboxes
+        document.addEventListener('calciteCheckboxChange', function(event) {
+            if (event.target && (event.target.classList.contains('variable-checkbox') || event.target.classList.contains('dimension-checkbox'))) {
+                console.log("Checkbox changed, updating visualization:", event.target.id);
+                // Pequeño delay para asegurar que todos los checkboxes se actualicen
+                setTimeout(applyWeightedCombination, 100);
+            }
+        });
+
+        // Función para toggle de dimensiones (expuesta globalmente)
+        window.toggleDimensionLayers = function(dimensionName, isChecked) {
+            console.log(`Toggle dimension: ${dimensionName} = ${isChecked}`);
+            // La lógica ya se maneja en el event listener de calciteCheckboxChange
+        };
+
+        // Manejador para el botón de reinicio
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            showStatus('Reiniciando sistema...', 'warning');
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        });
+
+        // Inicialización completada
+        view.when(async () => {
+            try {
+                // Inicializar la capa de imagen con sistema de respaldo
+                await initializeImageryLayer();
+                
+                showStatus('Sistema HORIZONTE 2.0 operativo. Servicio de imagen cargado correctamente.', 'success');
+                
+                // Almacenar referencias globales
+                window.horizonte = {
+                    imageryLayer: imageryLayer,
+                    applyWeightedCombination: applyWeightedCombination,
+                    bandasConfig: bandasConfig,
+                    currentServiceURL: currentImageServiceURL
+                };
+                
+                // Disparar evento para indicar que el sistema está listo
+                window.dispatchEvent(new CustomEvent('horizonte:systemReady'));
+                
+            } catch (error) {
+                console.error("Error inicializando el sistema HORIZONTE:", error);
+                showStatus('Error crítico al inicializar el sistema. Verifique la conexión de red.', 'error');
+            }
+        }).catch(error => {
             console.error("Error inicializando la vista del mapa:", error);
             showStatus('Error al inicializar la vista del mapa.', 'error');
-       });
-   });
+        });
+    });
 });
