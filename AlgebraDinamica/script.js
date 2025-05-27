@@ -15,7 +15,7 @@ let currentImageServiceURL = null;
 // Basado en el array de pesos del ejemplo: índices 0-39 corresponden a bandas 1-40
 const bandasConfig = {
     desarrollo: {
-        'Tasa de Ocupación': { banda: 1, peso: 0.0375 },                         // índice 0
+        'Tasa de Ocupación': { banda: 1, peso: 0.0125 },                         // índice 0
         'IPM - Pobreza Multidimensional': { banda: 2, peso: 0.025 },            // índice 1
         'Alfabetismo': { banda: 3, peso: 0.025 },                               // índice 2
         'Bajo peso al nacer': { banda: 4, peso: 0.0375 },                       // índice 3
