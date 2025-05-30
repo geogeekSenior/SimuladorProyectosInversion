@@ -192,8 +192,17 @@
                 // --- FIN: CÓDIGO PARA LEYENDA HTML FIJA ---
                 
                 // Cargar datos de proyectos
+                // Cargar datos de proyectos
                 loadProyectos()
                     .then(() => {
+                        // Inicializar análisis multidimensional si está disponible
+                        if (HORIZONTE.multidimensionalAnalysis) {
+                            console.log("Inicializando análisis multidimensional en escena 3D...");
+                            HORIZONTE.multidimensionalAnalysis.init(state.view);
+                        } else {
+                            console.warn("Módulo de análisis multidimensional no disponible");
+                        }
+                        
                         // Notificar que la escena está lista
                         dispatchReadyEvent();
                         
@@ -306,248 +315,156 @@
      * @returns {Promise} Promesa que se resuelve cuando las ubicaciones están listas
      */
     function mostrarUbicacionesProyecto(proyecto) {
-        return new Promise((resolve, reject) => {
-            try {
-                // Si el nombre del proyecto ya está usado, no hacer nada
-                const nombreProyecto = proyecto.attributes.proyecto.toLowerCase();
+    return new Promise((resolve, reject) => {
+        try {
+            const nombreProyecto = proyecto.attributes.proyecto.toLowerCase();
 
-                // CAMBIO IMPORTANTE: Verificar si el proyecto está realmente en uso consultando a app.js
-                let proyectoEnUso = false;
-
-                // Usar getProyectosSeleccionados de app.js para verificar si el proyecto está realmente en uso
-                if (HORIZONTE.app && HORIZONTE.app.getProyectosSeleccionados) {
-                    const proyectosSeleccionados = HORIZONTE.app.getProyectosSeleccionados();
-                    proyectoEnUso = proyectosSeleccionados.some(p => 
-                        p.proyecto.toLowerCase() === nombreProyecto.toLowerCase()
-                    );
-                }
-
-                // Si detectamos localmente que está usado, pero app.js dice que no,
-                // corregimos nuestro estado local
-                if (state.proyectosNombresUsados.has(nombreProyecto) && !proyectoEnUso) {
-                    console.log(`Corrigiendo estado local en map-scene.js: ${nombreProyecto} no está en uso según app.js`);
-                    state.proyectosNombresUsados.delete(nombreProyecto);
-                }
-
-                // Sólo rechazar si realmente está en uso según app.js
-                if (proyectoEnUso) {
-                    reject({
-                        code: 'PROYECTO_USADO',
-                        message: `Operación ${proyecto.attributes.proyecto} ya desplegada`
-                    });
-                    return;
-                }
-                
-                // Obtener el presupuesto disponible desde la aplicación principal
-                const presupuestoDisponible = HORIZONTE.app && typeof HORIZONTE.app.presupuestoDisponible !== 'undefined' 
-                    ? HORIZONTE.app.presupuestoDisponible 
-                    : 10000;
-                
-                console.log(`Verificando disponibilidad para proyecto ${nombreProyecto} con presupuesto ${presupuestoDisponible}`);
-                
-                // Filtrar ubicaciones disponibles (no usadas y dentro del presupuesto)
-                const ubicacionesProyecto = state.proyectos.filter(
-                    p => p.attributes.proyecto.toLowerCase() === nombreProyecto &&
-                        !state.proyectosUsados.has(p.attributes.objectid) &&
-                        p.attributes.valorinversion <= presupuestoDisponible
+            let proyectoEnUso = false;
+            if (HORIZONTE.app && HORIZONTE.app.getProyectosSeleccionados) {
+                const proyectosSeleccionados = HORIZONTE.app.getProyectosSeleccionados();
+                proyectoEnUso = proyectosSeleccionados.some(p =>
+                    p.proyecto.toLowerCase() === nombreProyecto
                 );
-                
-                console.log(`Ubicaciones disponibles para ${nombreProyecto}: ${ubicacionesProyecto.length}`);
-                
-                // Si no hay ubicaciones disponibles, mostrar mensaje
-                if (ubicacionesProyecto.length === 0) {
-                    reject({
-                        code: 'NO_UBICACIONES',
-                        message: `No hay ubicaciones disponibles para ${proyecto.attributes.proyecto}`
+            }
+
+            if (state.proyectosNombresUsados.has(nombreProyecto) && !proyectoEnUso) {
+                state.proyectosNombresUsados.delete(nombreProyecto);
+            }
+
+            if (proyectoEnUso) {
+                reject({
+                    code: 'PROYECTO_USADO',
+                    message: `Operación ${proyecto.attributes.proyecto} ya desplegada`
+                });
+                return;
+            }
+
+            const presupuestoDisponible = HORIZONTE.app?.presupuestoDisponible ?? 10000;
+
+            const ubicacionesProyecto = state.proyectos.filter(
+                p => p.attributes.proyecto.toLowerCase() === nombreProyecto &&
+                    !state.proyectosUsados.has(p.attributes.objectid) &&
+                    p.attributes.valorinversion <= presupuestoDisponible
+            );
+
+            if (ubicacionesProyecto.length === 0) {
+                reject({
+                    code: 'NO_UBICACIONES',
+                    message: `No hay ubicaciones disponibles para ${proyecto.attributes.proyecto}`
+                });
+                return;
+            }
+
+            if (state.locationOptionsLayer) {
+                state.webscene.remove(state.locationOptionsLayer);
+                state.locationOptionsLayer = null;
+            }
+
+            if (state.clickHandle) {
+                state.clickHandle.remove();
+                state.clickHandle = null;
+            }
+
+            require(["esri/layers/GraphicsLayer", "esri/Graphic", "esri/geometry/Point"], function(GraphicsLayer, Graphic, Point) {
+                state.locationOptionsLayer = new GraphicsLayer({ title: "Puntos de Despliegue Disponibles" });
+                state.webscene.add(state.locationOptionsLayer);
+
+                ubicacionesProyecto.forEach((ubicacion, index) => {
+                    const punto = new Point({
+                        longitude: ubicacion.geometry.longitude,
+                        latitude: ubicacion.geometry.latitude
                     });
-                    return;
-                }
-                
-                // Limpiar capa de ubicaciones anterior si existe
-                if (state.locationOptionsLayer) {
-                    state.webscene.remove(state.locationOptionsLayer);
-                    state.locationOptionsLayer = null;
-                }
-                
-                // Desactivar manejador de clics anterior si existe
-                if (state.clickHandle) {
-                    state.clickHandle.remove();
-                    state.clickHandle = null;
-                }
-                
-                // Crear nueva capa para opciones de ubicación
-                require(["esri/layers/GraphicsLayer", "esri/Graphic", "esri/geometry/Point", "esri/symbols/TextSymbol"], 
-                    function(GraphicsLayer, Graphic, Point, TextSymbol) {
-                        
-                    // Crear capa para mostrar opciones de ubicación
-                    state.locationOptionsLayer = new GraphicsLayer({
-                        title: "Puntos de Despliegue Disponibles"
-                    });
-                    state.webscene.add(state.locationOptionsLayer);
-                    
-                    // Obtener la simbología de la configuración o usar un valor predeterminado
-                    const locationSymbol = HORIZONTE.config && HORIZONTE.config.mapScene && HORIZONTE.config.mapScene.symbols
-                        ? HORIZONTE.config.mapScene.symbols.locationOption
-                        : {
-                            type: "point-3d",
-                            symbolLayers: [{
+
+                    ubicacion.attributes.numeroPunto = index + 1;
+
+                    const symbol = {
+                        type: "point-3d",
+                        symbolLayers: [
+                            {
                                 type: "icon",
-                                size: 24,
+                                size: 32,
                                 resource: { primitive: "triangle" },
                                 material: { color: [191, 155, 48, 0.9] },
                                 outline: {
                                     color: [0, 0, 0, 0.7],
                                     size: 1
                                 }
-                            }]
-                        };
-                    
-                    // Crear gráficos para cada ubicación
-                    ubicacionesProyecto.forEach((ubicacion, index) => {
-                        const punto = new Point({
-                            longitude: ubicacion.geometry.longitude,
-                            latitude: ubicacion.geometry.latitude
-                        });
-                        
-                        // Añadir atributo para el número de punto
-                        ubicacion.attributes.numeroPunto = index + 1;
-                        
-                        const puntoGraphic = new Graphic({
-                            geometry: punto,
-                            symbol: locationSymbol,
-                            attributes: ubicacion.attributes,
-                            popupTemplate: {
-                                title: `${ubicacion.attributes.proyecto} - Punto ${index + 1}`,
-                                content: [
-                                    {
-                                        type: "text",
-                                        text: `
-                                            <div style="padding: 10px; font-family: 'Courier New', monospace;">
-                                                <h3 style="color: #d0d3d4; border-bottom: 1px solid #d0d3d4; padding-bottom: 5px;">Descripción</h3>
-                                                <p><strong></strong> ${ubicacion.attributes.descripcion}</p>
-                                                <p><strong>Punto:</strong> ${index + 1}</p>
-                                                <p><strong>Recursos requeridos:</strong> $${ubicacion.attributes.valorinversion.toLocaleString()}</p>
-                                            </div>
-                                        `
-                                    }
-                                ]
-                            }
-                        });
-                        
-                        // Añadir el punto a la capa
-                        state.locationOptionsLayer.add(puntoGraphic);
-                        
-                        // Crear etiqueta con el número de punto (SE MANTIENE PARA PUNTOS DISPONIBLES)
-                        const etiquetaSimbol = {
-                            type: "text",
-                            color: [255, 255, 255],
-                            halo: {
-                                color: [0, 0, 0, 0.7],
-                                size: 1
                             },
-                            text: `PUNTO ${index + 1}`,
-                            font: {
-                                size: 12,
-                                family: "Courier New",
-                                weight: "bold"
-                            }
-                        };
-                        
-                        // Crear un punto ligeramente desplazado hacia arriba para la etiqueta
-                        const puntoEtiqueta = new Point({
-                            longitude: ubicacion.geometry.longitude,
-                            latitude: ubicacion.geometry.latitude,
-                            z: 25 // Desplazar la etiqueta hacia arriba
-                        });
-                        
-                        // Crear gráfico para la etiqueta
-                        const etiquetaGraphic = new Graphic({
-                            geometry: puntoEtiqueta,
-                            symbol: etiquetaSimbol,
-                            attributes: {
-                                id: `label-${ubicacion.attributes.objectid}`,
-                                numeroPunto: index + 1
-                            }
-                        });
-                        
-                        // Añadir la etiqueta a la capa
-                        state.locationOptionsLayer.add(etiquetaGraphic);
+{
+    type: "text",
+    text: `${index + 1}`,
+    material: { color: [255, 255, 255] },
+    font: {
+        family: "Arial",
+        size: 10,
+        weight: "bold"
+    },
+    verticalAlignment: "top",     // El texto se alinea por la parte superior
+    horizontalAlignment: "center",
+    halo: {
+        color: [0, 0, 0],
+        size: 1
+    },
+    anchor: "bottom"              // Se ancla desde abajo => mueve el texto hacia abajo visualmente
+}
+
+                        ]
+                    };
+
+                    const puntoGraphic = new Graphic({
+                        geometry: punto,
+                        symbol,
+                        attributes: ubicacion.attributes,
+                        popupTemplate: {
+                            title: `${ubicacion.attributes.proyecto} - Punto ${index + 1}`,
+                            content: `
+                                <div style="padding: 10px; font-family: 'Courier New', monospace;">
+                                    <h3 style="color: #d0d3d4; border-bottom: 1px solid #d0d3d4; padding-bottom: 5px;">Descripción</h3>
+                                    <p><strong></strong> ${ubicacion.attributes.descripcion}</p>
+                                    <p><strong>Punto:</strong> ${index + 1}</p>
+                                    <p><strong>Recursos requeridos:</strong> $${ubicacion.attributes.valorinversion.toLocaleString()}</p>
+                                </div>
+                            `
+                        }
                     });
-                    
-                    // Animación de la cámara para centrar en las ubicaciones
-                    state.view.goTo({ 
-                        target: state.locationOptionsLayer.graphics,
-                        tilt: 30,
-                        zoom: 9.3
-                    }, {
-                        duration: 1500,
-                        easing: "out-expo"
-                    }).catch(error => {
-                        console.warn("Error al mover la cámara:", error);
-                    });
-                    
-                    // Añadir manejador de eventos para clicks en el mapa
-                    state.clickHandle = state.view.on('click', function(event) {
-                        state.view.hitTest(event).then(function(response) {
-                            if (response.results.length > 0) {
-                                const graphic = response.results[0].graphic;
-                                
-                                if (graphic.layer === state.locationOptionsLayer) {
-                                    try {
-                                        // Verificar si el método popup.open existe
-                                        if (state.view.popup && typeof state.view.popup.open === 'function') {
-                                            // Mostrar popup solo para los puntos, no para las etiquetas
-                                            if (graphic.attributes && graphic.attributes.objectid) {
-                                                state.view.popup.open({
-                                                    features: [graphic],
-                                                    location: event.mapPoint
-                                                });
-                                            }
-                                        } else {
-                                            // Alternativa si el método popup.open no está disponible
-                                            console.log("Punto seleccionado:", graphic.attributes);
-                                            // Mostrar un mensaje al usuario
-                                            if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
-                                                HORIZONTE.utils.showStatusMessage(
-                                                    `Seleccionado: ${graphic.attributes.proyecto} (Punto: ${graphic.attributes.numeroPunto})`, 
-                                                    "info"
-                                                );
-                                            }
-                                        }
-                                    } catch (error) {
-                                        console.warn("No se pudo abrir el popup:", error);
-                                        // Mostrar un mensaje alternativo
-                                        if (HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
-                                            HORIZONTE.utils.showStatusMessage(
-                                                `Seleccionado: ${graphic.attributes.proyecto || 'Punto'} (ID: ${graphic.attributes.objectid || graphic.attributes.numeroPunto})`, 
-                                                "info"
-                                            );
-                                        }
-                                    }
-                                }
-                            }
-                        }).catch(error => {
-                            console.warn("Error en hitTest:", error);
-                        });
-                    });
-                    
-                    // Resolver con las ubicaciones y el nombre del proyecto
-                    resolve({
-                        ubicaciones: ubicacionesProyecto,
-                        nombreProyecto: proyecto.attributes.proyecto
-                    });
+
+                    state.locationOptionsLayer.add(puntoGraphic);
                 });
-            } catch (error) {
-                console.error("Error inesperado en mostrarUbicacionesProyecto:", error);
-                reject({
-                    code: 'ERROR_INESPERADO',
-                    message: "Ocurrió un error inesperado al mostrar ubicaciones",
-                    error: error
+
+                state.view.goTo({
+                    target: state.locationOptionsLayer.graphics,
+                    tilt: 30,
+                    zoom: 9.3
+                }, {
+                    duration: 1500,
+                    easing: "out-expo"
+                }).catch(console.warn);
+
+                state.clickHandle = state.view.on('click', function(event) {
+                    state.view.hitTest(event).then(function(response) {
+                        const graphic = response.results?.[0]?.graphic;
+                        if (graphic?.layer === state.locationOptionsLayer && graphic.attributes?.objectid) {
+                            state.view.popup.open({
+                                features: [graphic],
+                                location: event.mapPoint
+                            });
+                        }
+                    }).catch(console.warn);
                 });
-            }
-        });
-    }
-    
+
+                resolve({ ubicaciones: ubicacionesProyecto, nombreProyecto: proyecto.attributes.proyecto });
+            });
+        } catch (error) {
+            console.error("Error inesperado:", error);
+            reject({
+                code: 'ERROR_INESPERADO',
+                message: "Ocurrió un error inesperado al mostrar ubicaciones",
+                error
+            });
+        }
+    });
+}
+
     /**
      * Selecciona una ubicación específica para un proyecto
      * @param {number} objectId - ID del objeto a seleccionar
@@ -875,7 +792,14 @@
             return false;
         }
     }
-    
+    /**
+     * Obtiene la vista de la escena 3D
+     * @returns {Object} Vista de la escena
+     */
+    function getView() {
+        return state.view;
+    }
+        
     // Exponer API pública
     HORIZONTE.mapScene = {
         init,
@@ -884,6 +808,7 @@
         seleccionarUbicacion,
         clearLocationOptions,
         isInitialized,
-        eliminarPuntoProyecto
+        eliminarPuntoProyecto,
+        getView
     };
 })();

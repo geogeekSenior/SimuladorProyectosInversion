@@ -538,3 +538,48 @@
     margin: var(--spacing-md) 0;
     border-left: 4px solid var(--error-color);
 }
+/* AÑADIR AL FINAL DEL <style> */
+
+/* Estilos para análisis multidimensional */
+.analysis-panel {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
+}
+
+.analysis-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.analysis-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.analysis-panel::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+.dimension-group {
+    transition: all 0.3s ease;
+}
+
+.dimension-group:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.variable-checkbox:checked + .variable-name {
+    color: var(--accent-color);
+    font-weight: var(--font-weight-semibold);
+}
+
+.dimension-checkbox:checked + span {
+    text-shadow: 0 0 8px currentColor;
+}
+
+.military-button-secondary {
+    background-color: var(--secondary-color);
+}
+
+.military-button-secondary:hover {
+    background-color: var(--primary-color-dark);
+}

@@ -15,6 +15,8 @@ HORIZONTE.Loader = (function() {
         { path: 'js/config.js', critical: true },
         { path: 'js/utils.js', critical: true },
         { path: 'js/components/progress-stepper.js', critical: false },
+        { path: 'js/multidimensional-analysis.js', critical: false },
+
         { path: 'js/components/map-scene.js', critical: false },
         { path: 'js/components/map-viewer.js', critical: false },
         { path: 'js/components/metrics-display.js', critical: false },

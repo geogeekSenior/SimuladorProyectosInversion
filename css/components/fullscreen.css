@@ -1,0 +1,315 @@
+/* 
+ * components/fullscreen.css
+ * Estilos para funcionalidad de pantalla completa del app-container
+ * Horizonte: Juego de Estrategia
+ */
+
+/* Botón de pantalla completa - Estilo integrado junto a recursos */
+.app-fullscreen-button.inline-button {
+    position: relative;
+    background-color: rgba(26, 58, 110, 0.8);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-sm);
+    padding: 8px 10px;
+    font-family: var(--font-monospace);
+    font-size: 16px;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    box-shadow: var(--shadow-sm);
+    user-select: none;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    z-index: 100;
+}
+
+.app-fullscreen-button.inline-button:hover {
+    background-color: rgba(26, 58, 110, 1);
+    border-color: var(--primary-color-light);
+    box-shadow: 0 0 8px rgba(26, 58, 110, 0.6);
+    transform: scale(1.05);
+}
+
+.app-fullscreen-button.inline-button:active {
+    transform: scale(0.98);
+}
+
+.app-fullscreen-button.inline-button.active {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: var(--panel-bg-color);
+    box-shadow: 0 0 10px rgba(191, 155, 48, 0.5);
+}
+
+.app-fullscreen-button.inline-button.active:hover {
+    background-color: #a67728;
+    border-color: #a67728;
+}
+
+.app-fullscreen-button.inline-button .fullscreen-icon {
+    font-size: 16px;
+    line-height: 1;
+    display: block;
+}
+
+/* Contenedor de presupuesto mejorado */
+.budget-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+/* Ajustes para el contenedor de recursos cuando incluye el botón */
+.resource-container {
+    position: relative;
+}
+
+/* Estado de pantalla completa para app-container */
+.app-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background-color: var(--background-color) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Ajustes para el contenedor del mapa en pantalla completa */
+.app-fullscreen #mapContainer {
+    border-right: none !important;
+    box-shadow: none !important;
+}
+
+/* Ajustes para el contenedor de proyectos en pantalla completa */
+.app-fullscreen #projectListContainer {
+    border-left: 1px solid var(--primary-color) !important;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2) !important;
+}
+
+/* El botón mantiene su posición junto a recursos en pantalla completa */
+.app-fullscreen .app-fullscreen-button.inline-button {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border-color: var(--primary-color-light) !important;
+    backdrop-filter: blur(8px) !important;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+.app-fullscreen .app-fullscreen-button.inline-button:hover {
+    background-color: rgba(26, 58, 110, 0.9) !important;
+    box-shadow: 0 0 20px rgba(26, 58, 110, 0.7) !important;
+}
+
+.app-fullscreen .app-fullscreen-button.inline-button.active {
+    background-color: var(--warning-color) !important;
+    box-shadow: 0 0 20px rgba(191, 155, 48, 0.7) !important;
+}
+
+/* Efectos cuando está en pantalla completa */
+.app-fullscreen-active {
+    overflow: hidden !important;
+}
+
+.app-fullscreen-active body {
+    overflow: hidden !important;
+}
+
+/* Animaciones de transición */
+.app-fullscreen {
+    animation: fullscreen-enter 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fullscreen-enter {
+    from {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Animación de salida (se aplica mediante JavaScript) */
+.app-fullscreen-exit {
+    animation: fullscreen-exit 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fullscreen-exit {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+}
+
+/* Indicador de pantalla completa */
+.fullscreen-indicator {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-xs);
+    z-index: 10000;
+    display: none;
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--primary-color-dark);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+}
+
+.app-fullscreen .fullscreen-indicator {
+    display: block;
+    animation: fadeInOut 4s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    15% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Ajustes específicos para widgets de ArcGIS en pantalla completa */
+.app-fullscreen .esri-ui-corner {
+    z-index: 9999 !important;
+}
+
+.app-fullscreen .esri-widget {
+    background-color: rgba(26, 34, 40, 0.95) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+/* Mejoras para el mapa en pantalla completa */
+.app-fullscreen #viewDiv {
+    border-radius: 0 !important;
+}
+
+/* Ajustes para botones existentes en pantalla completa */
+.app-fullscreen #geoprocessButton {
+    bottom: 30px !important;
+    right: 30px !important;
+    z-index: 9999 !important;
+}
+
+/* Ajustes para instrucciones del mapa */
+.app-fullscreen #map-instructions {
+    background-color: rgba(26, 34, 40, 0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    z-index: 9999 !important;
+}
+
+/* Responsive para pantalla completa */
+@media (max-width: 768px) {
+    .app-fullscreen-button.inline-button {
+        width: 32px;
+        height: 32px;
+        padding: 6px;
+    }
+    
+    .app-fullscreen-button.inline-button .fullscreen-icon {
+        font-size: 14px;
+    }
+    
+    .fullscreen-indicator {
+        top: 10px;
+        left: 10px;
+        padding: 6px 8px;
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* Mejoras para accesibilidad */
+.app-fullscreen-button.inline-button:focus {
+    outline: 2px solid var(--primary-color-light);
+    outline-offset: 2px;
+}
+
+/* Evitar selección de texto en el botón */
+.app-fullscreen-button.inline-button * {
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Asegurar que los controles sean visibles en pantalla completa */
+.app-fullscreen .military-footer,
+.app-fullscreen .navigation-container,
+.app-fullscreen .military-header {
+    display: none !important;
+}
+
+/* Estados de hover mejorados para el botón integrado */
+.app-fullscreen-button.inline-button:hover .fullscreen-icon {
+    transform: scale(1.1);
+}
+
+/* Pulso suave para llamar la atención al botón */
+@keyframes subtle-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(26, 58, 110, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(26, 58, 110, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(26, 58, 110, 0); }
+}
+
+.app-fullscreen-button.inline-button {
+    animation: subtle-pulse 3s infinite;
+}
+
+.app-fullscreen-button.inline-button:hover {
+    animation: none;
+}
+
+/* Ajustes para asegurar que el contenido sea completamente visible */
+.app-fullscreen * {
+    box-sizing: border-box;
+}
+
+/* Mejoras para el rendimiento en pantalla completa */
+.app-fullscreen {
+    will-change: transform;
+    contain: layout style paint;
+}
+
+/* Efecto de brillo en el icono cuando está activo */
+.app-fullscreen-button.inline-button.active .fullscreen-icon {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Transiciones suaves para el botón */
+.app-fullscreen-button.inline-button .fullscreen-icon {
+    transition: all var(--transition-normal);
+}
+
+/* Mejora visual del contenedor de recursos cuando incluye el botón */
+.resource-container:has(.app-fullscreen-button.inline-button) {
+    border: 1px solid var(--primary-color);
+    background-color: rgba(26, 58, 110, 0.4);
+}
+
+/* Asegurar que el botón no se rompa en diferentes tamaños */
+.app-fullscreen-button.inline-button {
+    min-width: 36px;
+    min-height: 36px;
+}
+
+/* Mejora la legibilidad del texto de recursos junto al botón */
+.budget-container .resource-value {
+    text-align: left;
+}

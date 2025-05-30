@@ -1,0 +1,487 @@
+/**
+ * multidimensional-panel.css - Estilos para el Panel Lateral de Análisis Multidimensional
+ * HORIZONTE: Juego de Estrategia
+ */
+
+/* Variables CSS específicas del panel */
+:root {
+    --panel-primary: #1a3a6e;
+    --panel-primary-dark: #0d2242;
+    --panel-primary-light: #486ba0;
+    --panel-accent: #bf9b30;
+    --panel-success: #517f35;
+    --panel-warning: #d8720d;
+    --panel-error: #ac1c1c;
+    --panel-text: #d0d3d4;
+    --panel-backdrop: rgba(0, 20, 48, 0.98);
+}
+
+/* Panel principal */
+.multidimensional-side-panel {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    user-select: none;
+    backdrop-filter: blur(15px) saturate(1.2);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 
+        4px 0 25px rgba(0,0,0,0.4),
+        inset -1px 0 0 rgba(255,255,255,0.1);
+}
+
+/* Animaciones mejoradas para el toggle */
+.panel-toggle-btn {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.panel-toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.panel-toggle-btn:hover::before {
+    left: 100%;
+}
+
+.panel-toggle-btn:hover {
+    transform: scale(1.05) translateX(5px);
+    box-shadow: 
+        4px 0 20px rgba(0,0,0,0.5),
+        0 0 15px var(--panel-accent);
+}
+
+.panel-toggle-btn:active {
+    transform: scale(0.95) translateX(2px);
+}
+
+/* Header del panel mejorado */
+.panel-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.panel-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        var(--panel-accent) 0%, 
+        var(--panel-primary-light) 50%, 
+        var(--panel-accent) 100%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Indicador de estado del servicio */
+.service-status {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.service-status:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#serviceStatusIndicator {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+#serviceStatusIndicator.connected {
+    background: var(--panel-success) !important;
+    box-shadow: 0 0 10px var(--panel-success);
+    animation: none !important;
+}
+
+#serviceStatusIndicator.error {
+    background: var(--panel-error) !important;
+    box-shadow: 0 0 10px var(--panel-error);
+    animation: pulse-error 1s infinite;
+}
+
+#serviceStatusIndicator.connecting {
+    background: var(--panel-warning) !important;
+    box-shadow: 0 0 10px var(--panel-warning);
+    animation: pulse-connecting 2s infinite;
+}
+
+@keyframes pulse-error {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.5; 
+        transform: scale(0.9);
+    }
+}
+
+@keyframes pulse-connecting {
+    0%, 100% { 
+        opacity: 0.6; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.1);
+    }
+}
+
+/* Estadísticas del análisis */
+.analysis-stats > div {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.analysis-stats > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.analysis-stats > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+}
+
+/* Grupos de dimensiones mejorados */
+.dimension-group {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dimension-group:hover {
+    transform: translateX(5px);
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+}
+
+.dimension-group::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.05), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.dimension-group:hover::before {
+    left: 100%;
+}
+
+/* Headers de dimensión */
+.dimension-header {
+    transition: all 0.3s ease;
+}
+
+.dimension-header:hover {
+    background: linear-gradient(90deg, 
+        rgba(var(--dimension-color), 0.3) 0%, 
+        rgba(var(--dimension-color), 0.15) 100%) !important;
+}
+
+/* Lista de variables mejorada */
+.variables-list {
+    position: relative;
+}
+
+.variables-list::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.1) 20%, 
+        rgba(255,255,255,0.1) 80%, 
+        transparent 100%);
+}
+
+/* Labels de variables */
+.variables-list label {
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.variables-list label:hover {
+    transform: translateX(5px);
+    background: rgba(255,255,255,0.1) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+}
+
+.variables-list label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.variables-list label:hover::before {
+    background: var(--panel-accent);
+}
+
+/* Checkboxes personalizados */
+input[type="checkbox"] {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    transform: scale(1.1);
+}
+
+input[type="checkbox"]:checked + * {
+    color: var(--panel-text) !important;
+    font-weight: 600;
+}
+
+/* Botones del footer */
+.panel-footer button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.panel-footer button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
+
+.panel-footer button:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+.panel-footer button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.panel-footer button:active {
+    transform: translateY(0);
+}
+
+/* Botón aplicar análisis */
+#applyAnalysis:hover {
+    background: linear-gradient(45deg, var(--panel-success), #66a040) !important;
+    box-shadow: 0 4px 15px rgba(81, 127, 53, 0.4);
+}
+
+/* Botón limpiar */
+#clearAnalysis:hover {
+    background: linear-gradient(45deg, var(--panel-warning), #e68a1a) !important;
+    box-shadow: 0 4px 15px rgba(216, 114, 13, 0.4);
+}
+
+/* Botón seleccionar todas */
+#selectAllAnalysis:hover {
+    background: linear-gradient(45deg, var(--panel-primary), var(--panel-primary-light)) !important;
+    box-shadow: 0 4px 15px rgba(26, 58, 110, 0.4);
+}
+
+/* Scrollbar personalizada */
+.multidimensional-side-panel *::-webkit-scrollbar {
+    width: 6px;
+}
+
+.multidimensional-side-panel *::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+
+.multidimensional-side-panel *::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--panel-primary), var(--panel-primary-dark));
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.multidimensional-side-panel *::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--panel-primary-light), var(--panel-primary));
+    box-shadow: 0 0 5px var(--panel-accent);
+}
+
+/* Responsividad mejorada */
+@media (max-width: 1024px) {
+    .multidimensional-side-panel {
+        width: 320px;
+        transform: translateX(-280px);
+    }
+    
+    .panel-toggle-btn {
+        right: -45px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .multidimensional-side-panel {
+        width: 300px;
+        transform: translateX(-260px);
+        top: 120px;
+    }
+    
+    .panel-toggle-btn {
+        right: -40px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .dimension-group {
+        margin-bottom: 20px;
+    }
+    
+    .variables-list {
+        max-height: 150px;
+    }
+}
+
+/* Efectos de entrada */
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.multidimensional-side-panel.animate-in {
+    animation: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estados de carga */
+.loading-state {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.loading-state::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(255,255,255,0.1) 50%, 
+        transparent 70%);
+    animation: loading-sweep 2s infinite;
+}
+
+@keyframes loading-sweep {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Tooltips para información adicional */
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Mejoras de accesibilidad */
+.multidimensional-side-panel:focus-within {
+    box-shadow: 
+        4px 0 25px rgba(0,0,0,0.4),
+        0 0 0 3px var(--panel-accent);
+}
+
+input[type="checkbox"]:focus {
+    outline: 2px solid var(--panel-accent);
+    outline-offset: 2px;
+}
+
+button:focus {
+    outline: 2px solid var(--panel-accent);
+    outline-offset: 2px;
+}
+
+/* Indicador de progreso para el análisis */
+.analysis-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--panel-accent);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.panel-footer.processing .analysis-progress {
+    width: 100%;
+    animation: progress-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
