@@ -155,7 +155,7 @@
                 <div class="intel-section">
                     <h3 class="section-title">RESUMEN EJECUTIVO</h3>
                     <p class="sierra-text">
-                        La convergencia de amenazas evidencia un deterioro significativo en los indicadores de Seguridad, Desarrollo y Gobernabilidad. La expectativa de vida regional presenta una proyección de reducción considerable si no se implementan acciones correctivas inmediatas.
+                        La convergencia de amenazas evidencia un deterioro significativo en los indicadores de Seguridad, Desarrollo y Gobernabilidad. La Esperanza de vida regional presenta una proyección de reducción considerable si no se implementan acciones correctivas inmediatas.
                     </p>
                    
                    
@@ -169,26 +169,26 @@
                         <div class="dimension-bar-container">
                             <div class="bar-label">Seguridad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="50.22"></div>
+                                <div class="bar-inner" data-value="23.97"></div>
                             </div>
-                            <div class="bar-value">50.22%</div>
+                            <div class="bar-value">23.97%</div>
                         </div>
                         <div class="dimension-bar-container">
                             <div class="bar-label">Desarrollo</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="50.73"></div>
+                                <div class="bar-inner" data-value="44.3"></div>
                             </div>
-                            <div class="bar-value">50.73%</div>
+                            <div class="bar-value">44.33%</div>
                         </div>
                         <div class="dimension-bar-container">
                             <div class="bar-label">Gobernabilidad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="38.89"></div>
+                                <div class="bar-inner" data-value="6.37"></div>
                             </div>
-                            <div class="bar-value">38.89%</div>
+                            <div class="bar-value">6.37%</div>
                         </div>
                         <div class="dimension-bar-container total-index">
-                            <div class="bar-label">Expectativa de Vida</div>
+                            <div class="bar-label">Esperanza de Vida</div>
                             <div class="bar-outer">
                                 <div class="bar-inner" data-value="68.00"></div>
                             </div>
@@ -197,7 +197,7 @@
                     </div>
                 </div>
  <p class="sierra-text">
-                        Se requiere que el Comando diseñe y ejecute intervenciones focalizadas y de alto impacto para mejorar la expectativa de vida, optimizando la asignación de los recursos disponibles. Es imperativo coordinar una acción interagencial prioritaria para la estabilización de este territorio, de valor estratégico para la seguridad y defensa nacional. La celeridad en la respuesta es fundamental.
+                        Se requiere que el Comando diseñe y ejecute intervenciones focalizadas y de alto impacto para mejorar la Esperanza de vida, optimizando la asignación de los recursos disponibles. Es imperativo coordinar una acción interagencial prioritaria para la estabilización de este territorio, de valor estratégico para la seguridad y defensa nacional. La celeridad en la respuesta es fundamental.
                     </p>
                 <!-- 3. VARIABLES DE ANÁLISIS DISPONIBLES -->
                 <div class="intel-section dimensions-analysis">
@@ -476,13 +476,13 @@
                 const gobValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(3) .bar-inner')?.getAttribute('data-value') ?? 0);
 
                 // Asegúrate que los pesos sumen 1 (ajusta según tu modelo)
-                const pesoSeg = 0.4;
+                const pesoSeg = 0.45;
                 const pesoDes = 0.25;
-                const pesoGob = 0.35;
+                const pesoGob = 0.3;
 
                 const indiceCompuesto = (segValue * pesoSeg) + (desValue * pesoDes) + (gobValue * pesoGob);
 
-                const expectativaVidaMin = 61; // Valor mínimo
+                const expectativaVidaMin = 68; // Valor mínimo
                 const expectativaVidaMax = 85; // Valor máximo teórico al 100% del índice
                 const expectativaVidaCalculada = expectativaVidaMin + (expectativaVidaMax - expectativaVidaMin) * (indiceCompuesto / 100);
 

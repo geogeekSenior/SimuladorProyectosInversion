@@ -628,13 +628,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Determinar el ciclo actual basado en la URL o un atributo data
   // Por defecto es ciclo 1
   let cycleNumber = 1;
-  let processingUrl = "https://arcgis.esri.co/server/rest/services/geoprocessing/SuitabilityModelCiclo1/GPServer/Script";
+  let processingUrl = "https://arcgis.esri.co/server/rest/services/geoprocessing/SuitabilityModelCiclo1/GPServer/CICLO1";
   let storageKey = "ciclo1_procesado";
   
   // Detectar ciclo basado en la URL
   if (window.location.pathname.includes('step4.html') || window.location.pathname.includes('step5.html')) {
     cycleNumber = 2;
-    processingUrl = "https://arcgis.esri.co/server/rest/services/geoprocessing/SuitabilityModelCiclo2/GPServer/Script";
+    processingUrl = "https://arcgis.esri.co/server/rest/services/geoprocessing/SuitabilityModelCiclo2/GPServer/CICLO2";
     storageKey = "ciclo2_procesado";
   }
   

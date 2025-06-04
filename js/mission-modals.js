@@ -161,30 +161,30 @@ function crearModalCiclo1() {
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Seguridad</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="50.22"></div>
+                                        <div class="bar-inner mission-bar" data-value="23.97"></div>
                                     </div>
-                                    <div class="bar-value">50.22%</div>
+                                    <div class="bar-value">23.97%</div>
                                 </div>
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Desarrollo</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="50.73"></div>
+                                        <div class="bar-inner mission-bar" data-value="44.33"></div>
                                     </div>
-                                    <div class="bar-value">50.73%</div>
+                                    <div class="bar-value">44.33%</div>
                                 </div>
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Gobernabilidad</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="38.89"></div>
+                                        <div class="bar-inner mission-bar" data-value="6.37"></div>
                                     </div>
-                                    <div class="bar-value">38.89%</div>
+                                    <div class="bar-value">6.37%</div>
                                 </div>
                                 <div class="dimension-bar-container total-index">
-                                    <div class="bar-label">Expectativa de Vida</div>
+                                    <div class="bar-label">Esperanza de Vida</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="72.13"></div>
+                                        <div class="bar-inner mission-bar" data-value="72.04"></div>
                                     </div>
-                                    <div class="bar-value">72.13 años</div>
+                                    <div class="bar-value">72.04 años</div>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@ function crearModalCiclo1() {
                             <strong>INSTRUCCIONES:</strong>
                             <p>1. Seleccione operaciones del panel derecho dentro del presupuesto.</p>
                             <p>2. Cada operación mejora una o más dimensiones (Seguridad, Desarrollo, Gobernabilidad).</p>
-                            <p>3. El equipo con mayor incremento en la expectativa de vida ganará la misión.</p>
+                            <p>3. El equipo con mayor incremento en la Esperanza de vida ganará la misión.</p>
                             <p>4. Cuando este seguro presione el boton "GENERAR INFORME" para evaluar resultados.</p>
                         </div>
                         
@@ -243,7 +243,7 @@ function crearModalCiclo1() {
             
             // Mostrar mensaje instructivo
             if (window.HORIZONTE && HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
-                HORIZONTE.utils.showStatusMessage("Seleccione proyectos para mejorar expectativa de vida", "info", 5000);
+                HORIZONTE.utils.showStatusMessage("Seleccione proyectos para mejorar Esperanza de vida", "info", 5000);
             }
         }, 300);
     });
@@ -266,7 +266,7 @@ function crearModalCiclo2() {
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los proyectos más efectivos para mejorar la expectativa de vida en la Sierra Nevada hacia 2045, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000.
+                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los proyectos más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2045, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000.
                         </p>
                         
                         <div class="mission-stats">
@@ -275,30 +275,30 @@ function crearModalCiclo2() {
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Seguridad</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="67.67"></div>
+                                        <div class="bar-inner mission-bar" data-value="41.97"></div>
                                     </div>
-                                    <div class="bar-value">67.67%</div>
+                                    <div class="bar-value">41.97%</div>
                                 </div>
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Desarrollo</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="68.35"></div>
+                                        <div class="bar-inner mission-bar" data-value="62.33"></div>
                                     </div>
-                                    <div class="bar-value">68.35%</div>
+                                    <div class="bar-value">62.33%</div>
                                 </div>
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Gobernabilidad</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="52.40"></div>
+                                        <div class="bar-inner mission-bar" data-value="24.37"></div>
                                     </div>
-                                    <div class="bar-value">52.40%</div>
+                                    <div class="bar-value">24.37%</div>
                                 </div>
                                 <div class="dimension-bar-container total-index">
-                                    <div class="bar-label">Expectativa de Vida</div>
+                                    <div class="bar-label">Esperanza de Vida</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="76"></div>
+                                        <div class="bar-inner mission-bar" data-value="75.10"></div>
                                     </div>
-                                    <div class="bar-value">76 años</div>
+                                    <div class="bar-value">75.10 años</div>
                                 </div>
                             </div>
                         </div>
@@ -307,7 +307,7 @@ function crearModalCiclo2() {
                             <strong>INSTRUCCIONES:</strong>
                             <p>1. Seleccione operaciones del panel derecho dentro del presupuesto.</p>
                             <p>2. Cada operación mejora una o más dimensiones (Seguridad, Desarrollo, Gobernabilidad).</p>
-                            <p>3. El equipo con mayor incremento en la expectativa de vida ganará la misión.</p>
+                            <p>3. El equipo con mayor incremento en la Esperanza de vida ganará la misión.</p>
                             <p>4. Cuando este seguro presione el boton "GENERAR INFORME" para evaluar resultados.</p>
                         </div>
                         

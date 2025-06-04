@@ -1,14 +1,18 @@
 /**
- * step3-data.js - Script para cargar datos dinámicos en la evaluación del Ciclo 1
+ * step5-data.js - Script para cargar datos dinámicos en la evaluación del Ciclo 2
  * Horizonte: Juego de Estrategia
+ * VERSIÓN CORREGIDA - Con delta para alcanzar 75 años de expectativa de vida
  */
 
-// Valores de línea base (valores iniciales antes de las intervenciones)
+// Delta para incrementar expectativa de vida de 72 a 75 años (manteniendo los mismos datos)
+const DELTA_CICLO2 = 18.0; // Delta que se suma a todos los valores para alcanzar 75 años
+
+// Valores de línea base (valores iniciales antes de las intervenciones) - CON DELTA APLICADO
 const baselineValues = {
-    seguridad: 6.7670,    // Valores iniciales (divididos por 10 para escala correcta)
-    desarrollo: 6.8356,
-    gobernabilidad: 5.2400,
-    total: 6.25           // Total calculado como: (6.883*0.4 + 4.260*0.25 + 2.504*0.35)
+    seguridad: 23.9798 + DELTA_CICLO2,    // Valores con delta aplicado
+    desarrollo: 44.3372 + DELTA_CICLO2,
+    gobernabilidad: 6.3790 + DELTA_CICLO2,
+    total: 23.78 + DELTA_CICLO2           // Total con delta aplicado
 };
 
 // Configuración para evaluación de impacto
@@ -31,7 +35,7 @@ const impactConfig = {
     },
     // Configuración para cálculo de expectativa de vida
     expectativaVida: {
-        base: 61,
+        base: 68,
         maximo: 85
     }
 };
@@ -61,25 +65,21 @@ function getTeamInfo() {
 }
 
 /**
- * Consulta proyectos del equipo para el ciclo 1
+ * Consulta proyectos del equipo para el ciclo 2
  * @param {string} teamCode - Código del equipo
  * @returns {Promise<Array>} Proyectos encontrados
  */
 async function fetchTeamProjects(teamCode) {
     try {
-        // URL del servicio de proyectos
         const serviceUrl = "https://geospatialcenter.bd.esri.com/server/rest/services/Hosted/EquiposProyectos/FeatureServer/0/query";
-        
-        // URL completa con parámetros basada en el ejemplo proporcionado
         const url = `${serviceUrl}?where=team_code+%3D+%27${teamCode}%27+AND+ciclo+%3D+%27ciclo-2%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&defaultSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Foot&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&havingClause=&gdbVersion=&historicMoment=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&multipatchOption=xyFootprint&resultOffset=&resultRecordCount=&returnTrueCurves=false&returnCentroid=false&returnEnvelope=false&timeReferenceUnknownClient=false&maxRecordCountFactor=&sqlFormat=none&resultType=&datumTransformation=&lodType=geohash&lod=&lodSR=&cacheHint=false&f=pjson`;
         
-        console.log("URL completa para consulta de proyectos:", url);
+        console.log("URL completa para consulta de proyectos ciclo-2:", url);
         
-        // Realizar la consulta
         const response = await fetch(url);
         const data = await response.json();
         
-        console.log("Respuesta del servicio de proyectos:", data);
+        console.log("Respuesta del servicio de proyectos ciclo-2:", data);
         
         if (data.error) {
             throw new Error(`Error en la consulta: ${data.error.message}`);
@@ -93,25 +93,21 @@ async function fetchTeamProjects(teamCode) {
 }
 
 /**
- * Consulta indicadores del equipo para el ciclo 1
+ * Consulta indicadores del equipo para el ciclo 2
  * @param {string} teamCode - Código del equipo
  * @returns {Promise<Object|null>} Indicadores encontrados o null
  */
 async function fetchTeamIndicators(teamCode) {
     try {
-        // URL del servicio de indicadores
         const serviceUrl = "https://geospatialcenter.bd.esri.com/server/rest/services/Hosted/EquiposIndicadores/FeatureServer/0/query";
-        
-        // URL completa con parámetros basada en el ejemplo proporcionado
         const url = `${serviceUrl}?where=team_code+%3D+%27${teamCode}%27+AND+ciclo+%3D+%27ciclo-2%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&defaultSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Foot&relationParam=&outFields=mean_seguridad,mean_gobernabilidad,mean_desarrollo&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&havingClause=&gdbVersion=&historicMoment=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&multipatchOption=xyFootprint&resultOffset=&resultRecordCount=&returnTrueCurves=false&returnCentroid=false&returnEnvelope=false&timeReferenceUnknownClient=false&maxRecordCountFactor=&sqlFormat=none&resultType=&datumTransformation=&lodType=geohash&lod=&lodSR=&cacheHint=false&f=pjson`;
         
-        console.log("URL completa para consulta de indicadores:", url);
+        console.log("URL completa para consulta de indicadores ciclo-2:", url);
         
-        // Realizar la consulta
         const response = await fetch(url);
         const data = await response.json();
         
-        console.log("Respuesta del servicio de indicadores:", data);
+        console.log("Respuesta del servicio de indicadores ciclo-2:", data);
         
         if (data.error) {
             throw new Error(`Error en la consulta: ${data.error.message}`);
@@ -157,12 +153,12 @@ async function initializeInterface() {
         if (!elementoExiste('link[href*="pemsitim-bars.css"]')) {
             console.warn("Los estilos de pemsitim-bars.css no están cargados. Se cargarán dinámicamente.");
             
-            // Intentar cargar los estilos dinámicamente
             const linkElement = document.createElement('link');
             linkElement.rel = 'stylesheet';
             linkElement.href = 'css/components/pemsitim-bars.css';
             document.head.appendChild(linkElement);
         }
+        
         // Fecha del reporte
         document.getElementById('reportDate').textContent = new Date().toLocaleDateString('es-ES', {
             year: 'numeric',
@@ -177,31 +173,38 @@ async function initializeInterface() {
             throw new Error("No se encontró información del equipo");
         }
         
-        console.log("Consultando datos para el equipo:", teamInfo.code);
+        console.log("Consultando datos para el equipo (ciclo-2):", teamInfo.code);
         
         // Consultar proyectos del equipo
         const proyectos = await fetchTeamProjects(teamInfo.code);
-        console.log("Proyectos encontrados:", proyectos);
+        console.log("Proyectos encontrados ciclo-2:", proyectos);
         
         // Consultar indicadores del equipo
         const indicadores = await fetchTeamIndicators(teamInfo.code);
-        console.log("Indicadores encontrados:", indicadores);
+        console.log("Indicadores encontrados ciclo-2:", indicadores);
         
-        // Si no hay datos, informar al usuario y continuar con datos de prueba
+        // Variables para datos
         let totalProyectos, totalInversion;
         let valorSeguridad, valorDesarrollo, valorGobernabilidad;
         
         if (!proyectos || proyectos.length === 0 || !indicadores) {
-            console.warn("No se encontraron datos del equipo en el servidor. Usando datos de demostración.");
+            console.warn("No se encontraron datos del equipo en el servidor. Usando valores de demostración ciclo-2.");
             
-            // DATOS DE DEMOSTRACIÓN - Solo usar cuando no hay datos reales
+            // VALORES ACTUALES CON DELTA APLICADO (para alcanzar 75 años)
             totalProyectos = 3;
             totalInversion = 5280;
             
-            // Valores de indicadores demostrativos que coinciden con la imagen
-             valorSeguridad = 7.50;  
-            valorDesarrollo = 7.00; 
-            valorGobernabilidad = 5.50;
+            // Valores actuales con delta aplicado para alcanzar expectativa de 75 años
+            valorSeguridad = 7.50 + DELTA_CICLO2;    // Valor del ciclo-2 + delta
+            valorDesarrollo = 7.00 + DELTA_CICLO2;   // Valor del ciclo-2 + delta
+            valorGobernabilidad = 5.50 + DELTA_CICLO2; // Valor del ciclo-2 + delta
+            
+            console.log("Usando valores de demostración ciclo-2 (con delta para 75 años):", {
+                seguridadDemo: valorSeguridad,
+                desarrolloDemo: valorDesarrollo,
+                gobernabilidadDemo: valorGobernabilidad,
+                deltaAplicado: DELTA_CICLO2
+            });
             
             // Proyectos de demo
             const proyectosDemo = [
@@ -249,19 +252,20 @@ async function initializeInterface() {
                 tableBody.appendChild(row);
             });
         } else {
-            // USAR DATOS REALES DE LA CONSULTA
+            // USAR DATOS REALES DE LA CONSULTA CON DELTA APLICADO
             totalProyectos = proyectos.length;
             totalInversion = proyectos.reduce((sum, proyecto) => sum + (proyecto.attributes.valorinversion || 0), 0);
             
-            // Extraer valores directamente de la respuesta de la API
-            valorSeguridad = indicadores.mean_seguridad || 0;
-            valorDesarrollo = indicadores.mean_desarrollo || 0;
-            valorGobernabilidad = indicadores.mean_gobernabilidad || 0;
+            // Extraer valores de la API y aplicar delta para alcanzar 75 años
+            valorSeguridad = (indicadores.mean_seguridad || 0) + DELTA_CICLO2;
+            valorDesarrollo = (indicadores.mean_desarrollo || 0) + DELTA_CICLO2;
+            valorGobernabilidad = (indicadores.mean_gobernabilidad || 0) + DELTA_CICLO2;
             
-            console.log("Valores obtenidos del servidor:", {
+            console.log("Valores obtenidos del servidor ciclo-2 (con delta aplicado):", {
                 seguridad: valorSeguridad,
                 desarrollo: valorDesarrollo,
-                gobernabilidad: valorGobernabilidad
+                gobernabilidad: valorGobernabilidad,
+                deltaAplicado: DELTA_CICLO2
             });
             
             // Poblar tabla de proyectos con datos reales
@@ -269,8 +273,6 @@ async function initializeInterface() {
             tableBody.innerHTML = '';
             
             proyectos.forEach((proyecto, index) => {
-                // Obtener el impacto directamente del proyecto si está disponible,
-                // o determinarlo basado en los atributos del proyecto
                 let impactoClase = "status-medium";
                 if (proyecto.attributes.impacto) {
                     if (proyecto.attributes.impacto.toLowerCase().includes("alta") || 
@@ -281,12 +283,10 @@ async function initializeInterface() {
                     }
                 }
                 
-                // Determinar ubicación desde los atributos del proyecto
                 const ubicacion = proyecto.attributes.ubicacion || 
                                  (proyecto.attributes.municipio ? proyecto.attributes.municipio : 
                                   impactConfig.municipios[(index % 8) + 1]);
                 
-                // Crear fila
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>OP-${(index + 1).toString().padStart(3, '0')}</td>
@@ -303,61 +303,101 @@ async function initializeInterface() {
         document.getElementById('operationsCount').textContent = totalProyectos;
         document.getElementById('investedResources').textContent = `${totalInversion.toLocaleString()}`;
         
-        // CÁLCULOS CON DATOS REALES O DEMOS
-        // Calcular mejoras porcentuales desde línea base
-        const mejoraSeguridad = valorSeguridad - baselineValues.seguridad;
-        const mejoraDesarrollo = valorDesarrollo - baselineValues.desarrollo;
-        const mejoraGobernabilidad = valorGobernabilidad - baselineValues.gobernabilidad;
+        // CÁLCULOS DEL DELTA (MEJORA) - VALORES ACTUALES vs BASELINE  
+        // IMPORTANTE: Todos los valores tienen el delta del ciclo-2 aplicado para alcanzar 75 años
+        console.log("=== CÁLCULO DEL DELTA CICLO-2 (CON DELTA PARA 75 AÑOS) ===");
+        console.log("Delta aplicado para alcanzar 75 años:", DELTA_CICLO2);
+        console.log("Valores baseline (con delta):", baselineValues);
+        console.log("Valores actuales ciclo-2 (con delta):", {
+            seguridad: valorSeguridad,
+            desarrollo: valorDesarrollo,
+            gobernabilidad: valorGobernabilidad
+        });
         
-        // Calcular el total PEMSITIM con los pesos correctos
-        const totalPemsitim = (valorSeguridad * 0.4) + (valorDesarrollo * 0.25) + (valorGobernabilidad * 0.35);
-        const mejoraPemsitim = totalPemsitim - baselineValues.total;
+        // Calcular mejoras (delta) desde línea base
+        const deltaSeguridad = valorSeguridad - baselineValues.seguridad;
+        const deltaDesarrollo = valorDesarrollo - baselineValues.desarrollo;
+        const deltaGobernabilidad = valorGobernabilidad - baselineValues.gobernabilidad;
         
-        // Escala para visualización (factores de 10)
-        const escalaVisual = 10;
+        console.log("Deltas calculados ciclo-2:", {
+            deltaSeguridad: deltaSeguridad.toFixed(4),
+            deltaDesarrollo: deltaDesarrollo.toFixed(4),
+            deltaGobernabilidad: deltaGobernabilidad.toFixed(4)
+        });
         
-        // Calcular expectativa de vida correcta
-        const expectativaVida = calcularExpectativaVida(totalPemsitim * escalaVisual);
-        const expectativaVidaBase = calcularExpectativaVida(baselineValues.total * escalaVisual);
-        const mejoraExpectativaVida = expectativaVida - expectativaVidaBase;
+        // Calcular el total PEMSITIM actual con los pesos correctos
+        const totalPemsitimActual = (valorSeguridad * 0.4) + (valorDesarrollo * 0.25) + (valorGobernabilidad * 0.35);
+        const deltaPemsitim = totalPemsitimActual - baselineValues.total;
         
-        console.log("Cálculos realizados:", {
-            mejoraSeguridad: mejoraSeguridad.toFixed(4),
-            mejoraDesarrollo: mejoraDesarrollo.toFixed(4),
-            mejoraGobernabilidad: mejoraGobernabilidad.toFixed(4),
-            totalPemsitim: totalPemsitim.toFixed(4),
-            expectativaVida: expectativaVida.toFixed(2),
-            expectativaVidaBase: expectativaVidaBase.toFixed(2),
-            mejoraExpectativaVida: mejoraExpectativaVida.toFixed(2)
+        // Calcular expectativa de vida actual y baseline
+        // Usar los valores tal como están para el cálculo
+        const expectativaVidaActual = calcularExpectativaVida(totalPemsitimActual);
+        const expectativaVidaBaseline = calcularExpectativaVida(baselineValues.total);
+        const deltaExpectativaVida = expectativaVidaActual - expectativaVidaBaseline;
+        
+        console.log("Cálculos finales ciclo-2 (objetivo: 75 años):", {
+            deltaAplicado: DELTA_CICLO2,
+            totalPemsitimActual: totalPemsitimActual.toFixed(4),
+            deltaPemsitim: deltaPemsitim.toFixed(4),
+            expectativaVidaActual: expectativaVidaActual.toFixed(2),
+            expectativaVidaBaseline: expectativaVidaBaseline.toFixed(2),
+            deltaExpectativaVida: deltaExpectativaVida.toFixed(2),
+            "--- Objetivo alcanzado ---": expectativaVidaActual >= 74.5 ? "✅ SÍ" : "❌ NO",
+            "--- Valores para visualización ---": "---",
+            seguridadVisual: valorSeguridad.toFixed(1) + "%",
+            desarrolloVisual: valorDesarrollo.toFixed(1) + "%",
+            gobernabilidadVisual: valorGobernabilidad.toFixed(1) + "%",
+            "--- Deltas relativos ---": "---",
+            deltaSeguridadVisual: deltaSeguridad.toFixed(1) + "%",
+            deltaDesarrolloVisual: deltaDesarrollo.toFixed(1) + "%", 
+            deltaGobernabilidadVisual: deltaGobernabilidad.toFixed(1) + "%"
         });
         
         // Actualizar valor de mejora de expectativa de vida global
-        document.getElementById('pemsitimIncrease').textContent = `+${mejoraExpectativaVida.toFixed(2)} años`;
+        document.getElementById('pemsitimIncrease').textContent = `+${deltaExpectativaVida.toFixed(2)} años`;
         
         // Actualizar barras de impacto por dimensión
+        // Usar valores directamente como porcentajes (sin factores de conversión)
+        
         // Seguridad
-        document.getElementById('seguridad-bar').style.width = `${valorSeguridad * escalaVisual}%`;
-        document.getElementById('seguridad-improvement').style.width = `${mejoraSeguridad * escalaVisual}%`;
-        document.getElementById('seguridad-value').textContent = `${(valorSeguridad * escalaVisual).toFixed(2)}%`;
-        document.getElementById('seguridad-increase').textContent = `+${(mejoraSeguridad * escalaVisual).toFixed(2)}%`;
+        document.getElementById('seguridad-bar').style.width = `${Math.min(100, valorSeguridad)}%`;
+        document.getElementById('seguridad-improvement').style.width = `${Math.max(0, deltaSeguridad)}%`;
+        document.getElementById('seguridad-value').textContent = `${valorSeguridad.toFixed(1)}%`;
+        document.getElementById('seguridad-increase').textContent = `+${deltaSeguridad.toFixed(1)}%`;
         
         // Desarrollo
-        document.getElementById('desarrollo-bar').style.width = `${valorDesarrollo * escalaVisual}%`;
-        document.getElementById('desarrollo-improvement').style.width = `${mejoraDesarrollo * escalaVisual}%`;
-        document.getElementById('desarrollo-value').textContent = `${(valorDesarrollo * escalaVisual).toFixed(2)}%`;
-        document.getElementById('desarrollo-increase').textContent = `+${(mejoraDesarrollo * escalaVisual).toFixed(2)}%`;
+        document.getElementById('desarrollo-bar').style.width = `${Math.min(100, valorDesarrollo)}%`;
+        document.getElementById('desarrollo-improvement').style.width = `${Math.max(0, deltaDesarrollo)}%`;
+        document.getElementById('desarrollo-value').textContent = `${valorDesarrollo.toFixed(1)}%`;
+        document.getElementById('desarrollo-increase').textContent = `+${deltaDesarrollo.toFixed(1)}%`;
         
         // Gobernabilidad
-        document.getElementById('gobernabilidad-bar').style.width = `${valorGobernabilidad * escalaVisual}%`;
-        document.getElementById('gobernabilidad-improvement').style.width = `${mejoraGobernabilidad * escalaVisual}%`;
-        document.getElementById('gobernabilidad-value').textContent = `${(valorGobernabilidad * escalaVisual).toFixed(2)}%`;
-        document.getElementById('gobernabilidad-increase').textContent = `+${(mejoraGobernabilidad * escalaVisual).toFixed(2)}%`;
+        document.getElementById('gobernabilidad-bar').style.width = `${Math.min(100, valorGobernabilidad)}%`;
+        document.getElementById('gobernabilidad-improvement').style.width = `${Math.max(0, deltaGobernabilidad)}%`;
+        document.getElementById('gobernabilidad-value').textContent = `${valorGobernabilidad.toFixed(1)}%`;
+        document.getElementById('gobernabilidad-increase').textContent = `+${deltaGobernabilidad.toFixed(1)}%`;
         
-        // Expectativa de vida total
-        document.getElementById('total-bar').style.width = `${totalPemsitim * escalaVisual}%`;
-        document.getElementById('total-improvement').style.width = `${mejoraPemsitim * escalaVisual}%`;
-        document.getElementById('total-value').textContent = `${expectativaVida.toFixed(2)} años`;
-        document.getElementById('total-increase').textContent = `+${mejoraExpectativaVida.toFixed(2)} años`;
+        // Expectativa de vida total - CON INCREMENTO VISUAL EXAGERADO
+        const porcentajeVidaActual = (expectativaVidaActual / impactConfig.expectativaVida.maximo) * 100;
+        const porcentajeDeltaVida = (deltaExpectativaVida / impactConfig.expectativaVida.maximo) * 100;
+        
+        // Factor de exageración visual solo para el incremento de expectativa de vida
+        const factorExageracion = 10; // Hacer el incremento 10 veces más visible
+        const incrementoVisualExagerado = porcentajeDeltaVida * factorExageracion;
+        
+        document.getElementById('total-bar').style.width = `${Math.min(100, porcentajeVidaActual)}%`;
+        document.getElementById('total-improvement').style.width = `${Math.min(25, Math.max(0, incrementoVisualExagerado))}%`; // Limitar a 25% máximo
+        document.getElementById('total-value').textContent = `${expectativaVidaActual.toFixed(1)} años`;
+        document.getElementById('total-increase').textContent = `+${deltaExpectativaVida.toFixed(1)} años`;
+        
+        console.log("Visualización expectativa de vida ciclo-2 (objetivo: 75 años):", {
+            expectativaActual: expectativaVidaActual.toFixed(2) + " años",
+            objetivoAlcanzado: expectativaVidaActual >= 74.5 ? "✅ SÍ" : "❌ NO",
+            porcentajeReal: porcentajeDeltaVida.toFixed(2) + "%",
+            porcentajeExagerado: incrementoVisualExagerado.toFixed(2) + "%",
+            factorUsado: factorExageracion,
+            deltaAplicado: DELTA_CICLO2
+        });
         
         // Mostrar mensaje de éxito
         const statusMessage = document.getElementById('statusMessage');
@@ -390,18 +430,16 @@ async function initializeInterface() {
             }, 5000);
         }
         
-        // Mostrar mensaje en la interfaz
         document.getElementById('operationsTableBody').innerHTML = '<tr><td colspan="4" class="text-center">Error en la consulta. Ver consola para detalles.</td></tr>';
     }
 }
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM cargado - Inicializando step3-data.js");
+    console.log("DOM cargado - Inicializando step5-data.js (CICLO-2 con objetivo: 75 años)");
+    console.log("Delta aplicado para alcanzar 75 años:", DELTA_CICLO2);
     
-    // Iniciar con una animación de carga
     setTimeout(() => {
-        // Inicializar la interfaz con datos reales
         initializeInterface()
             .catch(error => {
                 console.error("Error en la inicialización:", error);
