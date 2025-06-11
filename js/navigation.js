@@ -5,15 +5,14 @@
 
 // Módulo de navegación
 HORIZONTE.navigation = (function() {
-    // Configuración del módulo
+    // Configuración del módulo - MODIFICADO: Ahora 4 pasos, sin step1
     const config = {
-        totalSteps: 5,
+        totalSteps: 4,
         stepFiles: {
-            1: 'step1.html',
-            2: 'index.html',
-            3: 'step3.html',
-            4: 'step4.html',
-            5: 'step5.html'
+            1: 'index.html',     // Antes era step 2
+            2: 'step3.html',     // Antes era step 3
+            3: 'step4.html',     // Antes era step 4
+            4: 'step5.html'      // Antes era step 5
         },
         transitionDuration: 800
     };
@@ -36,15 +35,15 @@ HORIZONTE.navigation = (function() {
         setupNavigation();
     }
     
-    // Determinar el paso actual basado en la URL
+    // Determinar el paso actual basado en la URL - MODIFICADO
     function determineCurrentStep() {
         const currentPath = window.location.pathname;
-        if (currentPath.includes('step1.html')) return 1;
-        if (currentPath.includes('index.html')) return 2;
-        if (currentPath.includes('step3.html')) return 3;
-        if (currentPath.includes('step4.html')) return 4;
-        if (currentPath.includes('step5.html')) return 5;
-        return 2; // Valor predeterminado
+        // step1.html ya no forma parte del flujo
+        if (currentPath.includes('index.html')) return 1;
+        if (currentPath.includes('step3.html')) return 2;
+        if (currentPath.includes('step4.html')) return 3;
+        if (currentPath.includes('step5.html')) return 4;
+        return 1; // Valor predeterminado cambiado a 1
     }
     
     // Configurar la navegación y los listeners

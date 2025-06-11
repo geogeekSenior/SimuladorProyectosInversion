@@ -37,6 +37,8 @@
             "esri/views/SceneView",
             "esri/layers/FeatureLayer",
             "esri/layers/GraphicsLayer",
+            "esri/Basemap",   
+            "esri/widgets/BasemapToggle",
             "esri/widgets/LayerList",
             "esri/widgets/Expand",
             "esri/Graphic",
@@ -46,6 +48,8 @@
             SceneView, 
             FeatureLayer, 
             GraphicsLayer,
+            Basemap,  
+            BasemapToggle,
             LayerList,
             Expand,
             Graphic, 
@@ -105,6 +109,20 @@
             });
             
             state.view.popupEnabled = true;
+
+            state.view.when(() => {
+            // crea un Basemap desde su ID
+            const streets = Basemap.fromId("osm-3d");  
+            // o Basemap.fromId("arcgis-community") para Community
+
+            const basemapToggle = new BasemapToggle({
+                view: state.view,
+                nextBasemap: streets
+            });
+            state.view.ui.add(basemapToggle, "top-right");
+            });
+
+
             
             // Capa para puntos de usuario - Proyectos seleccionados
             state.userPointsLayer = new GraphicsLayer({

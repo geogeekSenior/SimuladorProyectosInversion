@@ -86,18 +86,12 @@ HORIZONTE.team = (function() {
                         </div>
                         
                         <div class="team-input-group">
-                            <label for="teamCode">CÓDIGO DE IDENTIFICACIÓN:</label>
                             <div class="code-container">
-                                <input type="text" id="teamCode" readonly>
-                                <button id="regenerateCode" class="code-button" title="Generar nuevo código">↻</button>
+                                <input type="hidden" id="teamCode" readonly>
                             </div>
-                            <div class="input-help">Código generado automáticamente</div>
                         </div>
                         
-                        <div class="team-instruction">
-                            <div class="instruction-title">NOTA DE SEGURIDAD:</div>
-                            Este código será utilizado para identificar su equipo durante toda la simulación. La sesión se mantendrá activa mientras no cierre el navegador o abandone la misión.
-                        </div>
+                       
                     </div>
                     <div class="team-modal-footer">
                         <button id="teamSubmit" class="military-button">CONFIRMAR Y COMENZAR MISIÓN</button>
@@ -118,7 +112,7 @@ HORIZONTE.team = (function() {
     
     // Configurar los event listeners para el modal
     function setupEventListeners() {
-        document.getElementById('regenerateCode').addEventListener('click', generateTeamCode);
+        // document.getElementById('regenerateCode').addEventListener('click', generateTeamCode);
         
         document.getElementById('teamSubmit').addEventListener('click', saveTeamInfo);
         
@@ -151,6 +145,10 @@ HORIZONTE.team = (function() {
         
         // Actualizar el input
         document.getElementById('teamCode').value = state.teamCode;
+        const codeInput = document.getElementById('teamCode');
+        if (codeInput) {
+            codeInput.value = state.teamCode;
+        }
     }
     
     // Mostrar el modal

@@ -163,166 +163,228 @@
   background: none;
   border: none;
   color: var(--text-color);
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
-  padding: 5px;
-  line-height: 1;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
 }
 
 .geoproceso-close:hover {
-  opacity: 1;
+  background-color: rgba(255,255,255,0.1);
+  transform: scale(1.1);
 }
 
 .geoproceso-body {
-  padding: 20px;
-}
-
-.geoproceso-results {
-  background-color: rgba(0,0,0,0.2);
-  border: 1px solid var(--primary-color-dark);
-  padding: 15px;
-  max-height: 300px;
-  overflow-y: auto;
-  font-family: var(--font-monospace);
-  font-size: 12px;
-  white-space: pre-wrap;
-  margin: 15px 0;
-  border-radius: 4px;
+  padding: 30px;
+  text-align: center;
 }
 
 .geoproceso-footer {
   padding: 15px;
+  background-color: rgba(0,0,0,0.1);
   border-top: 1px solid var(--primary-color-dark);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Estilos para el modal de confirmación */
+.confirmacion-modal .geoproceso-body {
+  text-align: left;
+  padding: 20px 30px;
+}
+
+.confirmacion-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.confirmacion-mensaje h3 {
+  color: var(--primary-color);
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-family: var(--font-monospace);
   text-align: center;
 }
 
-.geoproceso-error {
-  background-color: rgba(172, 28, 28, 0.1);
-  border-left: 4px solid var(--error-color);
-  padding: 10px;
-  margin-bottom: 15px;
-  color: #ff6b6b;
-  border-radius: 0 4px 4px 0;
+.confirmacion-mensaje p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--text-color);
 }
 
-/* Componentes del modal de análisis */
+.confirmacion-detalles {
+  background-color: rgba(0,0,0,0.3);
+  border: 1px solid var(--primary-color-dark);
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.detalle-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.detalle-item:last-child {
+  border-bottom: none;
+}
+
+.detalle-label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-family: var(--font-monospace);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.detalle-valor {
+  color: var(--accent-color);
+  font-weight: 700;
+  font-family: var(--font-monospace);
+}
+
+.confirmacion-advertencia {
+  background-color: rgba(231, 76, 60, 0.2);
+  border: 1px solid var(--error-color);
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.confirmacion-advertencia p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.confirmacion-advertencia strong {
+  color: var(--error-color);
+}
+
+.confirmacion-footer {
+  justify-content: space-between;
+  padding: 15px 30px;
+}
+
+/* Botones del modal */
+.military-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-monospace);
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  min-width: 120px;
+}
+
+.military-button.primary {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.military-button.primary:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.military-button.secondary {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.military-button.secondary:hover {
+  background-color: #2a3a4a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Estilos para el modal de análisis */
 .analysis-spinner {
-  display: block;
   width: 50px;
   height: 50px;
-  border: 5px solid rgba(81, 127, 53, 0.3);
+  border: 5px solid rgba(255,255,255,0.2);
+  border-top: 5px solid var(--primary-color);
   border-radius: 50%;
-  border-top-color: var(--primary-color);
-  animation: spin 1.5s ease-in-out infinite;
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .analysis-status {
-  text-align: center;
-  margin: 15px 0;
-  font-size: 15px;
-  color: var(--text-color);
+  font-size: 14px;
+  margin: 20px 0;
   font-family: var(--font-monospace);
-  letter-spacing: 0.5px;
+  color: var(--text-color);
+}
+
+.analysis-status.error {
+  color: var(--error-color);
 }
 
 .analysis-progress {
-  height: 10px;
+  width: 100%;
+  height: 20px;
   background-color: rgba(0,0,0,0.3);
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
   margin: 20px 0;
-  border: 1px solid var(--primary-color-dark);
 }
 
 .analysis-progress-bar {
   height: 100%;
-  width: 0%;
   background-color: var(--primary-color);
-  background-image: linear-gradient(45deg, 
-      rgba(81, 127, 53, 0.8) 25%, 
-      rgba(255,255,255,0.1) 25%, 
-      rgba(255,255,255,0.1) 50%, 
-      rgba(81, 127, 53, 0.8) 50%, 
-      rgba(81, 127, 53, 0.8) 75%, 
-      rgba(255,255,255,0.1) 75%, 
-      rgba(255,255,255,0.1));
-  background-size: 20px 20px;
-  animation: progress-animation 1.5s linear infinite;
-  transition: width 0.5s ease-out;
+  transition: width 0.5s ease;
 }
 
-@keyframes progress-animation {
-  0% { background-position: 0 0; }
-  100% { background-position: 20px 0; }
-}
-
-/* Estados del análisis */
-.analysis-error {
-  color: var(--error-color) !important;
-}
-
-.analysis-success {
-  color: var(--success-color) !important;
-}
-
-.analysis-error-bar {
-  background-color: var(--error-color) !important;
-  background-image: linear-gradient(45deg, 
-      rgba(172, 28, 28, 0.8) 25%, 
-      rgba(255,255,255,0.1) 25%, 
-      rgba(255,255,255,0.1) 50%, 
-      rgba(172, 28, 28, 0.8) 50%, 
-      rgba(172, 28, 28, 0.8) 75%, 
-      rgba(255,255,255,0.1) 75%, 
-      rgba(255,255,255,0.1)) !important;
-}
-
-.analysis-success-bar {
-  background-color: var(--success-color) !important;
-  background-image: linear-gradient(45deg, 
-      rgba(60, 109, 63, 0.8) 25%, 
-      rgba(255,255,255,0.1) 25%, 
-      rgba(255,255,255,0.1) 50%, 
-      rgba(60, 109, 63, 0.8) 50%, 
-      rgba(60, 109, 63, 0.8) 75%, 
-      rgba(255,255,255,0.1) 75%, 
-      rgba(255,255,255,0.1)) !important;
-}
-
-.analysis-error-spinner {
-  border-top-color: var(--error-color) !important;
-}
-
-.analysis-success-spinner {
-  border-top-color: var(--success-color) !important;
-}
-
-/* Iconos y mensajes de éxito */
+/* Estilos para mensajes de éxito */
 .success-icon {
   width: 80px;
   height: 80px;
   background-color: var(--success-color);
   border-radius: 50%;
+  margin: 20px auto;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 40px;
   color: white;
-  margin: 0 auto 20px auto;
-  box-shadow: 0 0 10px rgba(60, 109, 63, 0.5);
+  animation: successBounce 0.6s ease-out;
+}
+
+@keyframes successBounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 .success-message {
   text-align: center;
-  line-height: 1.6;
   margin-bottom: 20px;
 }
 
@@ -373,7 +435,26 @@
       height: 60px;
       font-size: 30px;
   }
+  
+  .confirmacion-modal .geoproceso-body {
+      padding: 15px;
+  }
+  
+  .confirmacion-mensaje h3 {
+      font-size: 16px;
+  }
+  
+  .confirmacion-footer {
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+  }
+  
+  .military-button {
+      width: 100%;
+  }
 }
+
 /* Asegurar que el contenedor tenga position relative */
 #viewDiv,
 #mapContainer {
