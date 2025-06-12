@@ -108,27 +108,22 @@ function createGeoprocessor(config) {
         <div class="geoproceso-body">
           <div class="confirmacion-icon">⚠️</div>
           <div class="confirmacion-mensaje">
-            <h3>¿Está seguro de iniciar el procesamiento geoespacial?</h3>
-            <p>Una vez iniciado el análisis, no podrá realizar cambios en la selección de proyectos.</p>
+            <h3>¿Está seguro de enviar la selección?</h3>
+            <p>Una vez iniciado el análisis, no podrá realizar cambios en la selección de programas.</p>
             
             <div class="confirmacion-detalles">
               <div class="detalle-item">
-                <span class="detalle-label">PROYECTOS SELECCIONADOS:</span>
+                <span class="detalle-label">PROGRAMAS SELECCIONADOS:</span>
                 <span class="detalle-valor">${numProyectos}</span>
               </div>
-              <div class="detalle-item">
-                <span class="detalle-label">INVERSIÓN TOTAL:</span>
-                <span class="detalle-valor">$${costoTotal.toLocaleString()}</span>
-              </div>
+      
               <div class="detalle-item">
                 <span class="detalle-label">TIEMPO ESTIMADO:</span>
                 <span class="detalle-valor">30-60 segundos</span>
               </div>
             </div>
 
-            <div class="confirmacion-advertencia">
-              <p><strong>IMPORTANTE:</strong> Este proceso consumirá recursos del servidor y no puede ser cancelado.</p>
-            </div>
+      
           </div>
         </div>
         <div class="geoproceso-footer confirmacion-footer">
@@ -449,6 +444,9 @@ function createGeoprocessor(config) {
       <p>El procesamiento se ha completado correctamente.</p>
       <p>ID del trabajo: <strong>${jobId}</strong></p>
       <p>Los resultados del análisis han sido procesados en el servidor.</p>
+      <div class="sierra-warning"">
+        <p> 📋 Instrucciones: Haz clic en la flecha "Siguiente" (→)  para continuar con el proceso.</p>
+      </div>
     `;
     body.appendChild(message);
     

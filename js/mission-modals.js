@@ -145,14 +145,14 @@ function crearModalCiclo1() {
         <div id="misionModalCiclo1" class="team-modal">
             <div class="team-modal-content sierra-modal-content">
                 <div class="team-modal-header">
-                    <h2>FASE 1: CICLO DE INVERSIÓN 2035</h2>
-                    <div class="team-modal-subtitle">Primera Fase Estratégica - Sierra Nevada
+                    <h2>CICLO 1: CICLO DE INVERSIÓN 2030</h2>
+                    <div class="team-modal-subtitle">Primer Ciclo Estratégico - Sierra Nevada
 </div>
                 </div>
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE LA MISIÓN:</strong> Seleccionar los proyectos más efectivos para mejorar las condiciones de vida en la Sierra Nevada dentro del presupuesto asignado de $10,000.
+                            <strong>OBJETIVO DE LA MISIÓN:</strong> Seleccionar los programas más efectivos para mejorar las condiciones de vida en la Sierra Nevada dentro del presupuesto asignado de $10,000 recursos estrategicos.
                         </p>
                         
                         <div class="mission-stats">
@@ -191,17 +191,19 @@ function crearModalCiclo1() {
                         
                         <div class="sierra-warning">
                             <strong>INSTRUCCIONES:</strong>
-                            <p>1. Seleccione operaciones del panel derecho dentro del presupuesto.</p>
-                            <p>2. Cada operación mejora una o más dimensiones (Seguridad, Desarrollo, Gobernabilidad).</p>
-                            <p>3. El equipo con mayor incremento en la Esperanza de vida ganará la misión.</p>
-                            <p>4. Cuando este seguro presione el boton "GENERAR INFORME" para evaluar resultados.</p>
-                        </div>
+                            <p>1. Tenga en cuenta el presupuesto disponible antes de iniciar cualquier acción.</p>
+                            <p>2. En el panel derecho, en la sección "PROGRAMAS DISPONIBLES", seleccione los programas que desea ejecutar.</p>
+                            <p>3. Por cada programa seleccionado, deberá elegir una ubicación, la cual se habilitará automáticamente en el panel izquierdo. Cada operación impactará una o más dimensiones: Seguridad, Desarrollo y Gobernabilidad.</p>
+                            <p>4. Podrá consultar los datos mostrados del Análisis Exploratorio de las dimensiones de Seguridad, Desarrollo y Gobernabilidad a través del panel de Análisis Multidimensional, ubicado en la parte superior derecha.</p>
+                            <p>5. Recuerde: el equipo que logre el mayor incremento en la esperanza de vida ganará el reto.</p>
+                            <p>6. Una vez esté seguro de sus decisiones, presione el botón "GENERAR INFORME" para evaluar los resultados finales.</p>
+                                        </div>
                         
                         
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="misionStartButtonCiclo1" class="military-button">INICIAR EVALUACION DE PROYECTOS 2035</button>
+                    <button id="misionStartButtonCiclo1" class="military-button">INICIAR EVALUACIÓN DE PROGRAMAS 2030</button>
                 </div>
             </div>
         </div>
@@ -243,7 +245,7 @@ function crearModalCiclo1() {
             
             // Mostrar mensaje instructivo
             if (window.HORIZONTE && HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
-                HORIZONTE.utils.showStatusMessage("Seleccione proyectos para mejorar Esperanza de vida", "info", 5000);
+                HORIZONTE.utils.showStatusMessage("Seleccione programas para mejorar Esperanza de vida", "info", 5000);
             }
         }, 300);
     });
@@ -260,17 +262,17 @@ function crearModalCiclo2() {
         <div id="misionModalCiclo2" class="team-modal">
             <div class="team-modal-content sierra-modal-content">
                 <div class="team-modal-header">
-                    <h2>FASE 2: CICLO DE INVERSIÓN 2045</h2>
-                    <div class="team-modal-subtitle">Segunda Fase Estratégica - Sierra Nevada</div>
+                    <h2>CICLO 2: CICLO DE INVERSIÓN 2035</h2>
+                    <div class="team-modal-subtitle">Segunda Ciclo Estratégica - Sierra Nevada</div>
                 </div>
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los proyectos más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2045, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000.
+                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los programas más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2035, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000 recursos estrategicos.
                         </p>
                         
                         <div class="mission-stats">
-                            <h3 class="mission-stats-title">PROGRESO ACTUAL (2035)</h3>
+                            <h3 class="mission-stats-title">PROGRESO ACTUAL (2030)</h3>
                             <div class="dimension-bars">
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Seguridad</div>
@@ -305,17 +307,19 @@ function crearModalCiclo2() {
                         
                         <div class="sierra-warning">
                             <strong>INSTRUCCIONES:</strong>
-                            <p>1. Seleccione operaciones del panel derecho dentro del presupuesto.</p>
-                            <p>2. Cada operación mejora una o más dimensiones (Seguridad, Desarrollo, Gobernabilidad).</p>
-                            <p>3. El equipo con mayor incremento en la Esperanza de vida ganará la misión.</p>
-                            <p>4. Cuando este seguro presione el boton "GENERAR INFORME" para evaluar resultados.</p>
+                            <p>1. Tenga en cuenta el presupuesto disponible antes de iniciar cualquier acción.</p>
+                            <p>2. En el panel derecho, en la sección "PROGRAMAS DISPONIBLES", seleccione los programas que desea ejecutar.</p>
+                            <p>3. Por cada programa seleccionado, deberá elegir una ubicación, la cual se habilitará automáticamente en el panel izquierdo. Cada operación impactará una o más dimensiones: Seguridad, Desarrollo y Gobernabilidad.</p>
+                            <p>4. Podrá consultar los datos mostrados del Análisis Exploratorio de las dimensiones de Seguridad, Desarrollo y Gobernabilidad a través del panel de Análisis Multidimensional, ubicado en la parte superior derecha.</p>
+                            <p>5. Recuerde: el equipo que logre el mayor incremento en la esperanza de vida ganará el reto.</p>
+                            <p>6. Una vez esté seguro de sus decisiones, presione el botón "GENERAR INFORME" para evaluar los resultados finales.</p>
                         </div>
                         
                
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="misionStartButtonCiclo2" class="military-button">INICIAR EVALUACION DE PROYECTOS 2045</button>
+                    <button id="misionStartButtonCiclo2" class="military-button">INICIAR EVALUACIÓN DE PROGRAMAS 2035</button>
                 </div>
             </div>
         </div>

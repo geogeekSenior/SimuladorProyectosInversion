@@ -26,22 +26,21 @@ function crearModalSierraNevada() {
             <div class="team-modal-content sierra-modal-content">
                 <div class="team-modal-header">
                     <h2>Sierra Nevada de Santa Marta: Un Tesoro en Crisis</h2>
-                    <div class="team-modal-subtitle">Simulador de Inversiones Estratégicas</div>
+                    <div class="team-modal-subtitle"> </div>
                 </div>
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-            La Sierra Nevada de Santa Marta, un ecosistema de vital importancia estratégica para Colombia, atraviesa una profunda crisis multidimensional que pone en riesgo la vida y el bienestar de sus habitantes. Este imponente macizo montañoso, con cumbres que se elevan por encima de los 5,700 metros, es depositario de una extraordinaria biodiversidad y constituye el entorno vital para las poblaciones que residen en esta emblemática región.
-                        </p>
+                        La Sierra Nevada de Santa Marta, ecosistema de importancia estratégica para Colombia, enfrenta una profunda crisis multidimensional que amenaza la vida y el bienestar de sus habitantes. Este imponente macizo montañoso, cuyas cumbres superan los 5.700 metros de altitud, alberga una biodiversidad excepcional y constituye el territorio vital para las comunidades que habitan esta región emblemática.                        </p>
                         
                         <div class="sierra-warning">
                             <p class="sierra-text">
-                                <strong>ALERTA CRÍTICA:</strong> Las comunidades de la Sierra Nevada presentan una Esperanza de vida de 72.04 años, significativamente inferior al promedio nacional. Los indicadores muestran:
+                                <strong>ALERTA CRÍTICA:</strong> Las comunidades de la Sierra Nevada presentan una esperanza de vida de 72.04 años, significativamente inferior al promedio nacional. Los indicadores muestran:
                             </p>
                             <ul>
-                                <li>Seguridad: 59.22% (incremento de violencia y presencia de MAP)</li>
-                                <li>Desarrollo: 59.73% (desnutrición infantil crítica del 12%)</li>
-                                <li>Gobernabilidad: 38.98% (erosión institucional severa)</li>
+                                <li>Seguridad: 23.97% (Incremento de violencia y presencia de Minas AntiPersona)</li>
+                                <li>Desarrollo: 44.33% (Desnutrición infantil crítica del 12%)</li>
+                                <li>Gobernabilidad: 6.37% (Deterioro institucional severa)</li>
                             </ul>
                             <p class="sierra-text">
                                 <strong>Sin intervención inmediata, la Esperanza de vida podría reducirse entre 1.5 y 2 años en los próximos 18 meses.</strong>
@@ -51,7 +50,7 @@ function crearModalSierraNevada() {
                         <div class="life-expectancy-comparison">
 
                             <div class="life-bar-container">
-                                <div class="life-bar-label">SIERRA NEVADA (EV-ACTUAL)</div>
+                                <div class="life-bar-label">SIERRA NEVADA (Esperanza de Vida - ACTUAL)</div>
                                 <div class="life-bar-outer">
                                     <div class="life-bar-inner sierra"></div>
                                 </div>
@@ -64,7 +63,7 @@ function crearModalSierraNevada() {
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="sierraStartMission" class="military-button">ACEPTAR MISIÓN</button>
+                    <button id="sierraStartMission" class="military-button">ASUMIR RETO</button>
                 </div>
             </div>
         </div>

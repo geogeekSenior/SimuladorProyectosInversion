@@ -40,7 +40,7 @@
     <div class="container military-container">
         <div class="results-container">
             <div class="results-header">
-                <h2 class="results-heading">INFORME DE IMPACTO EXPECTATIVA VIDA</h2>
+                <h2 class="results-heading">INFORME DE IMPACTO ESPERANZA VIDA</h2>
                 <div class="results-date" id="reportDate"></div>
             </div>
             
@@ -52,7 +52,7 @@
                         <div class="stat-card">
                             <div class="stat-icon">🎯</div>
                             <div class="stat-value" id="operationsCount">0</div>
-                            <div class="stat-label">PROYECTOS DESPLEGADOS</div>
+                            <div class="stat-label">PROGRAMAS DESPLEGADOS</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">💰</div>
@@ -69,20 +69,20 @@
                 
                 <!-- Detalles de proyectos -->
                 <div class="results-section operations-list">
-                    <h3 class="section-title">DETALLES DE PROYECTOS</h3>
+                    <h3 class="section-title">DETALLES DE PROGRAMAS</h3>
                     <div class="data-table-container">
                         <table class="military-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>PROYECTO</th>
+                                    <th>PROGRAMA</th>
                                     <th>RECURSOS</th>
                                 </tr>
                             </thead>
                             <tbody id="operationsTableBody">
                                 <!-- Los datos de proyectos se insertarán aquí dinámicamente -->
                                 <tr id="loadingProjectsRow">
-                                    <td colspan="3" style="text-align: center;">Cargando proyectos...</td>
+                                    <td colspan="3" style="text-align: center;">Cargando programas...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -119,7 +119,7 @@
                                 <div class="bar-value"><span id="gobernabilidad-value">0%</span> <span class="improvement" id="gobernabilidad-increase">+0%</span></div>
                             </div>
                             <div class="dimension-bar-container total-index">
-                                <div class="bar-label">Expectativa de Vida</div>
+                                <div class="bar-label">Esperanza de Vida</div>
                                 <div class="bar-outer">
                                     <div class="bar-inner" id="total-bar" style="width: 0%;"></div>
                                     <div class="bar-improvement" id="total-improvement" style="width: 0%;"></div>
@@ -132,11 +132,8 @@
             </div>
             
             <div class="results-footer">
-                <div class="approval-section">
-                    <div class="approval-stamp">APROBADO</div>
-                    <div class="approver-info">COMITÉ ESTRATÉGICO</div>
-                </div>
-                <button id="restart-button" class="military-button">EVALUACION DE PROYECTOS 2045</button>
+
+                <button id="restart-button" class="military-button">EVALUACIÓN DE PROGRAMAS 2035</button>
             </div>
         </div>
     </div>
@@ -147,7 +144,6 @@
     <!-- Pie de página -->
     <footer class="military-footer">
         <div class="footer-content">
-            <div class="military-stamp">CONFIDENCIAL</div>
             <div class="military-date" id="currentDate"></div>
         </div>
     </footer>

@@ -462,7 +462,7 @@
         <div id="mapContainer">
             <div id="viewDiv"></div>
             <div id="map-instructions" class="esri-widget">
-                <span class="military-label">ESTADO:</span> Esperando selección de operación
+                <span class="military-label">ESTADO:</span> Esperando selección de programa
             </div>
         </div>
         
@@ -479,22 +479,22 @@
             <!-- Panel para proyectos seleccionados -->
             <div class="selected-projects-panel">
                 <div class="section-header">
-                    <div>OPERACIONES DESPLEGADAS</div>
+                    <div>PROGRAMAS DESPLEGADAS</div>
                     <div class="selected-projects-counter" id="projectCounter">0</div>
                 </div>
                 <div id="selectedProjectsList">
-                    <div class="selected-projects-empty">No hay operaciones desplegadas actualmente</div>
+                    <div class="selected-projects-empty">No hay programas desplegadas actualmente</div>
                 </div>
             </div>
 
             <!-- Panel para proyectos disponibles -->
             <div class="available-projects-panel">
                 <div class="section-header">
-                    <div>OPERACIONES DISPONIBLES</div>
+                    <div>PROGRAMAS DISPONIBLES</div>
                 </div>
                 <div id="loadingIndicator" class="loading-container">
                     <div class="loading-spinner"></div>
-                    <span>Cargando operaciones tácticas...</span>
+                    <span>Cargando programas...</span>
                 </div>
                 <div id="projectList"></div>
             </div>
@@ -507,7 +507,6 @@
     <!-- Pie de página -->
     <footer class="military-footer">
         <div class="footer-content">
-            <div class="military-stamp">CONFIDENCIAL</div>
             <div class="military-date" id="currentDate"></div>
         </div>
     </footer>
@@ -601,6 +600,8 @@
     }
     </script>
     <script src="js/mission-modals.js"></script>
+    <script src="js/fullscreen-manager.js"></script>
+
 
 </body>
 </html>

@@ -94,7 +94,7 @@ HORIZONTE.team = (function() {
                        
                     </div>
                     <div class="team-modal-footer">
-                        <button id="teamSubmit" class="military-button">CONFIRMAR Y COMENZAR MISIÓN</button>
+                        <button id="teamSubmit" class="military-button">CONFIRMAR Y COMENZAR RETO</button>
                     </div>
                 </div>
             </div>

@@ -177,13 +177,11 @@ def script_tool(atributos_json_str, geometrias_json_str):
 
             # 6) Guardar ráster y exponerlo como parámetro 4
             indice_raster.save(indice_path)
-            arcpy.SetParameterAsText(4, indice_path)
 
         else:
             # Si faltara alguna dimensión, avisa y deja el parámetro vacío
             arcpy.AddWarning("No se generó el Índice: faltan una o más dimensiones finales.")
             indice_path = ""
-            arcpy.SetParameterAsText(4, indice_path)
 
 
 
@@ -195,53 +193,74 @@ def script_tool(atributos_json_str, geometrias_json_str):
                 medias[dim] = float(val.replace(",", "."))
         medias = {k: medias.get(k, 0) for k in rasters_base}
 
-        # --- 3.7 Crear tablas de salida ----
-        proyecto_info_fc = "memory/Proyecto_Info"
-        estadisticas_fc  = "memory/Estadisticas_Medias"
-        arcpy.CreateTable_management("memory", "Proyecto_Info")
-        arcpy.CreateTable_management("memory", "Estadisticas_Medias")
+        # ------------------------------------------------------------------
+        # 3.7 · Crear tablas de salida  (versión para Web Tool / scratchGDB)
+        # ------------------------------------------------------------------
+        scratch = arcpy.env.scratchGDB              # GDB temporal del Job
+        uid      = uuid.uuid4().hex[:8]             # evita choques entre trabajos
 
-        # Proyecto_Info
-        for name, length in [("OBJECTID_Proyecto",10),("UBICACION",200),
-                             ("SESSION_TIMESTAMP",30),("TEAM_NAME",50),
-                             ("TEAM_CODE",20),("PROYECTO",120),
-                             ("VALORINVERSION",None),("CICLO",20)]:
-            arcpy.AddField_management(proyecto_info_fc, name,
-                                      "TEXT" if length else "DOUBLE",
-                                      field_length=length or "")
+        # Rutas finales: dentro de scratchGDB (¡no usar memory!)
+        proyecto_info_fc = os.path.join(scratch, f"proyinfo_{uid}")
+        estadisticas_fc  = os.path.join(scratch, f"stats_{uid}")
+
+        # 1) Crear tablas en la GDB temporal
+        arcpy.CreateTable_management(scratch, f"proyinfo_{uid}")
+        arcpy.CreateTable_management(scratch, f"stats_{uid}")
+
+        # 2) ----- Tabla Proyecto_Info ------------------------------------
+        for name, length in [
+            ("OBJECTID_Proyecto",10), ("UBICACION",200), ("SESSION_TIMESTAMP",30),
+            ("TEAM_NAME",50), ("TEAM_CODE",20), ("PROYECTO",120),
+            ("VALORINVERSION",None), ("CICLO",20)
+        ]:
+            arcpy.AddField_management(
+                proyecto_info_fc,
+                name,
+                "TEXT" if length else "DOUBLE",
+                field_length=length or ""
+            )
+
         with arcpy.da.InsertCursor(
             proyecto_info_fc,
             ["OBJECTID_Proyecto","UBICACION","SESSION_TIMESTAMP",
-             "TEAM_NAME","TEAM_CODE","PROYECTO","VALORINVERSION","CICLO"]
+            "TEAM_NAME","TEAM_CODE","PROYECTO","VALORINVERSION","CICLO"]
         ) as ic:
             for a in atributos:
-                ic.insertRow([a["objectid"], a["ubicacion"],
-                              a["sessionTimestamp"], a["teamName"],
-                              a["teamCode"], a["proyecto"],
-                              a["valorinversion"], "ciclo-1"])
+                ic.insertRow([
+                    a["objectid"], a["ubicacion"], a["sessionTimestamp"],
+                    a["teamName"], a["teamCode"], a["proyecto"],
+                    a["valorinversion"], "ciclo-1"
+                ])
 
-        # Estadisticas_Medias
-        for name, length in [("TEAM_NAME",50),("TEAM_CODE",20),
-                             ("MEAN_SEGURIDAD",None),("MEAN_GOBERNABILIDAD",None),
-                             ("MEAN_DESARROLLO",None),("CICLO",20),
-                             ("INDICE",None),("VIDA",None)]:
-            arcpy.AddField_management(estadisticas_fc, name,
-                                      "TEXT" if length else "DOUBLE",
-                                      field_length=length or "")
-        teams = {(a["teamName"], a["teamCode"]) for a in atributos}
-        indice = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.3 + medias["DESARROLLO"]*0.25
+        # 3) ----- Tabla Estadisticas_Medias ------------------------------
+        for name, length in [
+            ("TEAM_NAME",50), ("TEAM_CODE",20), ("MEAN_SEGURIDAD",None),
+            ("MEAN_GOBERNABILIDAD",None), ("MEAN_DESARROLLO",None),
+            ("CICLO",20), ("INDICE",None), ("VIDA",None)
+        ]:
+            arcpy.AddField_management(
+                estadisticas_fc,
+                name,
+                "TEXT" if length else "DOUBLE",
+                field_length=length or ""
+            )
+
+        teams  = {(a["teamName"], a["teamCode"]) for a in atributos}
+        indice = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.30 + medias["DESARROLLO"]*0.25
         vida   = 68 + (85-68)*(indice/100)
+
         with arcpy.da.InsertCursor(
             estadisticas_fc,
             ["TEAM_NAME","TEAM_CODE","MEAN_SEGURIDAD","MEAN_GOBERNABILIDAD",
-             "MEAN_DESARROLLO","CICLO","INDICE","VIDA"]
+            "MEAN_DESARROLLO","CICLO","INDICE","VIDA"]
         ) as ic:
             for tname, tcode in teams:
-                ic.insertRow([tname, tcode,
-                              medias["SEGURIDAD"], medias["GOBERNABILIDAD"],
-                              medias["DESARROLLO"], "ciclo-1",
-                              indice, vida])
-
+                ic.insertRow([
+                    tname, tcode,
+                    medias["SEGURIDAD"], medias["GOBERNABILIDAD"],
+                    medias["DESARROLLO"], "ciclo-1",
+                    indice, vida
+                ])
         # --- 3.8 Sincronizar con servicios Hosted ----
         try:
             arcpy.Append_management(proyecto_info_fc, srv_proyectos,   "NO_TEST")

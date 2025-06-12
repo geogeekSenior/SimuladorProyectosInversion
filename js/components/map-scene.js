@@ -175,7 +175,7 @@
                             margin-right: 8px; 
                             flex-shrink: 0; 
                         "></span>
-                        <span>Puntos de Proyectos Disponibles (Seleccionable)</span>
+                        <span>Puntos de Programas Disponibles (Seleccionable)</span>
                     </div>
                     <div class="leyenda-item" style="display: flex; align-items: center;">
                         <span style="
