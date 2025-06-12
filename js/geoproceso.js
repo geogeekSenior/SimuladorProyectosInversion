@@ -103,26 +103,37 @@ function createGeoprocessor(config) {
       <div class="geoproceso-modal-content confirmacion-modal">
         <div class="geoproceso-header">
           <h2>CONFIRMACIÓN DE ANÁLISIS</h2>
-          <button class="geoproceso-close" onclick="cerrarModalConfirmacion()">&times;</button>
+          <button class="geoproceso-close" id="cerrarConfirmacion">&times;</button>
         </div>
         <div class="geoproceso-body">
           <div class="confirmacion-icon">⚠️</div>
           <div class="confirmacion-mensaje">
-            <h3 style="color: white;">  ¿Está seguro de enviar los programas?</h3>
+            <h3>¿Está seguro de iniciar el procesamiento geoespacial?</h3>
             <p>Una vez iniciado el análisis, no podrá realizar cambios en la selección de proyectos.</p>
             
             <div class="confirmacion-detalles">
               <div class="detalle-item">
                 <span class="detalle-label">PROYECTOS SELECCIONADOS:</span>
                 <span class="detalle-valor">${numProyectos}</span>
+              </div>
+              <div class="detalle-item">
+                <span class="detalle-label">INVERSIÓN TOTAL:</span>
+                <span class="detalle-valor">$${costoTotal.toLocaleString()}</span>
+              </div>
+              <div class="detalle-item">
+                <span class="detalle-label">TIEMPO ESTIMADO:</span>
+                <span class="detalle-valor">30-60 segundos</span>
+              </div>
             </div>
 
-  
+            <div class="confirmacion-advertencia">
+              <p><strong>IMPORTANTE:</strong> Este proceso consumirá recursos del servidor y no puede ser cancelado.</p>
+            </div>
           </div>
         </div>
         <div class="geoproceso-footer confirmacion-footer">
-          <button class="military-button secondary" onclick="cerrarModalConfirmacion()">CANCELAR</button>
-          <button class="military-button primary" onclick="confirmarYEjecutarGeoproceso()">CONFIRMAR</button>
+          <button class="military-button secondary" id="cancelarConfirmacion">CANCELAR</button>
+          <button class="military-button primary" id="confirmarEjecutar">CONFIRMAR E INICIAR</button>
         </div>
       </div>
     `;
@@ -130,9 +141,10 @@ function createGeoprocessor(config) {
     // Añadir al documento
     document.body.appendChild(modalContainer);
     
-    // Hacer que las funciones estén disponibles globalmente
-    window.cerrarModalConfirmacion = cerrarModalConfirmacion;
-    window.confirmarYEjecutarGeoproceso = confirmarYEjecutarGeoproceso;
+    // Agregar eventos a los botones
+    document.getElementById('cerrarConfirmacion').addEventListener('click', cerrarModalConfirmacion);
+    document.getElementById('cancelarConfirmacion').addEventListener('click', cerrarModalConfirmacion);
+    document.getElementById('confirmarEjecutar').addEventListener('click', confirmarYEjecutarGeoproceso);
   }
 
   // NUEVO: Función para cerrar modal de confirmación
@@ -242,7 +254,7 @@ function createGeoprocessor(config) {
     }
   }
 
-  // Procesar el trabajo de forma asíncrona
+  // Procesar el trabajo de forma asíncrona (MANTENIENDO LA ESTRUCTURA ORIGINAL)
   async function procesarTrabajoAsincrono(url, params, modalId) {
     return new Promise((resolve, reject) => {
       // Verificar si los módulos están cargados
@@ -252,106 +264,151 @@ function createGeoprocessor(config) {
         return;
       }
       
-      // Cargar módulos necesarios
+      // Cargar módulos necesarios para geoprocesamiento asíncrono
       require([
-        "esri/tasks/Geoprocessor"
-      ], function(Geoprocessor) {
-        try {
-          const gp = new Geoprocessor(url);
-          
-          // Configuración del trabajo
-          const jobParams = {
-            geometrias_json: params.geometrias_json,
-            atributos_json: params.atributos_json
-          };
-          
-          console.log('Enviando trabajo con parámetros:', jobParams);
-          actualizarModalAnalisis(modalId, 'progress', 'Trabajo enviado, esperando respuesta...', 30);
-          
-          // Enviar trabajo
-          gp.submitJob(jobParams).then((jobInfo) => {
-            console.log('Trabajo enviado. ID:', jobInfo.jobId);
-            actualizarModalAnalisis(modalId, 'progress', `Trabajo ID: ${jobInfo.jobId}`, 40);
+        "esri/rest/geoprocessor", 
+        "esri/rest/support/JobInfo"
+      ], function(geoprocessor, JobInfo) {
+        // Mostrar mensaje
+        mostrarMensajeEstado('Enviando trabajo al servidor...', 'info');
+        actualizarModalAnalisis(modalId, 'progress', 'Enviando trabajo al servidor...', 30);
+        
+        // Usar submitJob en lugar de execute
+        geoprocessor.submitJob(url, params)
+          .then(function(jobInfo) {
+            console.log('Trabajo enviado exitosamente, JobID:', jobInfo.jobId);
+            mostrarMensajeEstado('Trabajo enviado, ID: ' + jobInfo.jobId, 'info');
+            actualizarModalAnalisis(modalId, 'progress', 'Trabajo enviado, procesando...', 40);
             
-            // Monitorear el progreso del trabajo
-            monitorearTrabajo(gp, jobInfo, modalId, resolve, reject);
-            
-          }).catch((error) => {
+            // Monitorear el estado del trabajo
+            monitorizarTrabajo(url, jobInfo.jobId, modalId);
+          })
+          .catch(function(error) {
             console.error('Error al enviar trabajo:', error);
-            actualizarModalAnalisis(modalId, 'error', 'Error al enviar trabajo: ' + error.message);
+            mostrarMensajeEstado('Error al enviar trabajo: ' + (error.message || 'Error desconocido'), 'error');
+            actualizarModalAnalisis(modalId, 'error', 'Error al enviar trabajo: ' + (error.message || 'Error desconocido'));
+            
+            // Mantener el botón deshabilitado a pesar del error
+            const boton = document.getElementById(options.buttonId);
+            if (boton) {
+              boton.disabled = true;
+              boton.classList.add('disabled');
+              boton.classList.remove('processing');
+              boton.title = 'Análisis ya ejecutado';
+            }
+            
             reject(error);
           });
-          
-        } catch (error) {
-          console.error('Error al crear Geoprocessor:', error);
-          actualizarModalAnalisis(modalId, 'error', 'Error al crear procesador: ' + error.message);
-          reject(error);
-        }
       });
     });
   }
 
-  // Monitorear el progreso del trabajo
-  function monitorearTrabajo(gp, jobInfo, modalId, resolve, reject) {
-    let progress = 40;
-    const checkInterval = 2000; // Verificar cada 2 segundos
+  // Función para monitorizar el estado del trabajo usando esri/request (ESTRUCTURA ORIGINAL)
+  function monitorizarTrabajo(url, jobId, modalId) {
+    let progreso = 40;
+    const incremento = 10;
     
-    const checkStatus = () => {
-      gp.checkJobStatus(jobInfo.jobId).then((updatedJobInfo) => {
-        console.log('Estado del trabajo:', updatedJobInfo.jobStatus);
-        
-        // Actualizar progreso
-        progress = Math.min(progress + 10, 90);
-        const statusMessage = traducirEstadoTrabajo(updatedJobInfo.jobStatus);
-        actualizarModalAnalisis(modalId, 'progress', `${statusMessage} (${progress}%)`, progress);
-        
-        switch (updatedJobInfo.jobStatus) {
-          case 'job-succeeded':
-            // Trabajo completado exitosamente
-            console.log('Trabajo completado exitosamente');
-            actualizarModalAnalisis(modalId, 'progress', 'Procesamiento completado', 100);
+    const intervalo = setInterval(() => {
+      require(["esri/request"], function(esriRequest) {
+        const jobStatusUrl = `${url}/jobs/${jobId}?f=json`;
+        esriRequest(jobStatusUrl, { responseType: "json" })
+          .then(function(response) {
+            const jobInfo = response.data;
+            console.log('Estado del trabajo:', jobInfo.jobStatus);
             
-            // Cerrar modal después de un breve retraso
-            setTimeout(() => {
-              cerrarModalAnalisis(modalId);
-              mostrarMensajeExito(updatedJobInfo.jobId, updatedJobInfo);
-            }, 1000);
+            // Actualizar progreso gradualmente
+            progreso = Math.min(90, progreso + incremento);
             
-            resolve(updatedJobInfo);
-            break;
+            // Actualizar mensaje de estado
+            const estadoTexto = obtenerTextoEstado(jobInfo.jobStatus);
+            mostrarMensajeEstado(`Procesando trabajo: ${estadoTexto}`, 'info');
+            actualizarModalAnalisis(modalId, 'progress', `Procesando trabajo: ${estadoTexto}`, progreso);
             
-          case 'job-failed':
-          case 'job-cancelled':
-            // Trabajo falló o fue cancelado
-            console.error('El trabajo falló:', updatedJobInfo);
-            actualizarModalAnalisis(modalId, 'error', `Trabajo ${updatedJobInfo.jobStatus}: ${updatedJobInfo.messages}`);
-            reject(new Error(`Trabajo ${updatedJobInfo.jobStatus}`));
-            break;
+            // Verificar si el trabajo ha finalizado (ya sea con "job-succeeded" o "esriJobSucceeded")
+            if (jobInfo.jobStatus === 'job-succeeded' || jobInfo.jobStatus === 'esriJobSucceeded') {
+              clearInterval(intervalo);
+              mostrarMensajeEstado('Trabajo completado con éxito', 'success');
+              
+              // CAMBIO IMPORTANTE: Mostrar éxito directamente sin intentar obtener resultados
+              console.log('Trabajo completado con éxito:', jobId);
+              
+              // Actualizar el modal finalmente
+              actualizarModalAnalisis(modalId, 'success', 'Análisis completado con éxito', 100);
+              
+              // Cerrar modal después de 3 segundos
+              setTimeout(() => {
+                cerrarModalAnalisis(modalId);
+                mostrarMensajeExito(jobId, jobInfo);
+                
+                // Asegurar que el botón quede deshabilitado permanentemente
+                const boton = document.getElementById(options.buttonId);
+                if (boton) {
+                  boton.disabled = true;
+                  boton.classList.add('disabled');
+                  boton.classList.remove('processing');
+                  boton.title = 'Análisis ya ejecutado';
+                }
+              }, 3000);
+              
+            } else if (jobInfo.jobStatus === 'job-failed') {
+              clearInterval(intervalo);
+              console.error('El trabajo falló:', jobInfo);
+              mostrarMensajeEstado('Trabajo fallido: ' + (jobInfo.messages ? jobInfo.messages[0].description : 'Error desconocido'), 'error');
+              actualizarModalAnalisis(modalId, 'error', 'Trabajo fallido: ' + (jobInfo.messages ? jobInfo.messages[0].description : 'Error desconocido'));
+              
+              // Mantener el botón deshabilitado a pesar del error
+              const boton = document.getElementById(options.buttonId);
+              if (boton) {
+                boton.disabled = true;
+                boton.classList.add('disabled');
+                boton.classList.remove('processing');
+                boton.title = 'Análisis ya ejecutado';
+              }
+            } else if (jobInfo.jobStatus === 'job-cancelled') {
+              clearInterval(intervalo);
+              mostrarMensajeEstado('Trabajo cancelado', 'warning');
+              actualizarModalAnalisis(modalId, 'error', 'Trabajo cancelado');
+              
+              // Mantener el botón deshabilitado a pesar de la cancelación
+              const boton = document.getElementById(options.buttonId);
+              if (boton) {
+                boton.disabled = true;
+                boton.classList.add('disabled');
+                boton.classList.remove('processing');
+                boton.title = 'Análisis ya ejecutado';
+              }
+            }
+          })
+          .catch(function(error) {
+            console.error('Error al verificar estado:', error);
+            clearInterval(intervalo);
+            mostrarMensajeEstado('Error al verificar estado del trabajo', 'error');
+            actualizarModalAnalisis(modalId, 'error', 'Error al verificar estado del trabajo');
             
-          default:
-            // Continuar monitoreando
-            setTimeout(checkStatus, checkInterval);
-        }
-        
-      }).catch((error) => {
-        console.error('Error al verificar estado:', error);
-        actualizarModalAnalisis(modalId, 'error', 'Error al verificar estado: ' + error.message);
-        reject(error);
+            // Mantener el botón deshabilitado a pesar del error
+            const boton = document.getElementById(options.buttonId);
+            if (boton) {
+              boton.disabled = true;
+              boton.classList.add('disabled');
+              boton.classList.remove('processing');
+              boton.title = 'Análisis ya ejecutado';
+            }
+          });
       });
-    };
-    
-    // Iniciar monitoreo
-    checkStatus();
+    }, 2000);
   }
 
-  // Traducir estados del trabajo
-  function traducirEstadoTrabajo(jobStatus) {
+  // Función para transformar el estado a texto legible
+  function obtenerTextoEstado(jobStatus) {
     switch (jobStatus) {
-      case 'job-submitted': return 'Trabajo enviado';
-      case 'job-executing': return 'Procesando análisis';
-      case 'job-waiting': return 'En cola de espera';
-      case 'job-succeeded': return 'Análisis completado';
-      case 'job-failed': return 'Error en el análisis';
+      case 'job-new': return 'Iniciando';
+      case 'job-submitted': return 'Enviado';
+      case 'job-waiting': return 'En espera';
+      case 'job-executing': return 'Ejecutando';
+      case 'job-succeeded': return 'Completado';
+      case 'esriJobSucceeded': return 'Completado';
+      case 'job-failed': return 'Fallido';
+      case 'job-cancelled': return 'Cancelado';
       case 'job-timed-out': return 'Tiempo agotado';
       default: return jobStatus;
     }
@@ -497,58 +554,139 @@ function createGeoprocessor(config) {
     // Añadir al documento
     document.body.appendChild(modal);
     
+    // CAMBIO: Disparar evento personalizado para indicar que se abrió el modal
+    document.dispatchEvent(new CustomEvent('geoproceso:modalOpen', {
+      detail: { modalId: modalId }
+    }));
+    
     return modalId;
   }
 
   // Actualizar modal de análisis
-  function actualizarModalAnalisis(modalId, tipo, mensaje, progreso = null) {
+  function actualizarModalAnalisis(modalId, estado, mensaje, progreso) {
+    if (!modalId) return;
+    
     const modal = document.getElementById(modalId);
     if (!modal) return;
     
-    const statusElement = modal.querySelector('.analysis-status');
+    const statusElem = modal.querySelector('.analysis-status');
     const progressBar = modal.querySelector('.analysis-progress-bar');
+    const spinner = modal.querySelector('.analysis-spinner');
     
-    if (statusElement) {
-      statusElement.textContent = mensaje;
-      statusElement.className = `analysis-status ${tipo}`;
+    if (statusElem) statusElem.textContent = mensaje || '';
+    
+    if (progressBar && typeof progreso !== 'undefined') {
+      progressBar.style.width = `${progreso}%`;
     }
     
-    if (progressBar && progreso !== null) {
-      progressBar.style.width = `${progreso}%`;
-      
-      // Cambiar color según el tipo
-      if (tipo === 'error') {
-        progressBar.style.backgroundColor = 'var(--error-color)';
-      } else if (progreso === 100) {
-        progressBar.style.backgroundColor = 'var(--success-color)';
+    // Actualizar estilos según el estado
+    if (estado === 'error') {
+      if (statusElem) statusElem.className = 'analysis-status analysis-error';
+      if (progressBar) {
+        progressBar.className = 'analysis-progress-bar analysis-error-bar';
+        progressBar.style.width = '100%';
       }
+      if (spinner) spinner.className = 'analysis-spinner analysis-error-spinner';
+      
+      // Añadir botón para cerrar si no existe
+      if (!modal.querySelector('.geoproceso-footer')) {
+        const footerDiv = document.createElement('div');
+        footerDiv.className = 'geoproceso-footer';
+        
+        const closeButton = document.createElement('button');
+        closeButton.className = 'military-button';
+        closeButton.textContent = 'CERRAR';
+        closeButton.addEventListener('click', () => {
+          cerrarModalAnalisis(modalId);
+          
+          // El botón debe mantenerse deshabilitado incluso si hay error
+          const boton = document.getElementById(options.buttonId);
+          if (boton) {
+            boton.disabled = true;
+            boton.classList.add('disabled');
+            boton.classList.remove('processing');
+            boton.title = 'Análisis ya ejecutado';
+          }
+        });
+        
+        footerDiv.appendChild(closeButton);
+        modal.querySelector('.geoproceso-modal-content').appendChild(footerDiv);
+      }
+    } else if (estado === 'success') {
+      if (statusElem) statusElem.className = 'analysis-status analysis-success';
+      if (progressBar) {
+        progressBar.className = 'analysis-progress-bar analysis-success-bar';
+        progressBar.style.width = '100%';
+      }
+      if (spinner) spinner.className = 'analysis-spinner analysis-success-spinner';
     }
   }
 
   // Cerrar modal de análisis
   function cerrarModalAnalisis(modalId) {
+    if (!modalId) return;
+    
     const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.add('geoproceso-modal-closing');
-      setTimeout(() => {
-        modal.remove();
-      }, 300);
-    }
+    if (!modal) return;
+    
+    // Animación de salida
+    modal.classList.add('geoproceso-modal-closing');
+    
+    // Remover después de la animación
+    setTimeout(() => {
+      modal.remove();
+      
+      // CAMBIO: Disparar evento personalizado para indicar que se cerró el modal
+      document.dispatchEvent(new CustomEvent('geoproceso:modalClose', {
+        detail: { modalId: modalId }
+      }));
+    }, 300);
   }
 
-  // Mostrar mensaje de estado
+  // Mostrar mensaje de estado (crea el contenedor si no existe)
   function mostrarMensajeEstado(mensaje, tipo = 'info') {
-    console.log(`[${tipo.toUpperCase()}] ${mensaje}`);
+    console.log(`[${tipo}] ${mensaje}`);
     
-    // Si existe la función de utilidad para mostrar mensajes
+    // Si se tiene implementado HORIZONTE, se utiliza
+    if (window.HORIZONTE && HORIZONTE.app && HORIZONTE.app.mostrarMensajeEstado) {
+      HORIZONTE.app.mostrarMensajeEstado(mensaje, tipo);
+      return;
+    }
+    
+    // Si HORIZONTE.utils está disponible
     if (window.HORIZONTE && HORIZONTE.utils && HORIZONTE.utils.showStatusMessage) {
       HORIZONTE.utils.showStatusMessage(mensaje, tipo);
+      return;
     }
+    
+    // Si no existe el elemento, crearlo
+    let statusMessage = document.getElementById('statusMessage');
+    if (!statusMessage) {
+      statusMessage = document.createElement('div');
+      statusMessage.id = 'statusMessage';
+      statusMessage.className = 'status-message';
+      document.body.appendChild(statusMessage);
+    }
+    
+    statusMessage.textContent = mensaje;
+    statusMessage.className = `status-message status-${tipo}`;
+    statusMessage.style.opacity = '1';
+    statusMessage.style.transform = 'translateY(0)';
+    
+    // Desvanecer el mensaje después de 5 segundos
+    setTimeout(() => {
+      statusMessage.style.opacity = '0';
+      statusMessage.style.transform = 'translateY(20px)';
+    }, 5000);
   }
 
-  // Añadir estilos para botones deshabilitados
+  // Añadir estilos CSS específicos para botones deshabilitados
   function addDisabledButtonStyles() {
+    // Verificar si ya existe el estilo
+    if (document.getElementById('disabled-button-styles')) return;
+    
     const styleElement = document.createElement('style');
+    styleElement.id = 'disabled-button-styles';
     styleElement.textContent = `
       #${options.buttonId}.disabled {
         background-color: #3a4a5a !important; 

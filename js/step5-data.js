@@ -247,7 +247,6 @@ async function initializeInterface() {
                     <td>OP-${(index + 1).toString().padStart(3, '0')}</td>
                     <td>${proyecto.attributes.proyecto}</td>
                     <td>${proyecto.attributes.valorinversion.toLocaleString()}</td>
-                    <td><span class="status-badge ${impacto.clase}">${proyecto.attributes.ubicacion}</span></td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -292,7 +291,6 @@ async function initializeInterface() {
                     <td>OP-${(index + 1).toString().padStart(3, '0')}</td>
                     <td>${proyecto.attributes.proyecto}</td>
                     <td>${proyecto.attributes.valorinversion.toLocaleString()}</td>
-                    <td><span class="status-badge ${impactoClase}">${ubicacion}</span></td>
                 `;
                 
                 tableBody.appendChild(row);
@@ -430,7 +428,7 @@ async function initializeInterface() {
             }, 5000);
         }
         
-        document.getElementById('operationsTableBody').innerHTML = '<tr><td colspan="4" class="text-center">Error en la consulta. Ver consola para detalles.</td></tr>';
+        document.getElementById('operationsTableBody').innerHTML = '<tr><td colspan="3" class="text-center">Error en la consulta. Ver consola para detalles.</td></tr>';
     }
 }
 
