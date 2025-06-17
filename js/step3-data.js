@@ -323,7 +323,7 @@ async function initializeInterface() {
         });
         
         // Calcular el total PEMSITIM actual con los pesos correctos
-        const totalPemsitimActual = (valorSeguridad * 0.4) + (valorDesarrollo * 0.25) + (valorGobernabilidad * 0.35);
+        const totalPemsitimActual = (valorSeguridad * 0.45) + (valorDesarrollo * 0.25) + (valorGobernabilidad * 0.3);
         const deltaPemsitim = totalPemsitimActual - baselineValues.total;
         
         // Calcular expectativa de vida actual y baseline

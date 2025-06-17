@@ -75,7 +75,7 @@ HORIZONTE.team = (function() {
             <div id="teamModal" class="team-modal">
                 <div class="team-modal-content">
                     <div class="team-modal-header">
-                        <h2>REGISTRO DE EQUIPO ESTRATEGICO</h2>
+                        <h2>REGISTRO DE EQUIPO ESTRATÉGICO</h2>
                         <div class="team-modal-subtitle">Sistema de Inversiones Estratégicas</div>
                     </div>
                     <div class="team-modal-body">
@@ -249,7 +249,7 @@ HORIZONTE.team = (function() {
                         ${headerContent}
                         <div class="team-info-display">
                             <div class="team-info-block">
-                                <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
+                                <div class="team-info-label">EQUIPO ESTRATÉGICO:</div>
                                 <div class="team-info-value">${state.teamName}</div>
                                 <div class="team-info-code">ID: ${state.teamCode}</div>
                             </div>
@@ -277,7 +277,7 @@ HORIZONTE.team = (function() {
                 newTeamInfoDisplay.className = 'team-info-display';
                 newTeamInfoDisplay.innerHTML = `
                     <div class="team-info-block">
-                        <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
+                        <div class="team-info-label">EQUIPO ESTRATÉGICO:</div>
                         <div class="team-info-value">${state.teamName}</div>
                         <div class="team-info-code">ID: ${state.teamCode}</div>
                     </div>
@@ -297,7 +297,7 @@ HORIZONTE.team = (function() {
                 const teamInfoHTML = `
                     <div class="team-info-display">
                         <div class="team-info-block">
-                            <div class="team-info-label">EQUIPO ESTRATEGICO:</div>
+                            <div class="team-info-label">EQUIPO ESTRATÉGICO:</div>
                             <div class="team-info-value">${state.teamName}</div>
                             <div class="team-info-code">ID: ${state.teamCode}</div>
                         </div>

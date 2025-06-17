@@ -152,7 +152,7 @@ function crearModalCiclo1() {
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE LA MISIÓN:</strong> Seleccionar los programas más efectivos para mejorar las condiciones de vida en la Sierra Nevada dentro del presupuesto asignado de $10,000 recursos estrategicos.
+                            <strong>OBJETIVO DE LA MISIÓN:</strong> Seleccionar los programas más efectivos para mejorar las condiciones de vida en la Sierra Nevada dentro del presupuesto asignado de $10,000 recursos estratégicos.
                         </p>
                         
                         <div class="mission-stats">
@@ -268,7 +268,7 @@ function crearModalCiclo2() {
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los programas más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2035, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000 recursos estrategicos.
+                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los programas más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2035, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000 recursos estratégicos.
                         </p>
                         
                         <div class="mission-stats">

@@ -8,14 +8,13 @@ Simulador de impacto por proyectos de inversión
 Compatible con ArcGIS Pro / ArcGIS Enterprise GP Tool
 """
 
-import os, arcpy, json, re, ast, traceback, uuid
+import arcpy, json, re, ast, traceback
 from arcpy.sa import *
 
 # ───────────────────── 1 · CONFIGURACIÓN GLOBAL ──────────────────────────────
 arcpy.CheckOutExtension("Spatial")
 arcpy.env.overwriteOutput = True
 arcpy.env.addOutputsToMap = False     # no capas automáticas
-
 
 # Rásters base (0-100)
 rasters_base = {
@@ -29,7 +28,6 @@ raster_penalizacion = r"C:/Users/Sebastian/Documents/ArcGIS/Projects/CIDENAL/CID
 
 # Máscara / área de estadísticas
 area_interes = r"C:/Users/Sebastian/Documents/ArcGIS/Projects/CIDENAL/CIDENAL.gdb/AreaInteres"
-extent_ai = arcpy.Describe(area_interes).extent
 
 # Constantes
 limite_superior = 100
@@ -103,13 +101,13 @@ def script_tool(atributos_json_str, geometrias_json_str):
 
                 # Distancia acumulada (una vez por proyecto)
                 radio_impacto = max(radio, 1)
-                with arcpy.EnvManager(extent=extent_ai,
-                      cellSize=cell_size,
-                      outputCoordinateSystem=sr):
+                with arcpy.EnvManager(extent=area_interes,
+                                      cellSize=cell_size,
+                                      outputCoordinateSystem=sr):
                     dist = DistanceAccumulation("proyectos_lyr",
-                                distance_method="GEODESIC",
-                                vertical_factor="BINARY 1 -30 30",
-                                horizontal_factor="BINARY 1 45")
+                                                distance_method="GEODESIC",
+                                                vertical_factor="BINARY 1 -30 30",
+                                                horizontal_factor="BINARY 1 45")
                 dist_adj = dist * Raster(raster_penalizacion)
 
                 # Delta por dimensión
@@ -141,50 +139,6 @@ def script_tool(atributos_json_str, geometrias_json_str):
             final_r.save(out_path)
             rasters_final[dim] = out_path
 
-        # ---------------- 3.5-bis · Índice combinado -----------------
-        import uuid, os  #  ← asegúrate de que 'uuid' y 'os' ya estén importados arriba
-
-        # 0) Solo seguimos si existen las tres dimensiones finales
-        if all(k in rasters_final for k in ("SEGURIDAD", "GOBERNABILIDAD", "DESARROLLO")):
-
-            # 1) Cálculo del índice (limitado a 100)
-            indice_raster = (
-                Raster(rasters_final["SEGURIDAD"])      * 0.45 +
-                Raster(rasters_final["GOBERNABILIDAD"]) * 0.30 +
-                Raster(rasters_final["DESARROLLO"])     * 0.25
-            )
-            indice_raster = Con(indice_raster > limite_superior,
-                                limite_superior,
-                                indice_raster)
-
-            # 2) Carpeta/GDB válida donde guardar
-            scratch_gdb = arcpy.env.scratchGDB
-            if not scratch_gdb or not arcpy.Exists(scratch_gdb):
-                scratch_gdb = arcpy.env.scratchFolder     # fallback a carpeta temporal
-
-            # 3) Nombre único para evitar bloqueos
-            indice_name = f"indice_{uuid.uuid4().hex[:8]}"   # p.ej. indice_A1B2C3D4
-
-            # 4) Ruta completa (en .gdb → sin extensión, en carpeta → .tif)
-            if scratch_gdb.lower().endswith(".gdb"):
-                indice_path = os.path.join(scratch_gdb, indice_name)          # FGDBR
-            else:
-                indice_path = os.path.join(scratch_gdb, f"{indice_name}.tif") # GeoTIFF
-
-            # 5) Si existe, bórralo para evitar ERROR 010240
-            if arcpy.Exists(indice_path):
-                arcpy.management.Delete(indice_path)
-
-            # 6) Guardar ráster y exponerlo como parámetro 4
-            indice_raster.save(indice_path)
-
-        else:
-            # Si faltara alguna dimensión, avisa y deja el parámetro vacío
-            arcpy.AddWarning("No se generó el Índice: faltan una o más dimensiones finales.")
-            indice_path = ""
-
-
-
         # --- 3.6 Medias globales (máscara area_interes) ----
         medias = {}
         for dim, path in rasters_final.items():
@@ -193,74 +147,53 @@ def script_tool(atributos_json_str, geometrias_json_str):
                 medias[dim] = float(val.replace(",", "."))
         medias = {k: medias.get(k, 0) for k in rasters_base}
 
-        # ------------------------------------------------------------------
-        # 3.7 · Crear tablas de salida  (versión para Web Tool / scratchGDB)
-        # ------------------------------------------------------------------
-        scratch = arcpy.env.scratchGDB              # GDB temporal del Job
-        uid      = uuid.uuid4().hex[:8]             # evita choques entre trabajos
+        # --- 3.7 Crear tablas de salida ----
+        proyecto_info_fc = "memory/Proyecto_Info"
+        estadisticas_fc  = "memory/Estadisticas_Medias"
+        arcpy.CreateTable_management("memory", "Proyecto_Info")
+        arcpy.CreateTable_management("memory", "Estadisticas_Medias")
 
-        # Rutas finales: dentro de scratchGDB (¡no usar memory!)
-        proyecto_info_fc = os.path.join(scratch, f"proyinfo_{uid}")
-        estadisticas_fc  = os.path.join(scratch, f"stats_{uid}")
-
-        # 1) Crear tablas en la GDB temporal
-        arcpy.CreateTable_management(scratch, f"proyinfo_{uid}")
-        arcpy.CreateTable_management(scratch, f"stats_{uid}")
-
-        # 2) ----- Tabla Proyecto_Info ------------------------------------
-        for name, length in [
-            ("OBJECTID_Proyecto",10), ("UBICACION",200), ("SESSION_TIMESTAMP",30),
-            ("TEAM_NAME",50), ("TEAM_CODE",20), ("PROYECTO",120),
-            ("VALORINVERSION",None), ("CICLO",20)
-        ]:
-            arcpy.AddField_management(
-                proyecto_info_fc,
-                name,
-                "TEXT" if length else "DOUBLE",
-                field_length=length or ""
-            )
-
+        # Proyecto_Info
+        for name, length in [("OBJECTID_Proyecto",10),("UBICACION",200),
+                             ("SESSION_TIMESTAMP",30),("TEAM_NAME",50),
+                             ("TEAM_CODE",20),("PROYECTO",120),
+                             ("VALORINVERSION",None),("CICLO",20)]:
+            arcpy.AddField_management(proyecto_info_fc, name,
+                                      "TEXT" if length else "DOUBLE",
+                                      field_length=length or "")
         with arcpy.da.InsertCursor(
             proyecto_info_fc,
             ["OBJECTID_Proyecto","UBICACION","SESSION_TIMESTAMP",
-            "TEAM_NAME","TEAM_CODE","PROYECTO","VALORINVERSION","CICLO"]
+             "TEAM_NAME","TEAM_CODE","PROYECTO","VALORINVERSION","CICLO"]
         ) as ic:
             for a in atributos:
-                ic.insertRow([
-                    a["objectid"], a["ubicacion"], a["sessionTimestamp"],
-                    a["teamName"], a["teamCode"], a["proyecto"],
-                    a["valorinversion"], "ciclo-1"
-                ])
+                ic.insertRow([a["objectid"], a["ubicacion"],
+                              a["sessionTimestamp"], a["teamName"],
+                              a["teamCode"], a["proyecto"],
+                              a["valorinversion"], "ciclo-1"])
 
-        # 3) ----- Tabla Estadisticas_Medias ------------------------------
-        for name, length in [
-            ("TEAM_NAME",50), ("TEAM_CODE",20), ("MEAN_SEGURIDAD",None),
-            ("MEAN_GOBERNABILIDAD",None), ("MEAN_DESARROLLO",None),
-            ("CICLO",20), ("INDICE",None), ("VIDA",None)
-        ]:
-            arcpy.AddField_management(
-                estadisticas_fc,
-                name,
-                "TEXT" if length else "DOUBLE",
-                field_length=length or ""
-            )
-
-        teams  = {(a["teamName"], a["teamCode"]) for a in atributos}
-        indice = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.30 + medias["DESARROLLO"]*0.25
+        # Estadisticas_Medias
+        for name, length in [("TEAM_NAME",50),("TEAM_CODE",20),
+                             ("MEAN_SEGURIDAD",None),("MEAN_GOBERNABILIDAD",None),
+                             ("MEAN_DESARROLLO",None),("CICLO",20),
+                             ("INDICE",None),("VIDA",None)]:
+            arcpy.AddField_management(estadisticas_fc, name,
+                                      "TEXT" if length else "DOUBLE",
+                                      field_length=length or "")
+        teams = {(a["teamName"], a["teamCode"]) for a in atributos}
+        indice = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.3 + medias["DESARROLLO"]*0.25
         vida   = 68 + (85-68)*(indice/100)
-
         with arcpy.da.InsertCursor(
             estadisticas_fc,
             ["TEAM_NAME","TEAM_CODE","MEAN_SEGURIDAD","MEAN_GOBERNABILIDAD",
-            "MEAN_DESARROLLO","CICLO","INDICE","VIDA"]
+             "MEAN_DESARROLLO","CICLO","INDICE","VIDA"]
         ) as ic:
             for tname, tcode in teams:
-                ic.insertRow([
-                    tname, tcode,
-                    medias["SEGURIDAD"], medias["GOBERNABILIDAD"],
-                    medias["DESARROLLO"], "ciclo-1",
-                    indice, vida
-                ])
+                ic.insertRow([tname, tcode,
+                              medias["SEGURIDAD"], medias["GOBERNABILIDAD"],
+                              medias["DESARROLLO"], "ciclo-1",
+                              indice, vida])
+
         # --- 3.8 Sincronizar con servicios Hosted ----
         try:
             arcpy.Append_management(proyecto_info_fc, srv_proyectos,   "NO_TEST")
@@ -268,19 +201,17 @@ def script_tool(atributos_json_str, geometrias_json_str):
         except Exception as e:
             arcpy.AddWarning(f"No se pudo sincronizar con servicios: {e}")
 
-        return proyecto_info_fc, estadisticas_fc, indice_path
+        return proyecto_info_fc, estadisticas_fc
 
     except Exception as e:
         arcpy.AddError(f"Error general: {e}")
         arcpy.AddError(traceback.format_exc())
-        return "", "", ""       
-
+        return "", ""
 
 # ───────────────────── 4 · Entrypoint para la GP Tool ───────────────────────
 if __name__ == "__main__":
     at_json   = arcpy.GetParameterAsText(0)  # JSON atributos
     geom_json = arcpy.GetParameterAsText(1)  # JSON geometrías
-    proj_fc, est_fc, idx_fc = script_tool(at_json, geom_json)
+    proj_fc, est_fc = script_tool(at_json, geom_json)
     arcpy.SetParameterAsText(2, proj_fc)
     arcpy.SetParameterAsText(3, est_fc)
-    arcpy.SetParameterAsText(4, idx_fc)

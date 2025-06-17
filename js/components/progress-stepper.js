@@ -69,9 +69,10 @@ class ProgressStepper extends HTMLElement {
                     align-items: center;
                     justify-content: center;
                     width: 100%;
-                    max-width: 800px;
+                    max-width: 1000px;
                     margin: 0 auto;
                     position: relative;
+                    padding: 10px 20px;
                 }
 
                 .stepper {
@@ -87,15 +88,16 @@ class ProgressStepper extends HTMLElement {
                     align-items: center;
                     position: relative;
                     flex: 1;
-                    min-width: 100px;
+                    min-width: 140px;
                     padding: 0 15px;
+                    min-height: 60px;
                 }
 
                 .stepper-item::before,
                 .stepper-item::after {
                     content: '';
                     position: absolute;
-                    top: 15px;
+                    top: 17px;
                     height: 2px;
                     background-color: var(--secondary-color);
                     z-index: 1;
@@ -144,7 +146,7 @@ class ProgressStepper extends HTMLElement {
                 .stepper-icon-container {
                     position: relative;
                     z-index: 2;
-                    margin-bottom: 10px;
+                    margin-bottom: 8px;
                 }
 
                 .stepper-icon {
@@ -213,12 +215,16 @@ class ProgressStepper extends HTMLElement {
                     color: var(--text-color-inactive);
                     transition: color 0.3s ease, transform 0.3s ease;
                     text-align: center;
-                    max-width: 100%;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    width: 100%;
+                    white-space: normal;
+                    word-wrap: break-word;
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
+                    line-height: 1.2;
+                    min-height: 26px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
 
                 .stepper-item.completed .stepper-label,
@@ -245,12 +251,22 @@ class ProgressStepper extends HTMLElement {
                 @media (max-width: 768px) {
                     .stepper-label {
                         font-size: 11px;
+                        min-height: 22px;
                     }
                     
                     .stepper-icon {
                         width: 30px;
                         height: 30px;
                         font-size: 14px;
+                    }
+                    
+                    .stepper-item {
+                        min-width: 120px;
+                        min-height: 50px;
+                    }
+                    
+                    .progress-container {
+                        padding: 8px 15px;
                     }
                 }
             </style>

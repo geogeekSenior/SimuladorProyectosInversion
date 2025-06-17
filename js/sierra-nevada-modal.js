@@ -43,7 +43,7 @@ function crearModalSierraNevada() {
                                 <li>Gobernabilidad: 6.37% (Deterioro institucional severa)</li>
                             </ul>
                             <p class="sierra-text">
-                                <strong>Sin intervención inmediata, la Esperanza de vida podría reducirse entre 1.5 y 2 años en los próximos 18 meses.</strong>
+                                <strong>Sin intervención inmediata, la esperanza de vida podría reducirse entre 1.5 y 2 años en los próximos 18 meses.</strong>
                             </p>
                         </div>
                         

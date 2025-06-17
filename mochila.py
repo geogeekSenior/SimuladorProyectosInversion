@@ -345,7 +345,7 @@ def detalle(df_original: pd.DataFrame, ids_or_indices: List, life_col: str, base
 
 if __name__ == "__main__":
     # --- Configuration ---
-    ruta_csv    = r"c:/Users/Sebastian/Downloads/EquiposIndicadoresIteracion.csv"
+    ruta_csv    = r"Libro1.csv"
     try:
         proyectos_df = pd.read_csv(ruta_csv, delimiter=";")
     except FileNotFoundError:
@@ -362,11 +362,11 @@ if __name__ == "__main__":
             exit(1)
 
     life_col    = "vida"
-    cost_col    = "Valor Inversión (mill)" 
-    name_col    = "Nombre del Proyecto"     
-    id_col      = "objectid"                
+    cost_col    = "valorinversion" 
+    name_col    = "proyecto"     
+    id_col      = "id_proyecto"                
 
-    base_life   = 76
+    base_life   = 72.044
     presupuesto = 10_000    
     top_n_count = 20        
     scale_factor= 20       
@@ -421,6 +421,7 @@ if __name__ == "__main__":
     # Convert relevant columns to numeric, coercing errors
     for col_to_convert in [life_col, cost_col]:
         if col_to_convert in proyectos_df.columns:
+            proyectos_df[col_to_convert] = proyectos_df[col_to_convert].astype(str).str.replace(",", ".")
             proyectos_df[col_to_convert] = pd.to_numeric(proyectos_df[col_to_convert], errors='coerce')
             if proyectos_df[col_to_convert].isnull().any():
                 print(f"Advertencia: La columna '{col_to_convert}' contenía valores no numéricos. Se convirtieron a NaN y se rellenaron con 0.")
@@ -440,7 +441,7 @@ if __name__ == "__main__":
         cost_col=cost_col,
         base_life=base_life,
         budget=presupuesto,
-        id_col=id_col, # Pass id_col here
+        id_col=id_col, 
         scale=scale_factor
     )
 
