@@ -281,7 +281,7 @@ HORIZONTE.team = (function() {
                         <div class="team-info-value">${state.teamName}</div>
                         <div class="team-info-code">ID: ${state.teamCode}</div>
                     </div>
-                    <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
+                    <button id="logoutButton" class="logout-button">ABANDONAR</button>
                 `;
                 
                 // Añadir al contenedor
@@ -301,7 +301,7 @@ HORIZONTE.team = (function() {
                             <div class="team-info-value">${state.teamName}</div>
                             <div class="team-info-code">ID: ${state.teamCode}</div>
                         </div>
-                        <button id="logoutButton" class="logout-button">ABANDONAR </button>
+                        <button id="logoutButton" class="logout-button">ABANDONAR</button>
                     </div>
                 `;
                 

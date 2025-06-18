@@ -188,7 +188,7 @@
                             margin-right: 8px; 
                             flex-shrink: 0; 
                         "></span>
-                        <span>Puntos de Proyectos Elegidos (Proyecto Elegido)</span>
+                        <span>Puntos de Programas Elegidos (Programa Elegido)</span>
                     </div>
                 </div>`; // <-- Usar backticks para strings multilínea
 

@@ -29,7 +29,7 @@ function createGeoprocessor(config) {
     const geoprocessButton = document.createElement('button');
     geoprocessButton.id = options.buttonId;
     geoprocessButton.className = 'military-button';
-    geoprocessButton.innerHTML = '<span class="geo-icon">📊</span>ENVIAR PROGRAMAS';
+    geoprocessButton.innerHTML = '<span class="geo-icon">📊</span>GENERAR INFORME';
     
     // MODIFICADO: Agregar evento para mostrar modal de confirmación
     geoprocessButton.addEventListener('click', mostrarModalConfirmacion);

@@ -232,7 +232,7 @@
             infoSpan.style.display = 'block';
             infoSpan.style.fontSize = '12px';
             infoSpan.style.opacity = '0.8';
-            infoSpan.textContent = `Recursos : $${ubicacion.attributes.valorinversion.toLocaleString()}`;
+            infoSpan.textContent = `Recursos: $${ubicacion.attributes.valorinversion.toLocaleString()}`;
             button.appendChild(infoSpan);
             
             // Evento click
@@ -246,7 +246,7 @@
         // Botón para cancelar
         const cancelButton = document.createElement('button');
         cancelButton.className = 'esri-button location-button-cancel';
-        cancelButton.textContent = 'CANCELAR OPERACIÓN';
+        cancelButton.textContent = 'CANCELAR';
         cancelButton.style.marginTop = '10px';
         
         cancelButton.addEventListener('click', cerrarModal);
@@ -608,7 +608,7 @@
                 let contenido = `
                     <h3>${proyecto.attributes.proyecto}</h3>
                     <div class="project-details">
-                        <span class="project-cost">Recursos : $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
+                        <span class="project-cost">Recursos: $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
                         <span class="project-status">
                             ${!yaUtilizado && superaPresupuesto ? `<span class="excede-presupuesto">${textos.lowBudgetWarning}</span>` : ''}
                         </span>
@@ -621,7 +621,7 @@
                     contenido = `
                         <h3>${proyecto.attributes.proyecto}</h3>
                         <div class="project-details">
-                            <span class="project-cost">Recursos : $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
+                            <span class="project-cost">Recursos: $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
                             <span class="project-status">
                                 <span class="proyecto-desplegado">${textos.alreadySelectedWarning}</span>
                             </span>

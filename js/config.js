@@ -117,15 +117,15 @@ HORIZONTE.config = {
      */
     textos: {
         projectTitle: "OPERACIÓN",
-        budgetTitle: "RECURSOS DISPONIBLES ",
+        budgetTitle: "RECURSOS",
         locationsTitle: "PUNTOS DE DESPLIEGUE",
         selectLocationTitle: "SELECCIONAR PUNTO TÁCTICO",
-        lowBudgetWarning: "RECURSOS INSUFICIENTES",
+        lowBudgetWarning: "RECURSOS ",
         alreadySelectedWarning: "DESPLEGADO EN TERRENO",
         selectionGuide: "Seleccione una operación de la lista para desplegar en el terreno",
         statusOperational: "Centro de comando operativo inicializado",
         errorLoadingProjects: "Error al cargar datos de operaciones",
-        confirmMissionAbort: "¿Está seguro que desea abandonar la misión? Se perderá toda la información del equipo."
+        confirmMissionAbort: "¿Está seguro que desea abandonar? Se perderá toda la información del equipo."
     },
     
     /**
