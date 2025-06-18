@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 # --------------------------------------------------------------
 portal_host = "ipsportal.esri.co"          # host del Portal federado
 username    = "sforero_ips"
-password    = "EsriCol976**"
+password    = ""
 expiration  = 20160                        # 14 d × 24 h × 60 min
 client      = "referer"                    # ligamos el token al referer
 referer_url = "http://127.0.0.1:5501"      # raíz desde la que lanza la app

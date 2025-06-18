@@ -6,7 +6,7 @@ generate_url = f"https://{portal}/portal/sharing/rest/generateToken"
 
 gen_params = {
     "username":   "sforero_ips",
-    "password":   "EsriCol976**",
+    "password":   "",
     "client":     "requestip",   # o 'referer' + referer=https://...
     "expiration": 120,
     "f":          "json"
