@@ -11,8 +11,7 @@ HORIZONTE.navigation = (function() {
         stepFiles: {
             1: 'index.html',     // Antes era step 2
             2: 'step3.html',     // Antes era step 3
-            3: 'step4.html',     // Antes era step 4
-            4: 'step5.html'      // Antes era step 5
+        
         },
         transitionDuration: 800
     };

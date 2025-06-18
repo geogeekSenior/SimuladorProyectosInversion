@@ -425,7 +425,7 @@ function initPageSpecificControls() {
     const restartButtonStep3 = document.getElementById('restart-button');
     if (restartButtonStep3 && window.location.pathname.includes('step3.html')) {
         restartButtonStep3.addEventListener('click', function() {
-            window.location.href = 'step4.html';
+            window.location.href = 'step1.html';
         });
     }
     
