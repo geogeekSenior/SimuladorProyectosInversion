@@ -19,10 +19,10 @@
             proyectoTitle: "OPERACIÓN",
             presupuestoTitle: "RECURSOS",
             ubicacionesTitle: "PUNTOS DE DESPLIEGUE",
-            selectLocationTitle: "SELECCIONAR PUNTO TÁCTICO",
+            selectLocationTitle: "SELECCIONAR PROGRAMA ",
             lowBudgetWarning: "RECURSOS INSUFICIENTES",
             alreadySelectedWarning: "DESPLEGADO EN TERRENO",
-            selectionGuide: "Seleccione una operación de la lista para desplegar en el terreno"
+            selectionGuide: "Seleccione un programa"
         }
     };
     
