@@ -32,51 +32,51 @@ HORIZONTE.multidimensionalAnalysis = (function() {
     let isCollapsed = true; // Iniciar colapsado
 
 let bandasConfig = {
-    desarrollo: {
-        'Tasa De Ocupación': { banda: 1, peso: 0.0125 },
-        'IPM - Pobreza Multidimensional': { banda: 2, peso: 0.025 },
-        'Alfabetismo': { banda: 3, peso: 0.025 },
-        'Bajo Peso Al Nacer': { banda: 4, peso: 0.0375 },
-        'Desnutrición Aguda': { banda: 5, peso: 0.0075 },
-        'Nivel De Educación': { banda: 6, peso: 0.0175 },
-        'Acueducto Y Alcantarillado': { banda: 7, peso: 0.0225 },
-        'Energía Eléctrica': { banda: 8, peso: 0.0375 },
-        'Gas': { banda: 9, peso: 0.0075 },
-        'Internet': { banda: 10, peso: 0.0075 },
-        'Amenaza Por Deslizamiento De Tierras': { banda: 11, peso: 0.02 },
-        'Alertas Por Amenazas Hidrológicas': { banda: 12, peso: 0.0125 },
-        'Alertas Por Incendios Vegetales': { banda: 13, peso: 0.0175 }
+desarrollo: {
+        'Tasa de Ocupación': { banda: 1, peso: 0.0125 },                         // índice 0
+        'IPM - Pobreza Multidimensional': { banda: 2, peso: 0.025 },            // índice 1
+        'Alfabetismo': { banda: 3, peso: 0.025 },                               // índice 2
+        'Bajo peso al nacer': { banda: 4, peso: 0.0375 },                       // índice 3
+        'Desnutrición aguda': { banda: 5, peso: 0.0075 },                       // índice 4
+        'Nivel de Educación': { banda: 6, peso: 0.0175 },                       // índice 5
+        'Acueducto y Alcantarillado': { banda: 7, peso: 0.0225 },               // índice 6
+        'Energía Eléctrica': { banda: 8, peso: 0.0375 },                        // índice 7
+        'Gas': { banda: 9, peso: 0.0075 },                                      // índice 8
+        'Internet': { banda: 10, peso: 0.0075 },                                // índice 9
+        'Amenaza por Deslizamiento de tierras': { banda: 11, peso: 0.02 },      // índice 10
+        'Alertas por Amenazas Hidrológicas': { banda: 12, peso: 0.0125 },       // índice 11
+        'Alertas por incendios Vegetales': { banda: 13, peso: 0.0175 }          // índice 12
     },
     gobernabilidad: {
-        'Instituciones Educativas': { banda: 14, peso: 0.045 },
-        'Instituciones De Salud': { banda: 15, peso: 0.06 },
-        'Hoteles': { banda: 16, peso: 0.03 },
-        'Desarrollo Turístico (Prestadores Servicios Formales)': { banda: 17, peso: 0.045 },
-        'Censo Poblacional': { banda: 18, peso: 0.045 },
-        'Comunidades Negras': { banda: 19, peso: 0.03 },
-        'Reservas Indígenas': { banda: 20, peso: 0.03 },
-        'Áreas Protegidas': { banda: 21, peso: 0.015 }
+        'Instituciones Educativas': { banda: 14, peso: 0.045 },                 // índice 13
+        'Instituciones de Salud': { banda: 15, peso: 0.06 },                    // índice 14
+        'Hoteles': { banda: 16, peso: 0.03 },                                   // índice 15
+        'Desarrollo turístico (prestadores servicios formales)': { banda: 17, peso: 0.045 }, // índice 16
+        'Censo Poblacional': { banda: 18, peso: 0.045 },                        // índice 17
+        'Comunidades Negras': { banda: 19, peso: 0.03 },                        // índice 18
+        'Reservas Indígenas': { banda: 20, peso: 0.03 },                        // índice 19
+        'Áreas Protegidas': { banda: 21, peso: 0.015 }                          // índice 20
     },
     seguridad: {
-        'Abigeato': { banda: 22, peso: 0.009 },
-        'Delitos Sexuales': { banda: 23, peso: 0.036 },
-        'Estaciones De Policía': { banda: 24, peso: 0.0225 },
-        'Extorsión Y Secuestro': { banda: 25, peso: 0.045 },
-        'Capturas En Minería Ilegal': { banda: 26, peso: 0.009 },
-        'Grupos Armados Organizados': { banda: 27, peso: 0.0225 },
-        'Incautación De Armas De Fuego': { banda: 28, peso: 0.0135 },
-        'Incautación Base De Coca': { banda: 29, peso: 0.018 },
-        'Incautación Basuco': { banda: 30, peso: 0.009 },
-        'Incautación Cocaína': { banda: 31, peso: 0.018 },
-        'Minas Antipersona': { banda: 32, peso: 0.0135 },
-        'Minas Intervenidas': { banda: 33, peso: 0.0135 },
-        'Presencia De Áreas Base': { banda: 34, peso: 0.018 },
-        'Violencia Terrorista (Atentados)': { banda: 35, peso: 0.045 },
-        'Migración Irregular Y Tráfico De Migrantes': { banda: 36, peso: 0.0225 },
-        'Homicidios': { banda: 37, peso: 0.0675 },
-        'Homicidios Por Accidente De Tránsito': { banda: 38, peso: 0.0225 },
-        'Lesiones Personales': { banda: 39, peso: 0.0225 },
-        'Lesiones Por Accidentes De Tránsito': { banda: 40, peso: 0.0225 }
+        'Abigeato': { banda: 22, peso: 0.009 },                                 // índice 21
+        'Delitos Sexuales': { banda: 23, peso: 0.036 },                         // índice 22
+        'Estaciones de policia': { banda: 24, peso: 0.0225 },                   // índice 23
+        'Extorsión y secuestro': { banda: 25, peso: 0.045 },                    // índice 24
+        'Capturas en minería ilegal': { banda: 26, peso: 0.009 },               // índice 25
+        'Grupos armados organizados': { banda: 27, peso: 0.0225 },              // índice 26
+        'Incautación de armas de fuego': { banda: 28, peso: 0.0135 },           // índice 27
+        'Incautación Base de Coca': { banda: 29, peso: 0.018 },                 // índice 28
+        'Incautación Basuco': { banda: 30, peso: 0.009 },                       // índice 29
+        'Incautación Cocaína': { banda: 31, peso: 0.018 },                      // índice 30
+        'Minas Antipersona': { banda: 32, peso: 0.0135 },                       // índice 31
+        'Minas Intervenidas': { banda: 33, peso: 0.0135 },                      // índice 32
+        'Presencia de áreas base': { banda: 34, peso: 0.018 },                  // índice 33
+        'Violencia terrorista (atentados)': { banda: 35, peso: 0.045 },         // índice 34
+        'Migración irregular y tráfico de migrantes': { banda: 36, peso: 0.0225 }, // índice 35
+        'Homicidios': { banda: 37, peso: 0.0675 },                              // índice 36
+        'Homicidios por accidente de tránsito': { banda: 38, peso: 0.0225 },    // índice 37
+        'Lesiones Personales': { banda: 39, peso: 0.0225 },                     // índice 38
+        'Lesiones por accidentes de tránsito': { banda: 40, peso: 0.0225 }      // índice 39
     }
 };
 
