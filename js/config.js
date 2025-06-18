@@ -117,7 +117,7 @@ HORIZONTE.config = {
      */
     textos: {
         projectTitle: "OPERACIÓN",
-        budgetTitle: "RECURSOS ESTRATÉGICOS",
+        budgetTitle: "RECURSOS DISPONIBLES ",
         locationsTitle: "PUNTOS DE DESPLIEGUE",
         selectLocationTitle: "SELECCIONAR PUNTO TÁCTICO",
         lowBudgetWarning: "RECURSOS INSUFICIENTES",

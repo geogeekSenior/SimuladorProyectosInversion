@@ -31,7 +31,7 @@ function crearModalSierraNevada() {
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                        La Sierra Nevada de Santa Marta, ecosistema de importancia estratégica para Colombia, enfrenta una profunda crisis multidimensional que amenaza la vida y el bienestar de sus habitantes. Este imponente macizo montañoso, cuyas cumbres superan los 5.700 metros de altitud, alberga una biodiversidad excepcional y constituye el territorio vital para las comunidades que habitan esta región emblemática.                        </p>
+                        La Sierra Nevada de Santa Marta, ecosistema de importancia para Colombia, enfrenta una profunda crisis multidimensional que amenaza la vida y el bienestar de sus habitantes. Este imponente macizo montañoso, cuyas cumbres superan los 5.700 metros de altitud, alberga una biodiversidad excepcional y constituye el territorio vital para las comunidades que habitan esta región emblemática.                        </p>
                         
                         <div class="sierra-warning">
                             <p class="sierra-text">

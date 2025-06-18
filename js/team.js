@@ -75,8 +75,8 @@ HORIZONTE.team = (function() {
             <div id="teamModal" class="team-modal">
                 <div class="team-modal-content">
                     <div class="team-modal-header">
-                        <h2>REGISTRO DE EQUIPO ESTRATÉGICO</h2>
-                        <div class="team-modal-subtitle">Sistema de Inversiones Estratégicas</div>
+                        <h2>REGISTRO DE EQUIPO</h2>
+                        <div class="team-modal-subtitle">HORIZONTE: Juego de Inversiones</div>
                     </div>
                     <div class="team-modal-body">
                         <div class="team-input-group">
@@ -240,7 +240,7 @@ HORIZONTE.team = (function() {
                     ? militaryHeader.querySelector('.military-header-content').outerHTML 
                     : `<div class="military-header-content">
                         <div class="military-title">CENTRO DE COMANDO Y CONTROL</div>
-                        <div class="military-subtitle">SIMULADOR DE INVERSIONES ESTRATÉGICAS</div>
+                        <div class="military-subtitle">SIMULADOR DE INVERSIONES</div>
                     </div>`;
                 
                 // Crear un nuevo contenedor con estructura mejorada
@@ -249,7 +249,7 @@ HORIZONTE.team = (function() {
                         ${headerContent}
                         <div class="team-info-display">
                             <div class="team-info-block">
-                                <div class="team-info-label">EQUIPO ESTRATÉGICO:</div>
+                                <div class="team-info-label">EQUIPO:</div>
                                 <div class="team-info-value">${state.teamName}</div>
                                 <div class="team-info-code">ID: ${state.teamCode}</div>
                             </div>
@@ -277,7 +277,7 @@ HORIZONTE.team = (function() {
                 newTeamInfoDisplay.className = 'team-info-display';
                 newTeamInfoDisplay.innerHTML = `
                     <div class="team-info-block">
-                        <div class="team-info-label">EQUIPO ESTRATÉGICO:</div>
+                        <div class="team-info-label">EQUIPO :</div>
                         <div class="team-info-value">${state.teamName}</div>
                         <div class="team-info-code">ID: ${state.teamCode}</div>
                     </div>
@@ -297,11 +297,11 @@ HORIZONTE.team = (function() {
                 const teamInfoHTML = `
                     <div class="team-info-display">
                         <div class="team-info-block">
-                            <div class="team-info-label">EQUIPO ESTRATÉGICO:</div>
+                            <div class="team-info-label">EQUIPO :</div>
                             <div class="team-info-value">${state.teamName}</div>
                             <div class="team-info-code">ID: ${state.teamCode}</div>
                         </div>
-                        <button id="logoutButton" class="logout-button">ABANDONAR MISIÓN</button>
+                        <button id="logoutButton" class="logout-button">ABANDONAR </button>
                     </div>
                 `;
                 

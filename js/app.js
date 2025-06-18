@@ -17,7 +17,7 @@
         timeoutMensaje: 3000,
         textos: {
             proyectoTitle: "OPERACIÓN",
-            presupuestoTitle: "RECURSOS ESTRATÉGICOS",
+            presupuestoTitle: "RECURSOS",
             ubicacionesTitle: "PUNTOS DE DESPLIEGUE",
             selectLocationTitle: "SELECCIONAR PUNTO TÁCTICO",
             lowBudgetWarning: "RECURSOS INSUFICIENTES",
@@ -232,7 +232,7 @@
             infoSpan.style.display = 'block';
             infoSpan.style.fontSize = '12px';
             infoSpan.style.opacity = '0.8';
-            infoSpan.textContent = `Recursos Estratégicos: $${ubicacion.attributes.valorinversion.toLocaleString()}`;
+            infoSpan.textContent = `Recursos : $${ubicacion.attributes.valorinversion.toLocaleString()}`;
             button.appendChild(infoSpan);
             
             // Evento click
@@ -608,7 +608,7 @@
                 let contenido = `
                     <h3>${proyecto.attributes.proyecto}</h3>
                     <div class="project-details">
-                        <span class="project-cost">Recursos Estratégicos: $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
+                        <span class="project-cost">Recursos : $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
                         <span class="project-status">
                             ${!yaUtilizado && superaPresupuesto ? `<span class="excede-presupuesto">${textos.lowBudgetWarning}</span>` : ''}
                         </span>
@@ -621,7 +621,7 @@
                     contenido = `
                         <h3>${proyecto.attributes.proyecto}</h3>
                         <div class="project-details">
-                            <span class="project-cost">Recursos Estratégicos: $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
+                            <span class="project-cost">Recursos : $${proyectoMasBarato.attributes.valorinversion.toLocaleString()}</span>
                             <span class="project-status">
                                 <span class="proyecto-desplegado">${textos.alreadySelectedWarning}</span>
                             </span>

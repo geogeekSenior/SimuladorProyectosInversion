@@ -145,14 +145,14 @@ function crearModalCiclo1() {
         <div id="misionModalCiclo1" class="team-modal">
             <div class="team-modal-content sierra-modal-content">
                 <div class="team-modal-header">
-                    <h2>CICLO 1: CICLO DE INVERSIÓN 2030</h2>
-                    <div class="team-modal-subtitle">Primer Ciclo Estratégico - Sierra Nevada
+                    <h2>CICLO 1: CICLO DE INVERSIÓN 2035</h2>
+                    <div class="team-modal-subtitle">Primer Ciclo - Sierra Nevada
 </div>
                 </div>
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE LA MISIÓN:</strong> Seleccionar los programas más efectivos para mejorar las condiciones de vida en la Sierra Nevada dentro del presupuesto asignado de $10,000 recursos estratégicos.
+                            <strong>OBJETIVO DE LA MISIÓN:</strong> Seleccionar los programas más efectivos para mejorar las condiciones de vida en la Sierra Nevada dentro del presupuesto asignado de $10,000 recursos.
                         </p>
                         
                         <div class="mission-stats">
@@ -203,7 +203,7 @@ function crearModalCiclo1() {
                     </div>
                 </div>
                 <div class="team-modal-footer">
-                    <button id="misionStartButtonCiclo1" class="military-button">INICIAR EVALUACIÓN DE PROGRAMAS 2030</button>
+                    <button id="misionStartButtonCiclo1" class="military-button">INICIAR EVALUACIÓN DE PROGRAMAS 2035</button>
                 </div>
             </div>
         </div>
@@ -263,16 +263,16 @@ function crearModalCiclo2() {
             <div class="team-modal-content sierra-modal-content">
                 <div class="team-modal-header">
                     <h2>CICLO 2: CICLO DE INVERSIÓN 2035</h2>
-                    <div class="team-modal-subtitle">Segunda Ciclo Estratégica - Sierra Nevada</div>
+                    <div class="team-modal-subtitle">Segundo Ciclo - Sierra Nevada</div>
                 </div>
                 <div class="team-modal-body">
                     <div class="sierra-content">
                         <p class="sierra-text">
-                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los programas más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2035, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000 recursos estratégicos.
+                            <strong>OBJETIVO DE SEGUNDO CICLO:</strong> Seleccionar los programas más efectivos para mejorar la Esperanza de vida en la Sierra Nevada hacia 2035, partiendo del estado alcanzado en 2035 y con un presupuesto de $10,000 recursos.
                         </p>
                         
                         <div class="mission-stats">
-                            <h3 class="mission-stats-title">PROGRESO ACTUAL (2030)</h3>
+                            <h3 class="mission-stats-title">PROGRESO ACTUAL (2035)</h3>
                             <div class="dimension-bars">
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Seguridad</div>

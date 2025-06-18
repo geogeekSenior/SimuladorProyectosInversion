@@ -182,7 +182,7 @@ def script_tool(atributos_json_str, geometrias_json_str):
                                       field_length=length or "")
         teams = {(a["teamName"], a["teamCode"]) for a in atributos}
         indice = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.3 + medias["DESARROLLO"]*0.25
-        vida   = 68 + (85-68)*(indice/100)
+        vida   = 68 + (85-68)*((indice*1.07)/100)
         with arcpy.da.InsertCursor(
             estadisticas_fc,
             ["TEAM_NAME","TEAM_CODE","MEAN_SEGURIDAD","MEAN_GOBERNABILIDAD",

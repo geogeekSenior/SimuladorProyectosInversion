@@ -62,7 +62,7 @@ class ResourceManager {
      */
     updateBudgetDisplay() {
       if (this.budgetText) {
-        this.budgetText.textContent = `RECURSOS ESTRATÉGICOS: $${this.availableBudget.toLocaleString()}`;
+        this.budgetText.textContent = `RECURSOS : $${this.availableBudget.toLocaleString()}`;
       }
       
       this.updateBudgetBar();
@@ -157,7 +157,7 @@ class ResourceManager {
       // Mostrar mensaje en la interfaz
       const statusMessage = document.getElementById('statusMessage');
       if (statusMessage) {
-        statusMessage.textContent = "RECURSOS ESTRATÉGICOS INSUFICIENTES";
+        statusMessage.textContent = "RECURSOS INSUFICIENTES";
         statusMessage.className = 'status-message status-error';
         statusMessage.style.opacity = '1';
         statusMessage.style.transform = 'translateY(0)';

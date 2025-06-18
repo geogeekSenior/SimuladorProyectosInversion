@@ -44,7 +44,7 @@ const impactConfig = {
  */
 function calcularExpectativaVida(indice) {
     const { base, maximo } = impactConfig.expectativaVida;
-    return base + (maximo - base) * (indice / 100);
+    return base + (maximo - base) * ((indice*1.07) / 100);
 }
 
 /**
