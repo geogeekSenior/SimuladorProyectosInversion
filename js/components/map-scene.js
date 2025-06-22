@@ -611,7 +611,7 @@
                         symbol: pointSymbol,
                         attributes: proyecto,
                         popupTemplate: {
-                            title: `OPERACIÓN: ${proyecto.proyecto} - PUNTO ${numeroPunto}`,
+                            title: `PROGRAMA: ${proyecto.proyecto} - PUNTO ${numeroPunto}`,
                             content: [
                                 {
                                     type: "text",

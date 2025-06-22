@@ -277,7 +277,7 @@ HORIZONTE.team = (function() {
                 newTeamInfoDisplay.className = 'team-info-display';
                 newTeamInfoDisplay.innerHTML = `
                     <div class="team-info-block">
-                        <div class="team-info-label">EQUIPO :</div>
+                        <div class="team-info-label">EQUIPO:</div>
                         <div class="team-info-value">${state.teamName}</div>
                         <div class="team-info-code">ID: ${state.teamCode}</div>
                     </div>
@@ -297,7 +297,7 @@ HORIZONTE.team = (function() {
                 const teamInfoHTML = `
                     <div class="team-info-display">
                         <div class="team-info-block">
-                            <div class="team-info-label">EQUIPO :</div>
+                            <div class="team-info-label">EQUIPO:</div>
                             <div class="team-info-value">${state.teamName}</div>
                             <div class="team-info-code">ID: ${state.teamCode}</div>
                         </div>

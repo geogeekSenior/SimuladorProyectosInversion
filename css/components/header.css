@@ -31,22 +31,27 @@
 
 /* Contenedor de elementos del encabezado */
 .military-header-container {
-  position: relative; /* Base */
+  position: relative;
   width: 100%;
-  display: flex; /* Mejorado */
-  justify-content: center; /* Mejorado */
-  align-items: center; /* Mejorado */
-  padding: 0px 0px 0px 0px
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 var(--spacing-md);
 }
 
-/* Contenido principal del encabezado (título y subtítulo) */
 .military-header-content {
-  flex: 1; /* Mejorado */
-  text-align: center; /* Base y Mejorado */
-  width: auto; /* Cambiado de 100% a auto */
-  max-width: 80%; /* Limita el ancho para mantener el centrado */
-  z-index: 1; /* Asegura que el contenido esté sobre otros elementos */
-  padding: 0 20px; /* Añade un poco de espacio en los lados */}
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  z-index: 1 !important;
+}
 
 .military-title {
   font-size: var(--font-size-xxl);
@@ -54,6 +59,8 @@
   letter-spacing: var(--letter-spacing-wider);
   color: var(--primary-color);
   margin-bottom: var(--spacing-xs);
+  text-align: center !important;
+  display: block !important;
 }
 
 .military-subtitle {
@@ -61,20 +68,18 @@
   color: var(--text-color);
   opacity: 0.8;
   letter-spacing: var(--letter-spacing-wide);
+  text-align: center !important;
+  display: block !important;
 }
 
 /* Estilos para la información del equipo */
 .team-info-display {
-  display: flex; /* Mejorado */
-  align-items: center; /* Mejorado */
-  gap: var(--spacing-md); /* Mejorado */
-  margin-left: auto; /* Mejorado */
-  position: relative; /* Mejorado, base era absolute */
-  padding-left: var(--spacing-md); /* Mejorado */
-  /* z-index: var(--z-index-sticky); /* Base, considerar si aún es necesario con nueva posición */
-  /* font-family: var(--font-monospace); /* Base, ahora en hijos */
-  /* font-size: var(--font-size-sm); /* Base, ahora en hijos */
-  /* color: var(--text-color); /* Base, ahora en hijos */
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-md) !important;
+  margin-left: auto !important;
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 .team-info-block {
@@ -213,15 +218,17 @@
 
   .team-info-display {
     /* Base */
-    position: relative;
-    top: auto;
-    right: auto;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
     flex-direction: column;
     align-items: center;
     /* Mejorado */
     margin-top: var(--spacing-xs); /* Ajustado desde mejoras, base era --spacing-sm */
     width: 100%;
     justify-content: center;
+    margin-left: 0 !important;
   }
 
   .team-info-block {

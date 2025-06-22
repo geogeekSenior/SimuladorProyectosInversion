@@ -545,7 +545,7 @@
         // Verificar si hay proyectos para renderizar
         if (proyectos.length === 0) {
             console.warn("No hay proyectos para mostrar");
-            projectListDiv.innerHTML = '<div class="empty-message">No hay operaciones disponibles</div>';
+            projectListDiv.innerHTML = '<div class="empty-message">No hay programas disponibles</div>';
             return;
         }
         
@@ -806,7 +806,7 @@
             // Mostrar mensaje si no hay proyectos seleccionados
             selectedProjectsList.innerHTML = `
                 <div class="selected-projects-empty">
-                    No hay operaciones desplegadas actualmente
+                    No hay programas actualmente
                 </div>
             `;
             return;

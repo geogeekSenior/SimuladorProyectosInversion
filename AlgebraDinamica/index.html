@@ -22,7 +22,7 @@
     <div class="military-header">
         <div>
             <div class="military-title">HORIZONTE</div>
-            <div class="military-subtitle">SIMULADOR DE INVERSIONES</div>
+            <div class="military-subtitle">JUEGO DE ESTRATEGIA MULTIDIMENSIONAL</div>
         </div>
         <div id="currentDate" style="font-family: var(--font-monospace); font-size: 12px; opacity: 0.7;"></div>
     </div>
@@ -246,33 +246,9 @@
                 </div>
             </div>
 
-            <div class="section-title">INFORMACIÓN DEL SISTEMA</div>
-
-            <div class="service-url-container">
-                <div class="dimension-container">
-                    <div class="dimension-header">
-                        <span class="dimension-name">SERVICIOS RASTER MULTIBANDA</span>
-                    </div>
-                    <div class="variable-item">
-                        <div class="variable-name">Servicio Principal</div>
-                        <div class="variable-weight" id="primaryServiceStatus" style="color: var(--info-color);">VERIFICANDO...</div>
-                    </div>
-                    <div class="variable-item">
-                        <div class="variable-name">Servicio De Respaldo</div>
-                        <div class="variable-weight" style="color: var(--secondary-color);">DISPONIBLE</div>
-                    </div>
-                    <div class="variable-item">
-                        <div class="variable-name">Bandas Disponibles</div>
-                        <div class="variable-weight">40</div>
-                    </div>
-                    <div class="variable-item">
-                        <div class="variable-name">Método De Combinación</div>
-                        <div class="variable-weight" style="font-size: 11px;">RasterFunction</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel-footer">
+           
+            
+            <div class="panel-footer" style="display: none;">
                 <calcite-button onclick="window.showSelectionStats?.()" appearance="outline" color="blue">VER ESTADÍSTICAS</calcite-button>
                 <calcite-button onclick="window.getServiceInfo?.()" appearance="outline" color="neutral">INFO SERVICIO</calcite-button>
                 <calcite-button id="resetBtn" appearance="outline" color="red">REINICIAR SISTEMA</calcite-button>
