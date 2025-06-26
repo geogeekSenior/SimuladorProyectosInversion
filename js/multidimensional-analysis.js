@@ -33,215 +33,215 @@ HORIZONTE.multidimensionalAnalysis = (function() {
 
     // Configuración de variables con información descriptiva y escala
     const variablesInfo = {
-        desarrollo: {
-            'Tasa de desempleo': {
-                banda: 1, peso: 0.0125,
-                tooltip: "Una alta tasa de desempleo refleja fragilidad económica y menor capacidad de ingreso para la población, mientras que una baja tasa impulsa el desarrollo económico y aporta a la estabilidad territorial.",
-                escalaInvertida: false
-            },
-            'Indice de pobreza multidimensional': {
-                banda: 2, peso: 0.025,
-                tooltip: "Un IPM alto revela múltiples carencias estructurales en el territorio, mientras que un IPM bajo evidencia mejores condiciones de bienestar y calidad de vida.",
-                escalaInvertida: false
-            },
-            'Alfabetismo': {
-                banda: 3, peso: 0.025,
-                tooltip: "Un mayor nivel de alfabetismo fortalece el capital humano y favorece el éxito de los proyectos, mientras que un nivel bajo limita la adopción tecnológica y reduce el crecimiento social y económico de la población.",
-                escalaInvertida: true
-            },
-            'Tasa de bajo peso al nacer': {
-                banda: 4, peso: 0.0375,
-                tooltip: "Una tasa elevada señala deficiencias nutricionales y riesgos para la salud infantil, mientras que una tasa baja denota condiciones sanitarias más favorables.",
-                escalaInvertida: false
-            },
-            'Tasa de desnutrición aguda': {
-                banda: 5, peso: 0.0075,
-                tooltip: "Una alta tasa de desnutrición evidencia una situación crítica en materia de seguridad alimentaria, mientras que una baja tasa indica una población con mejores condiciones nutricionales.",
-                escalaInvertida: false
-            },
-            'Asistencia escolar': {
-                banda: 6, peso: 0.0175,
-                tooltip: "Una alta asistencia escolar refleja compromiso social con las nuevas generaciones, mientras que una baja asistencia indica la presencia de barreras de acceso a la educación en el territorio.",
-                escalaInvertida: true
-            },
-            'Viviendas con acueducto y alcantarillado': {
-                banda: 7, peso: 0.0225,
-                tooltip: "Un mayor número de viviendas con acceso a acueducto y alcantarillado mejora la salud pública y el entorno habitacional, mientras que una baja cobertura implica riesgo sanitario y mayores costos para la población.",
-                escalaInvertida: true
-            },
-            'Viviendas con energía eléctrica': {
-                banda: 8, peso: 0.0375,
-                tooltip: "Un suministro eléctrico confiable impulsa la productividad y mejora la calidad de vida, mientras que la carencia o intermitencia del servicio limita el desarrollo económico del territorio.",
-                escalaInvertida: true
-            },
-            'Viviendas con gas domiciliario': {
-                banda: 9, peso: 0.0075,
-                tooltip: "La cobertura de gas domiciliario aporta una fuente de energía limpia y reduce los riesgos en el entorno doméstico, mientras que su ausencia incrementa la vulnerabilidad energética del territorio.",
-                escalaInvertida: true
-            },
-            'Viviendas con acceso a internet': {
-                banda: 10, peso: 0.0075,
-                tooltip: "Una buena conectividad a internet mejora el acceso a educación, servicios y oportunidades productivas, mientras que una conectividad deficiente limita la inclusión digital y el desarrollo local.",
-                escalaInvertida: true
-            },
-            'Amenaza por deslizamiento de tierras': {
-                banda: 11, peso: 0.02,
-                tooltip: "Una alta frecuencia de alertas geológicas se asocia con mayor riesgo físico y mayores costos de mitigación, mientras que una baja frecuencia sugiere condiciones de terreno más estables.",
-                escalaInvertida: false
-            },
-            'Amenaza por fenomenos hidrologicos': {
-                banda: 12, peso: 0.0125,
-                tooltip: "Una alta recurrencia de inundaciones amenaza la infraestructura y la continuidad operativa, mientras que una baja recurrencia indica un riesgo hidrológico moderado.",
-                escalaInvertida: false
-            },
-            'Amenaza de incendios en cobertura vegetal': {
-                banda: 13, peso: 0.0175,
-                tooltip: "Una alta cantidad de alertas por incendios forestales revela vulnerabilidad ambiental en el territorio, mientras que una baja ocurrencia sugiere ecosistemas menos propensos a incendios.",
-                escalaInvertida: false
-            }
+    seguridad: {
+        'Homicidios': {
+            banda: 37, peso: 0.0675,
+            tooltip: "Un gran número de personas víctimas de homicidio se asocia con condiciones de peligro en una región, mientras que un número bajo se asocia a una zona tranquila y segura.",
+            escalaInvertida: false
         },
-
-        gobernabilidad: {
-            'Instituciones educativas': {
-                banda: 14, peso: 0.045,
-                tooltip: "Una amplia oferta educativa fomenta el desarrollo del capital humano y fortalece la cohesión social, mientras que su escasez obstaculiza el desarrollo del territorio.",
-                escalaInvertida: true
-            },
-            'Instituciones de salud': {
-                banda: 15, peso: 0.06,
-                tooltip: "Un mayor número de centros de salud mejoran el acceso para la población en temas médicos, mientras que una baja disponibilidad incrementa el riesgo por situaciones de salud no tratadas.",
-                escalaInvertida: true
-            },
-            'Hoteles': {
-                banda: 16, peso: 0.03,
-                tooltip: "La presencia de múltiples hoteles incrementa la capacidad de alojamiento y fortalece la confianza inversionista, mientras que una oferta limitada restringe el flujo turístico y las oportunidades de desarrollo.",
-                escalaInvertida: true
-            },
-            'Prestadores turísticos': {
-                banda: 17, peso: 0.045,
-                tooltip: "Una alta presencia de prestadores turísticos dinamiza la economía local y promueve el empleo, mientras que su escasez limita la diversificación y el crecimiento de la región.",
-                escalaInvertida: true
-            },
-            'Población total': {
-                banda: 18, peso: 0.045,
-                tooltip: "Una mayor población puede representar un entorno dinámico con mayor demanda de servicios y oferta laboral, mientras que una población muy baja puede limitar el desarrollo territorial y la viabilidad de inversiones.",
-                escalaInvertida: true
-            },
-            'Territorios colectivos de comunidades negras': {
-                banda: 19, peso: 0.03,
-                tooltip: "La existencia de TCCN fortalecen los derechos colectivos y la gobernanza étnica, mientras que una baja protección territorial refleja un déficit en inclusión y reconocimiento institucional.",
-                escalaInvertida: true
-            },
-            'Reservas indigenas': {
-                banda: 20, peso: 0.03,
-                tooltip: "La existencia de reservas indígenas respaldan la autonomía cultural y derechos territoriales, mientras que la ausencia de reservas en territorios en disputa se asocian a conflictos por la tierra.",
-                escalaInvertida: true
-            },
-            'Áreas protegidas': {
-                banda: 21, peso: 0.015,
-                tooltip: "Una mayor extensión de áreas protegidas contribuye a la preservación de ecosistemas vitales y fomenta el turismo sostenible, mientras que una baja cobertura incrementa el riesgo de degradación ambiental.",
-                escalaInvertida: true
-            }
+        'Estaciones de policía': {
+            banda: 24, peso: 0.0225,
+            tooltip: "Más estaciones de policía en la región se asocian con mayor presencia institucional, mientras que menos unidades reducen la capacidad de respuesta.",
+            escalaInvertida: true
         },
-
-        seguridad: {
-            'Casos de abigeato': {
-                banda: 22, peso: 0.009,
-                tooltip: "Una alta incidencia de hurtos afecta la economía rural y deteriora la confianza en el territorio, mientras que una baja ocurrencia refleja un entorno seguro para las actividades agropecuarias.",
-                escalaInvertida: false
-            },
-            'Casos relacionados con delitos sexuales': {
-                banda: 23, peso: 0.036,
-                tooltip: "Una alta cantidad de delitos sexuales registrados refleja entornos inseguros, mientras que una baja ocurrencia sugiere condiciones de mayor seguridad.",
-                escalaInvertida: false
-            },
-            'Estaciones de policía': {
-                banda: 24, peso: 0.0225,
-                tooltip: "Más estaciones de policía en la región se asocian con mayor presencia institucional, mientras que menos unidades reducen la capacidad de respuesta.",
-                escalaInvertida: true
-            },
-            'Casos de extorsión y secuestro': {
-                banda: 25, peso: 0.045,
-                tooltip: "Una alta cantidad de casos documentados incrementa el riesgo para comunidades y empresas, mientras que una baja incidencia favorece la estabilidad y la seguridad.",
-                escalaInvertida: false
-            },
-            'Capturas relacionadas con actividades en minería ilegal': {
-                banda: 26, peso: 0.009,
-                tooltip: "Un alto número de personas capturadas revela presencia activa de economías extractivas ilegales, mientras que un número reducido sugiere menor actividad ilícita en la zona.",
-                escalaInvertida: false
-            },
-            'Índice GAO – guerrilla': {
-                banda: 27, peso: 0.0225,
-                tooltip: "Un índice alto expresa una fuerte influencia de grupos armados ilegales en el territorio, mientras que un índice bajo sugiere una presencia reducida de estos grupos.",
-                escalaInvertida: false
-            },
-            'Incautaciones de armas de fuego': {
-                banda: 28, peso: 0.0135,
-                tooltip: "Mayores incautaciones de armas de fuego se asocian con un mayor nivel de riesgo para la población, mientras que una menor cantidad sugiere menor circulación ilegal en la zona.",
-                escalaInvertida: false
-            },
-            'Incautaciones de base de coca': {
-                banda: 29, peso: 0.018,
-                tooltip: "Muchos kilogramos de base de coca indican presencia representativa de economías ilegales, mientras que incautaciones bajas se asocian a mayor control de las estructuras criminales en la región.",
-                escalaInvertida: false
-            },
-            'Incautaciones de basuco': {
-                banda: 30, peso: 0.009,
-                tooltip: "Incautaciones altas de kilogramos de basuco se relacionan con microtráfico extendido, mientras que incautaciones bajas se asocian a mayor control de economías criminales en la zona.",
-                escalaInvertida: false
-            },
-            'Incautaciones de cocaína': {
-                banda: 31, peso: 0.018,
-                tooltip: "Muchos kilogramos de cocaína incautados se asocian con presencia significativa de economías ilegales, mientras que incautaciones bajas indican menor presión criminal en el territorio.",
-                escalaInvertida: false
-            },
-            'Presencia de minas antipersona por Ha': {
-                banda: 32, peso: 0.0135,
-                tooltip: "Una gran extensión de hectáreas con presencia de minas representa un alto riesgo humanitario, mientras que una menor área sugiere condiciones de mayor seguridad territorial.",
-                escalaInvertida: false
-            },
-            'Minas antipersona intervenidas': {
-                banda: 33, peso: 0.0135,
-                tooltip: "Un alto número de minas retiradas representa una recuperación efectiva del territorio, mientras que una baja intervención deja un riesgo latente para la población.",
-                escalaInvertida: true
-            },
-            'Índice – ejército (áreas base)': {
-                banda: 34, peso: 0.018,
-                tooltip: "Un índice alto indica presencia institucional y control territorial, mientras que un índice bajo refleja capacidades limitadas de actuación estatal en la zona.",
-                escalaInvertida: true
-            },
-            'Atentados terroristas': {
-                banda: 35, peso: 0.045,
-                tooltip: "Una alta cantidad de atentados representa una amenaza directa a la vida y a las condiciones para la inversión, mientras que una baja ocurrencia indica un contexto más estable y seguro.",
-                escalaInvertida: false
-            },
-            'Migración irregular y trafico de migrantes': {
-                banda: 36, peso: 0.0225,
-                tooltip: "Un flujo alto de personas en situación migratoria irregular ejerce mayor presión sobre el sistema territorial y proveedor de servicios esenciales, mientras que un flujo bajo facilita la gestión institucional.",
-                escalaInvertida: false
-            },
-            'Homicidios': {
-                banda: 37, peso: 0.0675,
-                tooltip: "Un gran número de personas víctimas de homicidio se asocia con condiciones de peligro en una región, mientras que un número bajo se asocia a una zona tranquila y segura.",
-                escalaInvertida: false
-            },
-            'Homicidios ocurridos por accidentes de tránsito': {
-                banda: 38, peso: 0.0225,
-                tooltip: "Un gran número de casos registrados se asocian a deficiencias en la infraestructura y en las medidas de prevención, mientras que un número reducido sugiere una movilidad más segura y condiciones más favorables.",
-                escalaInvertida: false
-            },
-            'Casos relacionados con lesiones personales': {
-                banda: 39, peso: 0.0225,
-                tooltip: "Un alto número de casos de lesiones personales se relaciona con entornos comunitarios difíciles, mientras que un número bajo indica mayor tranquilidad social.",
-                escalaInvertida: false
-            },
-            'Casos relacionados con lesiones por accidentes de tránsito': {
-                banda: 40, peso: 0.0225,
-                tooltip: "Muchos casos de lesiones por accidentes de tránsito reflejan escenarios de riesgo para la población, mientras que pocos casos sugieren condiciones más seguras y controladas.",
-                escalaInvertida: false
-            }
+        'Casos de extorsión y secuestro': {
+            banda: 25, peso: 0.045,
+            tooltip: "Una alta cantidad de casos documentados incrementa el riesgo para comunidades y empresas, mientras que una baja incidencia favorece la estabilidad y la seguridad.",
+            escalaInvertida: false
+        },
+        'Casos relacionados con delitos sexuales': {
+            banda: 23, peso: 0.036,
+            tooltip: "Una alta cantidad de delitos sexuales registrados refleja entornos inseguros, mientras que una baja ocurrencia sugiere condiciones de mayor seguridad.",
+            escalaInvertida: false
+        },
+        'Presencia de minas antipersona por Ha': {
+            banda: 32, peso: 0.0135,
+            tooltip: "Una gran extensión de hectáreas con presencia de minas representa un alto riesgo humanitario, mientras que una menor área sugiere condiciones de mayor seguridad territorial.",
+            escalaInvertida: false
+        },
+        'Homicidios ocurridos por accidentes de tránsito': {
+            banda: 38, peso: 0.0225,
+            tooltip: "Un gran número de casos registrados se asocian a deficiencias en la infraestructura y en las medidas de prevención, mientras que un número reducido sugiere una movilidad más segura y condiciones más favorables.",
+            escalaInvertida: false
+        },
+        'Casos relacionados con lesiones personales': {
+            banda: 39, peso: 0.0225,
+            tooltip: "Un alto número de casos de lesiones personales se relaciona con entornos comunitarios difíciles, mientras que un número bajo indica mayor tranquilidad social.",
+            escalaInvertida: false
+        },
+        'Casos relacionados con lesiones por accidentes de tránsito': {
+            banda: 40, peso: 0.0225,
+            tooltip: "Muchos casos de lesiones por accidentes de tránsito reflejan escenarios de riesgo para la población, mientras que pocos casos sugieren condiciones más seguras y controladas.",
+            escalaInvertida: false
+        },
+        'Incautaciones de cocaína': {
+            banda: 31, peso: 0.018,
+            tooltip: "Muchos kilogramos de cocaína incautados se asocian con presencia significativa de economías ilegales, mientras que incautaciones bajas indican menor presión criminal en el territorio.",
+            escalaInvertida: false
+        },
+        'Incautaciones de base de coca': {
+            banda: 29, peso: 0.018,
+            tooltip: "Muchos kilogramos de base de coca indican presencia representativa de economías ilegales, mientras que incautaciones bajas se asocian a mayor control de las estructuras criminales en la región.",
+            escalaInvertida: false
+        },
+        'Incautaciones de basuco': {
+            banda: 30, peso: 0.009,
+            tooltip: "Incautaciones altas de kilogramos de basuco se relacionan con microtráfico extendido, mientras que incautaciones bajas se asocian a mayor control de economías criminales en la zona.",
+            escalaInvertida: false
+        },
+        'Incautaciones de armas de fuego': {
+            banda: 28, peso: 0.0135,
+            tooltip: "Mayores incautaciones de armas de fuego se asocian con un mayor nivel de riesgo para la población, mientras que una menor cantidad sugiere menor circulación ilegal en la zona.",
+            escalaInvertida: false
+        },
+        'Minas antipersona intervenidas': {
+            banda: 33, peso: 0.0135,
+            tooltip: "Un alto número de minas retiradas representa una recuperación efectiva del territorio, mientras que una baja intervención deja un riesgo latente para la población.",
+            escalaInvertida: true
+        },
+        'Capturas relacionadas con actividades en minería ilegal': {
+            banda: 26, peso: 0.009,
+            tooltip: "Un alto número de personas capturadas revela presencia activa de economías extractivas ilegales, mientras que un número reducido sugiere menor actividad ilícita en la zona.",
+            escalaInvertida: false
+        },
+        'Índice GAO – guerrilla': {
+            banda: 27, peso: 0.0225,
+            tooltip: "Un índice alto expresa una fuerte influencia de grupos armados ilegales en el territorio, mientras que un índice bajo sugiere una presencia reducida de estos grupos.",
+            escalaInvertida: false
+        },
+        'Índice – ejército (áreas base)': {
+            banda: 34, peso: 0.018,
+            tooltip: "Un índice alto indica presencia institucional y control territorial, mientras que un índice bajo refleja capacidades limitadas de actuación estatal en la zona.",
+            escalaInvertida: true
+        },
+        'Casos de abigeato': {
+            banda: 22, peso: 0.009,
+            tooltip: "Una alta incidencia de hurtos afecta la economía rural y deteriora la confianza en el territorio, mientras que una baja ocurrencia refleja un entorno seguro para las actividades agropecuarias.",
+            escalaInvertida: false
+        },
+        'Migración irregular y trafico de migrantes': {
+            banda: 36, peso: 0.0225,
+            tooltip: "Un flujo alto de personas en situación migratoria irregular ejerce mayor presión sobre el sistema territorial y proveedor de servicios esenciales, mientras que un flujo bajo facilita la gestión institucional.",
+            escalaInvertida: false
+        },
+        'Atentados terroristas': {
+            banda: 35, peso: 0.045,
+            tooltip: "Una alta cantidad de atentados representa una amenaza directa a la vida y a las condiciones para la inversión, mientras que una baja ocurrencia indica un contexto más estable y seguro.",
+            escalaInvertida: false
         }
-    };
+    },
+
+    desarrollo: {
+        'Asistencia escolar': {
+            banda: 6, peso: 0.0175,
+            tooltip: "Una alta asistencia escolar refleja compromiso social con las nuevas generaciones, mientras que una baja asistencia indica la presencia de barreras de acceso a la educación en el territorio.",
+            escalaInvertida: true
+        },
+        'Alfabetismo': {
+            banda: 3, peso: 0.025,
+            tooltip: "Un mayor nivel de alfabetismo fortalece el capital humano y favorece el éxito de los proyectos, mientras que un nivel bajo limita la adopción tecnológica y reduce el crecimiento social y económico de la población.",
+            escalaInvertida: true
+        },
+        'Viviendas con acueducto y alcantarillado': {
+            banda: 7, peso: 0.0225,
+            tooltip: "Un mayor número de viviendas con acceso a acueducto y alcantarillado mejora la salud pública y el entorno habitacional, mientras que una baja cobertura implica riesgo sanitario y mayores costos para la población.",
+            escalaInvertida: true
+        },
+        'Viviendas con energía eléctrica': {
+            banda: 8, peso: 0.0375,
+            tooltip: "Un suministro eléctrico confiable impulsa la productividad y mejora la calidad de vida, mientras que la carencia o intermitencia del servicio limita el desarrollo económico del territorio.",
+            escalaInvertida: true
+        },
+        'Viviendas con gas domiciliario': {
+            banda: 9, peso: 0.0075,
+            tooltip: "La cobertura de gas domiciliario aporta una fuente de energía limpia y reduce los riesgos en el entorno doméstico, mientras que su ausencia incrementa la vulnerabilidad energética del territorio.",
+            escalaInvertida: true
+        },
+        'Viviendas con acceso a internet': {
+            banda: 10, peso: 0.0075,
+            tooltip: "Una buena conectividad a internet mejora el acceso a educación, servicios y oportunidades productivas, mientras que una conectividad deficiente limita la inclusión digital y el desarrollo local.",
+            escalaInvertida: true
+        },
+        'Amenaza por deslizamiento de tierras': {
+            banda: 11, peso: 0.02,
+            tooltip: "Una alta frecuencia de alertas geológicas se asocia con mayor riesgo físico y mayores costos de mitigación, mientras que una baja frecuencia sugiere condiciones de terreno más estables.",
+            escalaInvertida: false
+        },
+        'Amenaza por fenomenos hidrologicos': {
+            banda: 12, peso: 0.0125,
+            tooltip: "Una alta recurrencia de inundaciones amenaza la infraestructura y la continuidad operativa, mientras que una baja recurrencia indica un riesgo hidrológico moderado.",
+            escalaInvertida: false
+        },
+        'Amenaza de incendios en cobertura vegetal': {
+            banda: 13, peso: 0.0175,
+            tooltip: "Una alta cantidad de alertas por incendios forestales revela vulnerabilidad ambiental en el territorio, mientras que una baja ocurrencia sugiere ecosistemas menos propensos a incendios.",
+            escalaInvertida: false
+        },
+        'Tasa de bajo peso al nacer': {
+            banda: 4, peso: 0.0375,
+            tooltip: "Una tasa elevada señala deficiencias nutricionales y riesgos para la salud infantil, mientras que una tasa baja denota condiciones sanitarias más favorables.",
+            escalaInvertida: false
+        },
+        'Tasa de desnutrición aguda': {
+            banda: 5, peso: 0.0075,
+            tooltip: "Una alta tasa de desnutrición evidencia una situación crítica en materia de seguridad alimentaria, mientras que una baja tasa indica una población con mejores condiciones nutricionales.",
+            escalaInvertida: false
+        },
+        'Tasa de desempleo': {
+            banda: 1, peso: 0.0125,
+            tooltip: "Una alta tasa de desempleo refleja fragilidad económica y menor capacidad de ingreso para la población, mientras que una baja tasa impulsa el desarrollo económico y aporta a la estabilidad territorial.",
+            escalaInvertida: false
+        },
+        'Indice de pobreza multidimensional': {
+            banda: 2, peso: 0.025,
+            tooltip: "Un IPM alto revela múltiples carencias estructurales en el territorio, mientras que un IPM bajo evidencia mejores condiciones de bienestar y calidad de vida.",
+            escalaInvertida: false
+        }
+    },
+
+    gobernabilidad: {
+        'Población total': {
+            banda: 18, peso: 0.045,
+            tooltip: "Una mayor población puede representar un entorno dinámico con mayor demanda de servicios y oferta laboral, mientras que una población muy baja puede limitar el desarrollo territorial y la viabilidad de inversiones.",
+            escalaInvertida: true
+        },
+        'Instituciones educativas': {
+            banda: 14, peso: 0.045,
+            tooltip: "Una amplia oferta educativa fomenta el desarrollo del capital humano y fortalece la cohesión social, mientras que su escasez obstaculiza el desarrollo del territorio.",
+            escalaInvertida: true
+        },
+        'Instituciones de salud': {
+            banda: 15, peso: 0.06,
+            tooltip: "Un mayor número de centros de salud mejoran el acceso para la población en temas médicos, mientras que una baja disponibilidad incrementa el riesgo por situaciones de salud no tratadas.",
+            escalaInvertida: true
+        },
+        'Áreas protegidas': {
+            banda: 21, peso: 0.015,
+            tooltip: "Una mayor extensión de áreas protegidas contribuye a la preservación de ecosistemas vitales y fomenta el turismo sostenible, mientras que una baja cobertura incrementa el riesgo de degradación ambiental.",
+            escalaInvertida: true
+        },
+        'Reservas indigenas': {
+            banda: 20, peso: 0.03,
+            tooltip: "La existencia de reservas indígenas respaldan la autonomía cultural y derechos territoriales, mientras que la ausencia de reservas en territorios en disputa se asocian a conflictos por la tierra.",
+            escalaInvertida: true
+        },
+        'Territorios colectivos de comunidades negras': {
+            banda: 19, peso: 0.03,
+            tooltip: "La existencia de TCCN fortalecen los derechos colectivos y la gobernanza étnica, mientras que una baja protección territorial refleja un déficit en inclusión y reconocimiento institucional.",
+            escalaInvertida: true
+        },
+        'Prestadores turísticos': {
+            banda: 17, peso: 0.045,
+            tooltip: "Una alta presencia de prestadores turísticos dinamiza la economía local y promueve el empleo, mientras que su escasez limita la diversificación y el crecimiento de la región.",
+            escalaInvertida: true
+        },
+        'Hoteles': {
+            banda: 16, peso: 0.03,
+            tooltip: "La presencia de múltiples hoteles incrementa la capacidad de alojamiento y fortalece la confianza inversionista, mientras que una oferta limitada restringe el flujo turístico y las oportunidades de desarrollo.",
+            escalaInvertida: true
+        }
+    }
+};
 
     /**
      * Inicializa el sistema de análisis multidimensional

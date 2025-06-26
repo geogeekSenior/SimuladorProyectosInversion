@@ -49,7 +49,7 @@
 
             <div class="section-title">DIMENSIONES</div>
 
-            <!-- DIMENSIÓN SEGURIDAD -->
+<!-- DIMENSIÓN SEGURIDAD -->
 <div class="dimension-container">
     <div class="dimension-header">
         <span class="dimension-name">SEGURIDAD</span>
@@ -59,11 +59,34 @@
         <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
     </div>
 
+    <!-- Primeras 5 en orden especificado -->
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Homicidios"></calcite-checkbox>
         <div class="variable-name">Homicidios</div>
         <div class="info-icon" data-tooltip="Un gran numero de personas victimas de homicidio se asocia con condiciones de peligro en una región, mientras que un numero bajo se asocia a una zona tranquila y segura." data-dimension="seguridad">ℹ</div>
     </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-EstacionesPolicia"></calcite-checkbox>
+        <div class="variable-name">Estaciones de policía</div>
+        <div class="info-icon" data-tooltip="Más estaciones de policia en la región se asocian mayor presencia institucional, mientras que menos unidades reducen la capacidad de respuesta." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ExtorsionSecuestro"></calcite-checkbox>
+        <div class="variable-name">Casos de extorsión y secuestro</div>
+        <div class="info-icon" data-tooltip="Una alta cantidad de casos documentados incrementa el riesgo para comunidades y empresas, mientras que una baja incidencia favorece la estabilidad y la seguridad." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-DelitosSexuales"></calcite-checkbox>
+        <div class="variable-name">Casos relacionados con delitos sexuales</div>
+        <div class="info-icon" data-tooltip="Una alta cantidad de delitos sexuales registrados refleja entornos inseguros, mientras que una baja ocurrencia sugiere condiciones de mayor seguridad." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasAntipersona"></calcite-checkbox>
+        <div class="variable-name">Presencia de minas antipersona por Ha</div>
+        <div class="info-icon" data-tooltip="Una gran extensión de hectáreas con presencia de minas representa un alto riesgo humanitario, mientras que una menor área sugiere condiciones de mayor seguridad territorial." data-dimension="seguridad">ℹ</div>
+    </div>
+    
+    <!-- Resto de variables de seguridad -->
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-HomicidiosTransito"></calcite-checkbox>
         <div class="variable-name">Homicidios ocurridos por accidentes de tránsito</div>
@@ -100,11 +123,6 @@
         <div class="info-icon" data-tooltip="Mayores incautaciones de armas de fuego se asocian con un mayor nivel de riesgo para la población, mientras que una menor cantidad sugiere menor circulación ilegal en la zona." data-dimension="seguridad">ℹ</div>
     </div>
     <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasAntipersona"></calcite-checkbox>
-        <div class="variable-name">Presencia de minas antipersona por Ha</div>
-        <div class="info-icon" data-tooltip="Una gran extensión de hectáreas con presencia de minas representa un alto riesgo humanitario, mientras que una menor área sugiere condiciones de mayor seguridad territorial." data-dimension="seguridad">ℹ</div>
-    </div>
-    <div class="variable-item">
         <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasIntervenidas"></calcite-checkbox>
         <div class="variable-name">Minas antipersona intervenidas</div>
         <div class="info-icon" data-tooltip="Un alto número de minas retiradas representa una recuperación efectiva del territorio, mientras que una baja intervención deja un riesgo latente para la población." data-dimension="seguridad">ℹ</div>
@@ -123,21 +141,6 @@
         <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-PresenciaAreasBase"></calcite-checkbox>
         <div class="variable-name">Índice – ejército (áreas base)</div>
         <div class="info-icon" data-tooltip="Un índice alto indica presencia institucional y control territorial, mientras que un índice bajo refleja capacidades limitadas de actuación estatal en la zona" data-dimension="seguridad">ℹ</div>
-    </div>
-    <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-DelitosSexuales"></calcite-checkbox>
-        <div class="variable-name">Casos relacionados con delitos sexuales</div>
-        <div class="info-icon" data-tooltip="Una alta cantidad de delitos sexuales registrados refleja entornos inseguros, mientras que una baja ocurrencia sugiere condiciones de mayor seguridad." data-dimension="seguridad">ℹ</div>
-    </div>
-    <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ExtorsionSecuestro"></calcite-checkbox>
-        <div class="variable-name">Casos de extorsión y secuestro</div>
-        <div class="info-icon" data-tooltip="Una alta cantidad de casos documentados incrementa el riesgo para comunidades y empresas, mientras que una baja incidencia favorece la estabilidad y la seguridad." data-dimension="seguridad">ℹ</div>
-    </div>
-    <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-EstacionesPolicia"></calcite-checkbox>
-        <div class="variable-name">Estaciones de policía</div>
-        <div class="info-icon" data-tooltip="Más estaciones de policia en la región se asocian mayor presencia institucional, mientras que menos unidades reducen la capacidad de respuesta." data-dimension="seguridad">ℹ</div>
     </div>
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Abigeato"></calcite-checkbox>
@@ -166,6 +169,17 @@
         <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
     </div>
 
+    <!-- Primeras 5 en orden especificado -->
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-NivelEducacion"></calcite-checkbox>
+        <div class="variable-name">Asistencia escolar</div>
+        <div class="info-icon" data-tooltip="Una alta asistencia escolar refleja compromiso social con las nuevas generaciones, mientras que una baja asistencia indica la presencia de barreras de acceso a la educación en el territorio." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Alfabetismo"></calcite-checkbox>
+        <div class="variable-name">Alfabetismo</div>
+        <div class="info-icon" data-tooltip="Un mayor nivel de alfabetismo fortalece el capital humano y favorece el éxito de los proyectos, mientras que un nivel bajo limita la adopción tecnológica y reduce el crecimiento social y economico de la población." data-dimension="desarrollo">ℹ</div>
+    </div>
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AcueductoAlcantarillado"></calcite-checkbox>
         <div class="variable-name">Viviendas con acueducto y alcantarillado</div>
@@ -181,6 +195,8 @@
         <div class="variable-name">Viviendas con gas domiciliario</div>
         <div class="info-icon" data-tooltip="La cobertura de gas domiciliario aporta una fuente de energía limpia y reduce los riesgos en el entorno doméstico, mientras que su ausencia incrementa la vulnerabilidad energética del territorio." data-dimension="desarrollo">ℹ</div>
     </div>
+    
+    <!-- Resto de variables de desarrollo -->
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Internet"></calcite-checkbox>
         <div class="variable-name">Viviendas con acceso a internet</div>
@@ -200,16 +216,6 @@
         <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AlertasIncendios"></calcite-checkbox>
         <div class="variable-name">Amenaza de incendios en cobertura vegetal</div>
         <div class="info-icon" data-tooltip="Una alta cantidad de alertas por incendios forestales revela vulnerabilidad ambiental en el territorio, mientras que una baja ocurrencia sugiere ecosistemas menos propensos a incendios." data-dimension="desarrollo">ℹ</div>
-    </div>
-    <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Alfabetismo"></calcite-checkbox>
-        <div class="variable-name">Alfabetismo</div>
-        <div class="info-icon" data-tooltip="Un mayor nivel de alfabetismo fortalece el capital humano y favorece el éxito de los proyectos, mientras que un nivel bajo limita la adopción tecnológica y reduce el crecimiento social y economico de la población." data-dimension="desarrollo">ℹ</div>
-    </div>
-    <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-NivelEducacion"></calcite-checkbox>
-        <div class="variable-name">Asistencia escolar</div>
-        <div class="info-icon" data-tooltip="Una alta asistencia escolar refleja compromiso social con las nuevas generaciones, mientras que una baja asistencia indica la presencia de barreras de acceso a la educación en el territorio." data-dimension="desarrollo">ℹ</div>
     </div>
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-BajoPesoNacer"></calcite-checkbox>
@@ -243,10 +249,11 @@
         <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
     </div>
 
+    <!-- Primeras 5 en orden especificado -->
     <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesSalud"></calcite-checkbox>
-        <div class="variable-name">Instituciones de salud</div>
-        <div class="info-icon" data-tooltip="Un mayor numero de centros de salud mejoran el acceso para la población en temas medicos, mientras que una baja disponibilidad de incrementa el riesgo por situaciones de salud no tratadas." data-dimension="gobernabilidad">ℹ</div>
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-CensoPoblacional"></calcite-checkbox>
+        <div class="variable-name">Población total</div>
+        <div class="info-icon" data-tooltip="Una mayor población puede representar un entorno dinámico con mayor demanda de servicios y oferta laboral, mientras que una población muy baja puede limitar el desarrollo territorial y la viabilidad de inversiones." data-dimension="gobernabilidad">ℹ</div>
     </div>
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesEducativas"></calcite-checkbox>
@@ -254,24 +261,26 @@
         <div class="info-icon" data-tooltip="Una amplia oferta educativa fomenta el desarrollo del capital humano y fortalece la cohesión social, mientras que su escasez obstaculiza el desarrollo del territorio." data-dimension="gobernabilidad">ℹ</div>
     </div>
     <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-CensoPoblacional"></calcite-checkbox>
-        <div class="variable-name">Población total</div>
-        <div class="info-icon" data-tooltip="Una mayor población puede representar un entorno dinámico con mayor demanda de servicios y oferta laboral, mientras que una población muy baja puede limitar el desarrollo territorial y la viabilidad de inversiones." data-dimension="gobernabilidad">ℹ</div>
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesSalud"></calcite-checkbox>
+        <div class="variable-name">Instituciones de salud</div>
+        <div class="info-icon" data-tooltip="Un mayor numero de centros de salud mejoran el acceso para la población en temas medicos, mientras que una baja disponibilidad de incrementa el riesgo por situaciones de salud no tratadas." data-dimension="gobernabilidad">ℹ</div>
     </div>
     <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ComunidadesNegras"></calcite-checkbox>
-        <div class="variable-name">Territorios colectivos de comunidades negras</div>
-        <div class="info-icon" data-tooltip="La existencia de TCCN fortalecen los derechos colectivos y la gobernanza étnica, mientras que una baja protección territorial refleja un déficit en inclusión y reconocimiento institucional." data-dimension="gobernabilidad">ℹ</div>
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-AreasProtegidas"></calcite-checkbox>
+        <div class="variable-name">Áreas protegidas</div>
+        <div class="info-icon" data-tooltip="Una mayor extensión de áreas protegidas contribuye a la preservación de ecosistemas vitales y fomenta el turismo sostenible, mientras que una baja cobertura incrementa el riesgo de degradación ambiental." data-dimension="gobernabilidad">ℹ</div>
     </div>
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ReservasIndigenas"></calcite-checkbox>
         <div class="variable-name">Reservas indigenas</div>
         <div class="info-icon" data-tooltip="La existencia de reservas indigenas respaldan la autonomía cultural y derechos territoriales, mentras que la ausencia de reservas en territorios en disputa se asocian a conflictos por la tierra." data-dimension="gobernabilidad">ℹ</div>
     </div>
+    
+    <!-- Resto de variables de gobernabilidad -->
     <div class="variable-item">
-        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-AreasProtegidas"></calcite-checkbox>
-        <div class="variable-name">Áreas protegidas</div>
-        <div class="info-icon" data-tooltip="Una mayor extensión de áreas protegidas contribuye a la preservación de ecosistemas vitales y fomenta el turismo sostenible, mientras que una baja cobertura incrementa el riesgo de degradación ambiental." data-dimension="gobernabilidad">ℹ</div>
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ComunidadesNegras"></calcite-checkbox>
+        <div class="variable-name">Territorios colectivos de comunidades negras</div>
+        <div class="info-icon" data-tooltip="La existencia de TCCN fortalecen los derechos colectivos y la gobernanza étnica, mientras que una baja protección territorial refleja un déficit en inclusión y reconocimiento institucional." data-dimension="gobernabilidad">ℹ</div>
     </div>
     <div class="variable-item">
         <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-DesarrolloTuristico"></calcite-checkbox>
@@ -284,7 +293,6 @@
         <div class="info-icon" data-tooltip="La presencia de múltiples hoteles incrementa la capacidad de alojamiento y fortalece la confianza inversionista, mientras que una oferta limitada restringe el flujo turístico y las oportunidades de desarrollo." data-dimension="gobernabilidad">ℹ</div>
     </div>
 </div>
-
 
             
 
