@@ -31,7 +31,7 @@ area_interes = r"C:/Users/Sebastian/Documents/ArcGIS/Projects/CIDENAL/CIDENAL.gd
 
 # Constantes
 limite_superior = 100
-cell_size       = 0.0008           # ≈ 90 m
+cell_size       = 0.002          
 sr              = arcpy.SpatialReference(4326)
 
 # URLs de los servicios Hosted
@@ -181,9 +181,9 @@ def script_tool(atributos_json_str, geometrias_json_str):
                                       "TEXT" if length else "DOUBLE",
                                       field_length=length or "")
         teams = {(a["teamName"], a["teamCode"]) for a in atributos}
-        indice_base  = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.25 + medias["DESARROLLO"]*0.3
-        indice = indice_base      
-        vida   = 62 + (84-62)*(indice/100)
+        indice = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.3 + medias["DESARROLLO"]*0.25
+        indice_r = indice*1
+        vida   = 62 + (84-62)*(indice_r/100)
         with arcpy.da.InsertCursor(
             estadisticas_fc,
             ["TEAM_NAME","TEAM_CODE","MEAN_SEGURIDAD","MEAN_GOBERNABILIDAD",

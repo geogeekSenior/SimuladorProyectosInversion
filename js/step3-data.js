@@ -6,10 +6,10 @@
 
 // Valores de línea base (valores iniciales antes de las intervenciones) - TAL COMO ESTABAN ORIGINALMENTE
 const baselineValues = {
-    seguridad: 23.9798,    // Valores iniciales tal como estaban
-    desarrollo: 44.3372,
-    gobernabilidad: 6.3790,
-    total: 23.78       // Total calculado original
+    seguridad: 24.06,    // Valores iniciales tal como estaban
+    desarrollo: 47.9488,
+    gobernabilidad: 7.9171,
+    total: 48.53844       // Total calculado original
 };
 
 // Configuración para evaluación de impacto
@@ -32,8 +32,8 @@ const impactConfig = {
     },
     // Configuración para cálculo de expectativa de vida
     expectativaVida: {
-        base: 68,
-        maximo: 85
+        base: 62,
+        maximo: 84
     }
 };
 
@@ -44,7 +44,7 @@ const impactConfig = {
  */
 function calcularExpectativaVida(indice) {
     const { base, maximo } = impactConfig.expectativaVida;
-    return base + (maximo - base) * ((indice*1.07) / 100);
+    return base + (maximo - base) * ((indice) / 100);
 }
 
 /**
@@ -312,7 +312,7 @@ async function initializeInterface() {
         });
         
         // Calcular mejoras (delta) desde línea base
-        const deltaSeguridad = valorSeguridad - baselineValues.seguridad;
+        const deltaSeguridad = ((100-valorSeguridad) - baselineValues.seguridad)*-1;
         const deltaDesarrollo = valorDesarrollo - baselineValues.desarrollo;
         const deltaGobernabilidad = valorGobernabilidad - baselineValues.gobernabilidad;
         
@@ -354,10 +354,10 @@ async function initializeInterface() {
         // Actualizar barras de impacto por dimensión
         // Usar valores directamente como porcentajes (sin factores de conversión)
         
-        // Seguridad
+        // Seguridad TENER CUIDADO CON SEGURIDAD VALUE ACTUALIZAR Y VERIFICAR EN CASO DE CAMBIOS!!!!
         document.getElementById('seguridad-bar').style.width = `${Math.min(100, valorSeguridad)}%`;
         document.getElementById('seguridad-improvement').style.width = `${Math.max(0, deltaSeguridad)}%`;
-        document.getElementById('seguridad-value').textContent = `${valorSeguridad.toFixed(1)}%`;
+        document.getElementById('seguridad-value').textContent = `${(24.06+deltaSeguridad).toFixed(1)}%`;
         document.getElementById('seguridad-increase').textContent = `+${deltaSeguridad.toFixed(1)}%`;
         
         // Desarrollo
