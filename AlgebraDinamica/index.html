@@ -15,8 +15,7 @@
 
     <script type="module" src="https://js.arcgis.com/calcite-components/3.0.3/calcite.esm.js"></script>
     <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/3.0.3/calcite.css" />
-
-    <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="military-header">
@@ -51,203 +50,244 @@
             <div class="section-title">DIMENSIONES</div>
 
             <!-- DIMENSIÓN SEGURIDAD -->
-            <div class="dimension-container">
-                <div class="dimension-header">
-                    <span class="dimension-name">SEGURIDAD</span>
-                </div>
-                <div class="dimension-control">
-                    <calcite-checkbox class="dimension-checkbox" id="seguridad-all"></calcite-checkbox>
-                    <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
-                </div>
+<div class="dimension-container">
+    <div class="dimension-header">
+        <span class="dimension-name">SEGURIDAD</span>
+    </div>
+    <div class="dimension-control">
+        <calcite-checkbox class="dimension-checkbox" id="seguridad-all"></calcite-checkbox>
+        <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
+    </div>
 
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Homicidios"></calcite-checkbox>
-                    <div class="variable-name">Homicidios</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-HomicidiosTransito"></calcite-checkbox>
-                    <div class="variable-name">Homicidios Por Accidente De Tránsito</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-LesionesPersonales"></calcite-checkbox>
-                    <div class="variable-name">Lesiones Personales</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-LesionesTransito"></calcite-checkbox>
-                    <div class="variable-name">Lesiones Por Accidentes De Tránsito</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionCocaina"></calcite-checkbox>
-                    <div class="variable-name">Incautación Cocaína</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionBaseCoca"></calcite-checkbox>
-                    <div class="variable-name">Incautación Base De Coca</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionBasuco"></calcite-checkbox>
-                    <div class="variable-name">Incautación Basuco</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionArmas"></calcite-checkbox>
-                    <div class="variable-name">Incautación De Armas De Fuego</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasAntipersona"></calcite-checkbox>
-                    <div class="variable-name">Minas Antipersona</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasIntervenidas"></calcite-checkbox>
-                    <div class="variable-name">Minas Intervenidas</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-CapturasMineria"></calcite-checkbox>
-                    <div class="variable-name">Capturas En Minería Ilegal</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-GruposArmados"></calcite-checkbox>
-                    <div class="variable-name">Grupos Armados Organizados</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-PresenciaAreasBase"></calcite-checkbox>
-                    <div class="variable-name">Presencia De Áreas Base</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-DelitosSexuales"></calcite-checkbox>
-                    <div class="variable-name">Delitos Sexuales</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ExtorsionSecuestro"></calcite-checkbox>
-                    <div class="variable-name">Extorsión Y Secuestro</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-EstacionesPolicia"></calcite-checkbox>
-                    <div class="variable-name">Estaciones De Policía</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Abigeato"></calcite-checkbox>
-                    <div class="variable-name">Abigeato</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MigracionIrregular"></calcite-checkbox>
-                    <div class="variable-name">Migración Irregular Y Tráfico De Migrantes</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ViolenciaTerrorista"></calcite-checkbox>
-                    <div class="variable-name">Violencia Terrorista (Atentados)</div>
-                </div>
-            </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Homicidios"></calcite-checkbox>
+        <div class="variable-name">Homicidios</div>
+        <div class="info-icon" data-tooltip="Un gran numero de personas victimas de homicidio se asocia con condiciones de peligro en una región, mientras que un numero bajo se asocia a una zona tranquila y segura." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-HomicidiosTransito"></calcite-checkbox>
+        <div class="variable-name">Homicidios ocurridos por accidentes de tránsito</div>
+        <div class="info-icon" data-tooltip="Un gran numero de casos registrados se asocian a deficiencias en la infraestructura y en las medidas de prevención, mientras que un número reducido sugiere una movilidad más segura y condiciones más favorables." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-LesionesPersonales"></calcite-checkbox>
+        <div class="variable-name">Casos relacionados con lesiones personales</div>
+        <div class="info-icon" data-tooltip="Un alto número de casos de lesiones personales se relaciona con entornos comunitarios dificiles, mientras que un número bajo indica mayor tranquilidad social." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-LesionesTransito"></calcite-checkbox>
+        <div class="variable-name">Casos relacionados con lesiones por accidentes de tránsito</div>
+        <div class="info-icon" data-tooltip="Muchos casos de lesiones por accidentes de transito reflejan escenarios de riesgo para la población, mientras que pocos casos se sugieren condiciones mas seguras y controladas." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionCocaina"></calcite-checkbox>
+        <div class="variable-name">Incautaciones de cocaína</div>
+        <div class="info-icon" data-tooltip="Muchos kilogramos de cocaína incautados se asocian con presencia significativa de economías ilegales, mientras que incautaciones bajas indican menor presión criminal en el territorio." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionBaseCoca"></calcite-checkbox>
+        <div class="variable-name">Incautaciones de base de coca</div>
+        <div class="info-icon" data-tooltip="Muchos kilogramos de base de coca indican presencia representativa de economías ilegales, mientras que incautaciones bajas se asocian a mayor control de las estructuras criminales en la región." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionBasuco"></calcite-checkbox>
+        <div class="variable-name">Incautaciones de basuco</div>
+        <div class="info-icon" data-tooltip="Incautaciones altas de kilogramos de basuco se relacionan con microtrafico extendido, mientras que incautaciones bajas se asocian a mayor control de economias criminales en la zona." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-IncautacionArmas"></calcite-checkbox>
+        <div class="variable-name">Incautaciones de armas de fuego</div>
+        <div class="info-icon" data-tooltip="Mayores incautaciones de armas de fuego se asocian con un mayor nivel de riesgo para la población, mientras que una menor cantidad sugiere menor circulación ilegal en la zona." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasAntipersona"></calcite-checkbox>
+        <div class="variable-name">Presencia de minas antipersona por Ha</div>
+        <div class="info-icon" data-tooltip="Una gran extensión de hectáreas con presencia de minas representa un alto riesgo humanitario, mientras que una menor área sugiere condiciones de mayor seguridad territorial." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MinasIntervenidas"></calcite-checkbox>
+        <div class="variable-name">Minas antipersona intervenidas</div>
+        <div class="info-icon" data-tooltip="Un alto número de minas retiradas representa una recuperación efectiva del territorio, mientras que una baja intervención deja un riesgo latente para la población." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-CapturasMineria"></calcite-checkbox>
+        <div class="variable-name">Capturas relacionadas con actividades en minería ilegal</div>
+        <div class="info-icon" data-tooltip="Un alto número de personas capturadas revela presencia activa de economías extractivas ilegales, mientras que un número reducido sugiere menor actividad ilícita en la zona." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-GruposArmados"></calcite-checkbox>
+        <div class="variable-name">Índice GAO – guerrilla</div>
+        <div class="info-icon" data-tooltip="Un índice alto expresa una fuerte influencia de grupos armados ilegales en el territorio, mientras que un índice bajo sugiere una presencia reducida de estos grupos." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-PresenciaAreasBase"></calcite-checkbox>
+        <div class="variable-name">Índice – ejército (áreas base)</div>
+        <div class="info-icon" data-tooltip="Un índice alto indica presencia institucional y control territorial, mientras que un índice bajo refleja capacidades limitadas de actuación estatal en la zona" data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-DelitosSexuales"></calcite-checkbox>
+        <div class="variable-name">Casos relacionados con delitos sexuales</div>
+        <div class="info-icon" data-tooltip="Una alta cantidad de delitos sexuales registrados refleja entornos inseguros, mientras que una baja ocurrencia sugiere condiciones de mayor seguridad." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ExtorsionSecuestro"></calcite-checkbox>
+        <div class="variable-name">Casos de extorsión y secuestro</div>
+        <div class="info-icon" data-tooltip="Una alta cantidad de casos documentados incrementa el riesgo para comunidades y empresas, mientras que una baja incidencia favorece la estabilidad y la seguridad." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-EstacionesPolicia"></calcite-checkbox>
+        <div class="variable-name">Estaciones de policía</div>
+        <div class="info-icon" data-tooltip="Más estaciones de policia en la región se asocian mayor presencia institucional, mientras que menos unidades reducen la capacidad de respuesta." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-Abigeato"></calcite-checkbox>
+        <div class="variable-name">Casos de abigeato</div>
+        <div class="info-icon" data-tooltip="Una alta incidencia de hurtos afecta la economía rural y deteriora la confianza en el territorio, mientras que una baja ocurrencia refleja un entorno seguro para las actividades agropecuarias." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-MigracionIrregular"></calcite-checkbox>
+        <div class="variable-name">Migración irregular y trafico de migrantes</div>
+        <div class="info-icon" data-tooltip="Un flujo alto de personas en situación migratoria irregular ejerce mayor presion sobre el sistema territorial y proveedor de servicios esenciales, mientras que un flujo bajo facilita la gestión institucional." data-dimension="seguridad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox seguridad-variable" id="seguridad-ViolenciaTerrorista"></calcite-checkbox>
+        <div class="variable-name">Atentados terroristas</div>
+        <div class="info-icon" data-tooltip="Una alta cantidad de atentados representa una amenaza directa a la vida y a las condiciones para la inversión, mientras que una baja ocurrencia indica un contexto más estable y seguro." data-dimension="seguridad">ℹ</div>
+    </div>
+</div>
 
-            <!-- DIMENSIÓN DESARROLLO -->
-            <div class="dimension-container">
-                <div class="dimension-header">
-                    <span class="dimension-name">DESARROLLO</span>
-                </div>
-                <div class="dimension-control">
-                    <calcite-checkbox class="dimension-checkbox" id="desarrollo-all"></calcite-checkbox>
-                    <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
-                </div>
+<!-- DIMENSIÓN DESARROLLO -->
+<div class="dimension-container">
+    <div class="dimension-header">
+        <span class="dimension-name">DESARROLLO</span>
+    </div>
+    <div class="dimension-control">
+        <calcite-checkbox class="dimension-checkbox" id="desarrollo-all"></calcite-checkbox>
+        <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
+    </div>
 
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AcueductoAlcantarillado"></calcite-checkbox>
-                    <div class="variable-name">Acueducto Y Alcantarillado</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-EnergiaElectrica"></calcite-checkbox>
-                    <div class="variable-name">Energía Eléctrica</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Gas"></calcite-checkbox>
-                    <div class="variable-name">Gas</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Internet"></calcite-checkbox>
-                    <div class="variable-name">Internet</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AmenazaDeslizamiento"></calcite-checkbox>
-                    <div class="variable-name">Amenaza Por Deslizamiento De Tierras</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AlertasHidrologicas"></calcite-checkbox>
-                    <div class="variable-name">Alertas Por Amenazas Hidrológicas</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AlertasIncendios"></calcite-checkbox>
-                    <div class="variable-name">Alertas Por Incendios Vegetales</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Alfabetismo"></calcite-checkbox>
-                    <div class="variable-name">Alfabetismo</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-NivelEducacion"></calcite-checkbox>
-                    <div class="variable-name">Nivel De Educación</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-BajoPesoNacer"></calcite-checkbox>
-                    <div class="variable-name">Bajo Peso Al Nacer</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-DesnutricionAguda"></calcite-checkbox>
-                    <div class="variable-name">Desnutrición Aguda</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-TasaOcupacion"></calcite-checkbox>
-                    <div class="variable-name">Tasa De Ocupación</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-IPM"></calcite-checkbox>
-                    <div class="variable-name">IPM - Pobreza Multidimensional</div>
-                </div>
-            </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AcueductoAlcantarillado"></calcite-checkbox>
+        <div class="variable-name">Viviendas con acueducto y alcantarillado</div>
+        <div class="info-icon" data-tooltip="Un mayor número de viviendas con acceso a acueducto y alcantarillado mejora la salud pública y el entorno habitacional, mientras que una baja cobertura implica riesgo sanitario y mayores costos para la población." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-EnergiaElectrica"></calcite-checkbox>
+        <div class="variable-name">Viviendas con energía eléctrica</div>
+        <div class="info-icon" data-tooltip="Un suministro eléctrico confiable impulsa la productividad y mejora la calidad de vida, mientras que la carencia o intermitencia del servicio limita el desarrollo económico del territorio." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Gas"></calcite-checkbox>
+        <div class="variable-name">Viviendas con gas domiciliario</div>
+        <div class="info-icon" data-tooltip="La cobertura de gas domiciliario aporta una fuente de energía limpia y reduce los riesgos en el entorno doméstico, mientras que su ausencia incrementa la vulnerabilidad energética del territorio." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Internet"></calcite-checkbox>
+        <div class="variable-name">Viviendas con acceso a internet</div>
+        <div class="info-icon" data-tooltip="Una buena conectividad a internet mejora el acceso a educación, servicios y oportunidades productivas, mientras que una conectividad deficiente limita la inclusión digital y el desarrollo local." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AmenazaDeslizamiento"></calcite-checkbox>
+        <div class="variable-name">Amenaza por deslizamiento de tierras</div>
+        <div class="info-icon" data-tooltip="Una alta frecuencia de alertas geológicas se asocia con mayor riesgo físico y mayores costos de mitigación, mientras que una baja frecuencia sugiere condiciones de terreno más estables." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AlertasHidrologicas"></calcite-checkbox>
+        <div class="variable-name">Amenaza por fenomenos hidrologicos</div>
+        <div class="info-icon" data-tooltip="Una alta recurrencia de inundaciones amenaza la infraestructura y la continuidad operativa, mientras que una baja recurrencia indica un riesgo hidrologico moderado." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-AlertasIncendios"></calcite-checkbox>
+        <div class="variable-name">Amenaza de incendios en cobertura vegetal</div>
+        <div class="info-icon" data-tooltip="Una alta cantidad de alertas por incendios forestales revela vulnerabilidad ambiental en el territorio, mientras que una baja ocurrencia sugiere ecosistemas menos propensos a incendios." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-Alfabetismo"></calcite-checkbox>
+        <div class="variable-name">Alfabetismo</div>
+        <div class="info-icon" data-tooltip="Un mayor nivel de alfabetismo fortalece el capital humano y favorece el éxito de los proyectos, mientras que un nivel bajo limita la adopción tecnológica y reduce el crecimiento social y economico de la población." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-NivelEducacion"></calcite-checkbox>
+        <div class="variable-name">Asistencia escolar</div>
+        <div class="info-icon" data-tooltip="Una alta asistencia escolar refleja compromiso social con las nuevas generaciones, mientras que una baja asistencia indica la presencia de barreras de acceso a la educación en el territorio." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-BajoPesoNacer"></calcite-checkbox>
+        <div class="variable-name">Tasa de bajo peso al nacer</div>
+        <div class="info-icon" data-tooltip="Una tasa elevada señala deficiencias nutricionales y riesgos para la salud infantil, mientras que una tasa baja denota condiciones sanitarias más favorables." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-DesnutricionAguda"></calcite-checkbox>
+        <div class="variable-name">Tasa de desnutrición aguda</div>
+        <div class="info-icon" data-tooltip="Una alta tasa de desnutrición evidencia una situación crítica en materia de seguridad alimentaria, mientras que una baja tasa indica una población con mejores condiciones nutricionales." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-TasaOcupacion"></calcite-checkbox>
+        <div class="variable-name">Tasa de desempleo</div>
+        <div class="info-icon" data-tooltip="Una alta tasa de desempleo refleja fragilidad económica y menor capacidad de ingreso para la población, mientras que una baja tasa impulsa el desarrollo economico y aporta a la estabilidad territorial." data-dimension="desarrollo">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox desarrollo-variable" id="desarrollo-IPM"></calcite-checkbox>
+        <div class="variable-name">Indice de pobreza multidimensional</div>
+        <div class="info-icon" data-tooltip="Un  IPM alto revela múltiples carencias estructurales en el territorio, mientras que un IPM bajo evidencia mejores condiciones de bienestar y calidad de vida." data-dimension="desarrollo">ℹ</div>
+    </div>
+</div>
 
-            <!-- DIMENSIÓN GOBERNABILIDAD -->
-            <div class="dimension-container">
-                <div class="dimension-header">
-                    <span class="dimension-name">GOBERNABILIDAD</span>
-                </div>
-                <div class="dimension-control">
-                    <calcite-checkbox class="dimension-checkbox" id="gobernabilidad-all"></calcite-checkbox>
-                    <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
-                </div>
+<!-- DIMENSIÓN GOBERNABILIDAD -->
+<div class="dimension-container">
+    <div class="dimension-header">
+        <span class="dimension-name">GOBERNABILIDAD</span>
+    </div>
+    <div class="dimension-control">
+        <calcite-checkbox class="dimension-checkbox" id="gobernabilidad-all"></calcite-checkbox>
+        <div class="dimension-control-label">Seleccionar Todo / Ninguno</div>
+    </div>
 
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesSalud"></calcite-checkbox>
-                    <div class="variable-name">Instituciones De Salud</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesEducativas"></calcite-checkbox>
-                    <div class="variable-name">Instituciones Educativas</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-CensoPoblacional"></calcite-checkbox>
-                    <div class="variable-name">Censo Poblacional</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ComunidadesNegras"></calcite-checkbox>
-                    <div class="variable-name">Comunidades Negras</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ReservasIndigenas"></calcite-checkbox>
-                    <div class="variable-name">Reservas Indígenas</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-AreasProtegidas"></calcite-checkbox>
-                    <div class="variable-name">Áreas Protegidas</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-DesarrolloTuristico"></calcite-checkbox>
-                    <div class="variable-name">Desarrollo Turístico (Prestadores Servicios Formales)</div>
-                </div>
-                <div class="variable-item">
-                    <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-Hoteles"></calcite-checkbox>
-                    <div class="variable-name">Hoteles</div>
-                </div>
-            </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesSalud"></calcite-checkbox>
+        <div class="variable-name">Instituciones de salud</div>
+        <div class="info-icon" data-tooltip="Un mayor numero de centros de salud mejoran el acceso para la población en temas medicos, mientras que una baja disponibilidad de incrementa el riesgo por situaciones de salud no tratadas." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-InstitucionesEducativas"></calcite-checkbox>
+        <div class="variable-name">Instituciones educativas</div>
+        <div class="info-icon" data-tooltip="Una amplia oferta educativa fomenta el desarrollo del capital humano y fortalece la cohesión social, mientras que su escasez obstaculiza el desarrollo del territorio." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-CensoPoblacional"></calcite-checkbox>
+        <div class="variable-name">Población total</div>
+        <div class="info-icon" data-tooltip="Una mayor población puede representar un entorno dinámico con mayor demanda de servicios y oferta laboral, mientras que una población muy baja puede limitar el desarrollo territorial y la viabilidad de inversiones." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ComunidadesNegras"></calcite-checkbox>
+        <div class="variable-name">Territorios colectivos de comunidades negras</div>
+        <div class="info-icon" data-tooltip="La existencia de TCCN fortalecen los derechos colectivos y la gobernanza étnica, mientras que una baja protección territorial refleja un déficit en inclusión y reconocimiento institucional." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-ReservasIndigenas"></calcite-checkbox>
+        <div class="variable-name">Reservas indigenas</div>
+        <div class="info-icon" data-tooltip="La existencia de reservas indigenas respaldan la autonomía cultural y derechos territoriales, mentras que la ausencia de reservas en territorios en disputa se asocian a conflictos por la tierra." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-AreasProtegidas"></calcite-checkbox>
+        <div class="variable-name">Áreas protegidas</div>
+        <div class="info-icon" data-tooltip="Una mayor extensión de áreas protegidas contribuye a la preservación de ecosistemas vitales y fomenta el turismo sostenible, mientras que una baja cobertura incrementa el riesgo de degradación ambiental." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-DesarrolloTuristico"></calcite-checkbox>
+        <div class="variable-name">Prestadores turísticos</div>
+        <div class="info-icon" data-tooltip="Una alta presencia de prestadores turísticos dinamiza la economía local y promueve el empleo, mientras que su escasez limita la diversificación y el crecimiento de la región." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+    <div class="variable-item">
+        <calcite-checkbox class="variable-checkbox gobernabilidad-variable" id="gobernabilidad-Hoteles"></calcite-checkbox>
+        <div class="variable-name">Hoteles</div>
+        <div class="info-icon" data-tooltip="La presencia de múltiples hoteles incrementa la capacidad de alojamiento y fortalece la confianza inversionista, mientras que una oferta limitada restringe el flujo turístico y las oportunidades de desarrollo." data-dimension="gobernabilidad">ℹ</div>
+    </div>
+</div>
 
-           
+
             
+
             <div class="panel-footer" style="display: none;">
                 <calcite-button onclick="window.showSelectionStats?.()" appearance="outline" color="blue">VER ESTADÍSTICAS</calcite-button>
                 <calcite-button onclick="window.getServiceInfo?.()" appearance="outline" color="neutral">INFO SERVICIO</calcite-button>
@@ -267,6 +307,8 @@
 
     <script src="script.js"></script>
     <script src="layer-connections.js"></script>
+    <script src="variable-scale-config.js"></script>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -358,8 +400,144 @@
             }, 500);
         });
 
-        console.log("🚀 HORIZONTE 2.0 - Interfaz inicializada con sistema de respaldo automático");
+        // Sistema de tooltips mejorado con barras de simbología
+        const infoIcons = document.querySelectorAll('.info-icon');
+        const tooltip = document.createElement('div');
+        const tooltipArrow = document.createElement('div');
+        
+        tooltip.className = 'custom-tooltip';
+        tooltipArrow.className = 'custom-tooltip-arrow';
+        
+        document.body.appendChild(tooltip);
+        document.body.appendChild(tooltipArrow);
+        
+        // Función para obtener el ID de la variable desde el checkbox más cercano
+        function getVariableId(infoIcon) {
+            const variableItem = infoIcon.closest('.variable-item');
+            if (variableItem) {
+                const checkbox = variableItem.querySelector('.variable-checkbox');
+                if (checkbox) {
+                    return checkbox.id;
+                }
+            }
+            return null;
+}
+        
+        // Función para crear el contenido del tooltip con barra de simbología
+        function createTooltipContent(text, dimension, variableId) {
+            const isSecurityDimension = dimension === 'seguridad';
+            const isInvertedScale = window.variableScaleConfig ? 
+                window.variableScaleConfig.tieneEscalaInvertida(variableId) : 
+                false;
+            
+            // Determinar qué barra de color usar
+            let barClass;
+            let leftLabel, rightLabel, leftValue, rightValue;
+            
+            if (isInvertedScale) {
+                // Variables con escala invertida SIEMPRE usan barra amarillo-verde
+                barClass = 'development';
+                leftLabel = 'BAJO';
+                rightLabel = 'ALTO';
+                leftValue = '(NEGATIVO)';
+                rightValue = '(POSITIVO)';
+            } else {
+                // Variables normales usan la barra según su dimensión
+                if (isSecurityDimension) {
+                    barClass = 'security';
+                    leftLabel = 'BAJO';
+                    rightLabel = 'ALTO';
+                    leftValue = '(POSITIVO)';
+                    rightValue = '(NEGATIVO)';
+                } else {
+                    // Para desarrollo y gobernabilidad normales
+                    barClass = 'security'; // Usan barra rojo-amarillo
+                    leftLabel = 'ALTO';
+                    rightLabel = 'BAJO';
+                    leftValue = '(NEGATIVO)';
+                    rightValue = '(POSITIVO)';
+                }
+            }
+            
+            return `
+                <div>${text}</div>
+                <div class="tooltip-symbology">
+                    <div class="symbology-label">INTERPRETACIÓN DE VALORES</div>
+                    <div class="symbology-bar ${barClass}">
+                        <div class="symbology-indicator"></div>
+                    </div>
+                    <div class="symbology-labels">
+                        <span>${leftLabel} <small>${leftValue}</small></span>
+                        <span>${rightLabel} <small>${rightValue}</small></span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        infoIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', function(e) {
+                const rect = icon.getBoundingClientRect();
+                const tooltipText = icon.getAttribute('data-tooltip');
+                const dimension = icon.getAttribute('data-dimension');
+                
+                const variableId = getVariableId(icon);
+                tooltip.innerHTML = createTooltipContent(tooltipText, dimension, variableId);
+                tooltip.style.opacity = '0';
+                tooltip.style.visibility = 'visible';
+                
+                // Calcular posición
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                let left = rect.right + 10;
+                let top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
+                
+                // Verificar si se sale por la derecha
+                if (left + tooltipRect.width > windowWidth - 20) {
+                    left = rect.left - tooltipRect.width - 10;
+                    tooltipArrow.style.borderRightColor = 'transparent';
+                    tooltipArrow.style.borderLeftColor = '#517f35';
+                    tooltipArrow.style.left = (left + tooltipRect.width + 4) + 'px';
+                } else {
+                    tooltipArrow.style.borderLeftColor = 'transparent';
+                    tooltipArrow.style.borderRightColor = '#517f35';
+                    tooltipArrow.style.left = (left - 6) + 'px';
+                }
+                
+                // Verificar si se sale por abajo
+                if (top + tooltipRect.height > windowHeight - 20) {
+                    top = windowHeight - tooltipRect.height - 20;
+                }
+                
+                // Verificar si se sale por arriba
+                if (top < 20) {
+                    top = 20;
+                }
+                
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+                tooltipArrow.style.top = (rect.top + rect.height / 2 - 6) + 'px';
+                
+                // Mostrar con animación
+                setTimeout(() => {
+                    tooltip.style.opacity = '1';
+                    tooltipArrow.style.opacity = '1';
+                    tooltipArrow.style.visibility = 'visible';
+                }, 10);
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                tooltip.style.opacity = '0';
+                tooltip.style.visibility = 'hidden';
+                tooltipArrow.style.opacity = '0';
+                tooltipArrow.style.visibility = 'hidden';
+            });
+        });
+
+        console.log("🚀 HORIZONTE 2.0 - Interfaz inicializada con barras de simbología");
     });
     </script>
+
 </body>
 </html>

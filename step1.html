@@ -160,9 +160,9 @@ En HORIZONTE, el equipo multidisciplinar debe diseñar en la Sierra Nevada de Sa
                         <div class="dimension-bar-container">
                             <div class="bar-label">Seguridad</div>
                             <div class="bar-outer">
-                                <div class="bar-inner" data-value="75.94"></div>
+                                <div class="bar-inner" data-value="24.06"></div>
                             </div>
-                            <div class="bar-value">75.94%</div>
+                            <div class="bar-value">24.06%</div>
                         </div>
                         <div class="dimension-bar-container">
                             <div class="bar-label">Desarrollo</div>
@@ -446,7 +446,7 @@ Aquí se muestran las variables clave de cada dimensión —Seguridad, Desarroll
                 });
 
                 // Calcular y actualizar expectativa de vida dinámicamente
-                const segValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(1) .bar-inner')?.getAttribute('data-value') ?? 0);
+                const segValue = 100-parseFloat(document.querySelector('.dimension-bar-container:nth-child(1) .bar-inner')?.getAttribute('data-value') ?? 0);
                 const desValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(2) .bar-inner')?.getAttribute('data-value') ?? 0);
                 const gobValue = parseFloat(document.querySelector('.dimension-bar-container:nth-child(3) .bar-inner')?.getAttribute('data-value') ?? 0);
 
@@ -457,8 +457,8 @@ Aquí se muestran las variables clave de cada dimensión —Seguridad, Desarroll
 
                 const indiceCompuesto = (segValue * pesoSeg) + (desValue * pesoDes) + (gobValue * pesoGob);
 
-                const expectativaVidaMin = 60; // Valor mínimo
-                const expectativaVidaMax = 85; // Valor máximo teórico al 100% del índice
+                const expectativaVidaMin = 62; // Valor mínimo
+                const expectativaVidaMax = 84; // Valor máximo teórico al 100% del índice
                 const expectativaVidaCalculada = expectativaVidaMin + (expectativaVidaMax - expectativaVidaMin) * (indiceCompuesto / 100);
 
                 const evContainer = document.querySelector('.dimension-bar-container.total-index');

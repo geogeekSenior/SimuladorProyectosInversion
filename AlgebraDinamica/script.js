@@ -1,6 +1,7 @@
 /**
  * script.js - Lógica principal para HORIZONTE 2.0
  * Simulador de Inversiones Estratégicas - Con RasterFunction y servicio único
+ * Versión con rampa de colores diferenciada para Seguridad y variables con escala invertida
  */
 
 // URLs del servicio de imagen (principal y respaldo)
@@ -16,52 +17,55 @@ let currentImageServiceURL = null;
 // Mapeo de variables a bandas y sus pesos GLOBALES (ya normalizados)
 const bandasConfig = {
     desarrollo: {
-        'Tasa De Ocupación': { banda: 1, peso: 0.0125 },
-        'IPM - Pobreza Multidimensional': { banda: 2, peso: 0.025 },
-        'Alfabetismo': { banda: 3, peso: 0.025 },
-        'Bajo Peso Al Nacer': { banda: 4, peso: 0.0375 },
-        'Desnutrición Aguda': { banda: 5, peso: 0.0075 },
-        'Nivel De Educación': { banda: 6, peso: 0.0175 },
-        'Acueducto Y Alcantarillado': { banda: 7, peso: 0.0225 },
-        'Energía Eléctrica': { banda: 8, peso: 0.0375 },
-        'Gas': { banda: 9, peso: 0.0075 },
-        'Internet': { banda: 10, peso: 0.0075 },
-        'Amenaza Por Deslizamiento De Tierras': { banda: 11, peso: 0.02 },
-        'Alertas Por Amenazas Hidrológicas': { banda: 12, peso: 0.0125 },
-        'Alertas Por Incendios Vegetales': { banda: 13, peso: 0.0175 }
+        'Tasa de desempleo':                         { banda: 1,  peso: 0.0125 },
+        'Indice de pobreza multidimensional':        { banda: 2,  peso: 0.025  },
+        'Alfabetismo':                               { banda: 3,  peso: 0.025  },
+        'Tasa de bajo peso al nacer':                { banda: 4,  peso: 0.0375 },
+        'Tasa de desnutrición aguda':                { banda: 5,  peso: 0.0075 },
+        'Asistencia escolar':                        { banda: 6,  peso: 0.0175 },
+        'Viviendas con acueducto y alcantarillado':  { banda: 7,  peso: 0.0225 },
+        'Viviendas con energía eléctrica':           { banda: 8,  peso: 0.0375 },
+        'Viviendas con gas domiciliario':            { banda: 9,  peso: 0.0075 },
+        'Viviendas con acceso a internet':           { banda: 10, peso: 0.0075 },
+        'Amenaza por deslizamiento de tierras':      { banda: 11, peso: 0.02   },
+        'Amenaza por fenomenos hidrologicos':        { banda: 12, peso: 0.0125 },
+        'Amenaza de incendios en cobertura vegetal': { banda: 13, peso: 0.0175 }
     },
+
     gobernabilidad: {
-        'Instituciones Educativas': { banda: 14, peso: 0.045 },
-        'Instituciones De Salud': { banda: 15, peso: 0.06 },
-        'Hoteles': { banda: 16, peso: 0.03 },
-        'Desarrollo Turístico (Prestadores Servicios Formales)': { banda: 17, peso: 0.045 },
-        'Censo Poblacional': { banda: 18, peso: 0.045 },
-        'Comunidades Negras': { banda: 19, peso: 0.03 },
-        'Reservas Indígenas': { banda: 20, peso: 0.03 },
-        'Áreas Protegidas': { banda: 21, peso: 0.015 }
+        'Instituciones educativas':                              { banda: 14, peso: 0.045 },
+        'Instituciones de salud':                                { banda: 15, peso: 0.06  },
+        'Hoteles':                                               { banda: 16, peso: 0.03  },
+        'Prestadores turísticos':                                { banda: 17, peso: 0.045 },
+        'Población total':                                       { banda: 18, peso: 0.045 },
+        'Territorios colectivos de comunidades negras':          { banda: 19, peso: 0.03  },
+        'Reservas indigenas':                                    { banda: 20, peso: 0.03  },
+        'Áreas protegidas':                                      { banda: 21, peso: 0.015 }
     },
+
     seguridad: {
-        'Abigeato': { banda: 22, peso: 0.009 },
-        'Delitos Sexuales': { banda: 23, peso: 0.036 },
-        'Estaciones De Policía': { banda: 24, peso: 0.0225 },
-        'Extorsión Y Secuestro': { banda: 25, peso: 0.045 },
-        'Capturas En Minería Ilegal': { banda: 26, peso: 0.009 },
-        'Grupos Armados Organizados': { banda: 27, peso: 0.0225 },
-        'Incautación De Armas De Fuego': { banda: 28, peso: 0.0135 },
-        'Incautación Base De Coca': { banda: 29, peso: 0.018 },
-        'Incautación Basuco': { banda: 30, peso: 0.009 },
-        'Incautación Cocaína': { banda: 31, peso: 0.018 },
-        'Minas Antipersona': { banda: 32, peso: 0.0135 },
-        'Minas Intervenidas': { banda: 33, peso: 0.0135 },
-        'Presencia De Áreas Base': { banda: 34, peso: 0.018 },
-        'Violencia Terrorista (Atentados)': { banda: 35, peso: 0.045 },
-        'Migración Irregular Y Tráfico De Migrantes': { banda: 36, peso: 0.0225 },
-        'Homicidios': { banda: 37, peso: 0.0675 },
-        'Homicidios Por Accidente De Tránsito': { banda: 38, peso: 0.0225 },
-        'Lesiones Personales': { banda: 39, peso: 0.0225 },
-        'Lesiones Por Accidentes De Tránsito': { banda: 40, peso: 0.0225 }
+        'Casos de abigeato':                                           { banda: 22, peso: 0.009  },
+        'Casos relacionados con delitos sexuales':                     { banda: 23, peso: 0.036  },
+        'Estaciones de policía':                                       { banda: 24, peso: 0.0225 },
+        'Casos de extorsión y secuestro':                              { banda: 25, peso: 0.045  },
+        'Capturas relacionadas con actividades en minería ilegal':     { banda: 26, peso: 0.009  },
+        'Índice GAO – guerrilla':                                      { banda: 27, peso: 0.0225 },
+        'Incautaciones de armas de fuego':                             { banda: 28, peso: 0.0135 },
+        'Incautaciones de base de coca':                               { banda: 29, peso: 0.018  },
+        'Incautaciones de basuco':                                     { banda: 30, peso: 0.009  },
+        'Incautaciones de cocaína':                                    { banda: 31, peso: 0.018  },
+        'Presencia de minas antipersona por Ha':                       { banda: 32, peso: 0.0135 },
+        'Minas antipersona intervenidas':                              { banda: 33, peso: 0.0135 },
+        'Índice – ejército (áreas base)':                          { banda: 34, peso: 0.018  },
+        'Atentados terroristas':                                       { banda: 35, peso: 0.045  },
+        'Migración irregular y trafico de migrantes':                  { banda: 36, peso: 0.0225 },
+        'Homicidios':                                                 { banda: 37, peso: 0.0675 },
+        'Homicidios ocurridos por accidentes de tránsito':             { banda: 38, peso: 0.0225 },
+        'Casos relacionados con lesiones personales':                  { banda: 39, peso: 0.0225 },
+        'Casos relacionados con lesiones por accidentes de tránsito':  { banda: 40, peso: 0.0225 }
     }
 };
+
 
 // Los pesos ya están normalizados globalmente en bandasConfig
 // No necesitamos pesos adicionales por dimensión
@@ -198,20 +202,73 @@ document.addEventListener('DOMContentLoaded', function() {
             return imageryLayer;
         }
 
-        // Crear rampa de colores rojo → verde
-        const hexSteps = [
-            "#a50026", "#d73027", "#f46d43", "#fdae61", "#fee08b",
-            "#d9ef8b", "#a6d96a", "#66bd63", "#1a9850", "#006837"
-        ];
+        // Crear rampa de colores rojo → verde (para combinaciones mixtas)
+        // Con centro más amarillo-naranja
+        const hexStepsRG = [
+    "#a50026", // rojo oscuro
+    "#c43c39", // rojo medio
+    "#d73027", // rojo intenso
+    "#e34f2e", // rojo anaranjado
+    "#f46d43", // naranja fuerte
+    "#fb8d59", // naranja claro
+    "#fdae61", // durazno
+    "#fec980", // amarillo anaranjado
+    "#fee08b", // amarillo pálido
+    "#c4d96b", // amarillo verdoso
+    "#84bf5c", // verde medio
+    "#4fa34d", // verde oscuro medio
+    "#006837"  // verde profundo
+];
 
-        const ramps = hexSteps.slice(0, -1).map((c, i) =>
+        const rampsRG = hexStepsRG.slice(0, -1).map((c, i) =>
             new AlgorithmicColorRamp({
                 fromColor: new Color(c),
-                toColor: new Color(hexSteps[i + 1])
+                toColor: new Color(hexStepsRG[i + 1])
             })
         );
 
-        const colorRampRG = new MultipartColorRamp({ colorRamps: ramps });
+        const colorRampRG = new MultipartColorRamp({ colorRamps: rampsRG });
+
+        // Crear rampa de colores rojo → amarillo (para variables negativas/desfavorables)
+        const hexStepsRY = [
+            "#a50026", "#c43c39", "#d73027", "#e34f2e", "#f46d43",
+            "#fb8d59", "#fdae61", "#fec980", "#fee08b", "#fee08b"
+        ];
+
+        const rampsRY = hexStepsRY.slice(0, -1).map((c, i) =>
+            new AlgorithmicColorRamp({
+                fromColor: new Color(c),
+                toColor: new Color(hexStepsRY[i + 1])
+            })
+        );
+
+        const colorRampRY = new MultipartColorRamp({ colorRamps: rampsRY });
+
+        // Crear rampa de colores amarillo → verde (para variables positivas/favorables - escala invertida)
+        const hexStepsYG =  [
+    "#fee08b", // amarillo pálido
+    "#f1d56e", // amarillo dorado
+    "#c4d96b", // amarillo verdoso (puente hacia verde)
+    "#c4d96b", // verde lima
+    "#84bf5c", // verde medio
+    "#66b255", // verde más saturado
+    "#4fa34d", // verde oscuro medio
+    "#388f45", // verde selva
+    "#217a3c", // verde intenso
+    "#006837"  // verde oscuro profundo
+];
+
+
+        const rampsYG = hexStepsYG.slice(0, -1).map((c, i) =>
+            new AlgorithmicColorRamp({
+                fromColor: new Color(c),
+                toColor: new Color(hexStepsYG[i + 1])
+            })
+        );
+
+        const colorRampYG = new MultipartColorRamp({ colorRamps: rampsYG });
+
+
 
         // Función principal para aplicar la combinación ponderada
         function applyWeightedCombination() {
@@ -225,6 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const selectedBands = [];
             let totalWeight = 0;
+            const dimensionsActive = new Set();
 
             // Recopilar bandas seleccionadas por dimensión
             ['seguridad', 'desarrollo', 'gobernabilidad'].forEach(dimensionId => {
@@ -244,6 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 dimension: dimensionId
                             });
                             totalWeight += config.peso;
+                            dimensionsActive.add(dimensionId);
                         }
                     }
                 });
@@ -256,6 +315,86 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // NOTA: Con la arquitectura actual de una sola capa y RasterFunction,
+            // no es posible aplicar diferentes rampas de color a diferentes bandas
+            // dentro de la misma operación. Para lograr ese efecto se necesitaría:
+            // 1. Múltiples ImageryLayers (una por dimensión) con blend modes
+            // 2. O usar un enfoque RGB composite donde cada dimensión = un canal
+            
+            // Por ahora, usamos rampas diferenciadas según el tipo de variables seleccionadas:
+            // - Amarillo → Verde: Variables donde "más es mejor" (escala invertida)
+            // - Rojo → Amarillo: Variables donde "más es peor" (escala normal)
+            // - Rojo → Verde: Mezcla de ambos tipos de variables
+
+            // Analizar si hay variables con escala invertida seleccionadas
+            let hasInvertedVariables = false;
+            let hasNormalVariables = false;
+            
+            selectedBands.forEach(band => {
+                // Buscar el checkbox correspondiente para obtener su ID exacto
+                const checkboxes = document.querySelectorAll(`.${band.dimension}-variable`);
+                let variableId = null;
+                
+                checkboxes.forEach(checkbox => {
+                    const labelText = checkbox.nextElementSibling?.textContent.trim();
+                    if (labelText === band.variable) {
+                        variableId = checkbox.id;
+                    }
+                });
+                
+                if (variableId && window.variableScaleConfig && window.variableScaleConfig.tieneEscalaInvertida(variableId)) {
+                    hasInvertedVariables = true;
+                } else {
+                    hasNormalVariables = true;
+                }
+            });
+
+            // Determinar qué rampa de colores usar basado en las dimensiones activas y tipos de escala
+            let selectedColorRamp;
+            let rampDescription;
+            
+            if (dimensionsActive.size === 1) {
+                // Solo una dimensión activa
+                if (dimensionsActive.has('seguridad')) {
+                    // Para seguridad, verificar si todas las variables son invertidas
+                    if (hasInvertedVariables && !hasNormalVariables) {
+                        selectedColorRamp = colorRampYG;
+                        rampDescription = "Amarillo → Verde (Variables de Seguridad Positivas)";
+                    } else {
+                        selectedColorRamp = colorRampRY;
+                        rampDescription = "Rojo → Amarillo (Seguridad)";
+                    }
+                } else {
+                    // Desarrollo o Gobernabilidad
+                    if (hasInvertedVariables && !hasNormalVariables) {
+                        selectedColorRamp = colorRampYG;
+                        rampDescription = "Amarillo → Verde (Variables Positivas)";
+                    } else if (!hasInvertedVariables && hasNormalVariables) {
+                        selectedColorRamp = colorRampRY;
+                        rampDescription = "Rojo → Amarillo (Variables Negativas)";
+                    } else {
+                        // Mezcla de variables - usar rampa completa
+                        selectedColorRamp = colorRampRG;
+                        rampDescription = "Rojo → Verde (Variables Mixtas)";
+                    }
+                }
+            } else {
+                // Múltiples dimensiones
+                if (hasInvertedVariables && hasNormalVariables) {
+                    // Mezcla de tipos - usar rampa completa
+                    selectedColorRamp = colorRampRG;
+                    rampDescription = "Rojo → Verde (Análisis Multidimensional Mixto)";
+                } else if (hasInvertedVariables && !hasNormalVariables) {
+                    // Solo variables invertidas
+                    selectedColorRamp = colorRampYG;
+                    rampDescription = "Amarillo → Verde (Variables Positivas Multidimensionales)";
+                } else {
+                    // Solo variables normales
+                    selectedColorRamp = colorRampRY;
+                    rampDescription = "Rojo → Amarillo (Variables Negativas Multidimensionales)";
+                }
+            }
+
             // Crear expresión BandArithmetic
             const expression = `(${selectedBands
                 .map(s => `(B${s.banda}*${s.peso})`)
@@ -263,6 +402,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log("🧮 Expresión BandArithmetic:", expression);
             console.log("📊 Bandas seleccionadas:", selectedBands.length);
+            console.log("🎨 Rampa de colores:", rampDescription);
+            console.log("📐 Dimensiones activas:", Array.from(dimensionsActive).join(", "));
+            console.log("🔄 Variables invertidas:", hasInvertedVariables ? "Sí" : "No");
+            console.log("📉 Variables normales:", hasNormalVariables ? "Sí" : "No");
             console.log("🌐 Servicio activo:", currentImageServiceURL);
             console.table(selectedBands);
 
@@ -278,20 +421,56 @@ document.addEventListener('DOMContentLoaded', function() {
                     outputPixelType: "F32"
                 });
 
-                // Aplicar función y renderer
+                // Aplicar función y renderer con la rampa de colores apropiada
                 imageryLayer.rasterFunction = rasterFn;
                 imageryLayer.renderer = new RasterStretchRenderer({
                     stretchType: "standard-deviation",
                     numberOfStandardDeviations: 3,
                     dynamicRangeAdjustment: true,
-                    colorRamp: colorRampRG
+                    colorRamp: selectedColorRamp
                 });
 
                 imageryLayer.visible = true;
                 imageryLayer.refresh();
 
                 const serviceType = currentImageServiceURL === imageServiceURLs.primary ? "principal" : "respaldo";
-                showStatus(`Visualizando combinación de ${selectedBands.length} variables (Servicio ${serviceType})`, 'success');
+                let visualizationType = "";
+                
+                if (dimensionsActive.size === 1) {
+                    if (dimensionsActive.has('seguridad')) {
+                        if (hasInvertedVariables && !hasNormalVariables) {
+                            visualizationType = " (Factores Positivos de Seguridad)";
+                        } else {
+                            visualizationType = " (Riesgo de Seguridad)";
+                        }
+                    } else if (dimensionsActive.has('desarrollo')) {
+                        if (hasInvertedVariables && !hasNormalVariables) {
+                            visualizationType = " (Fortalezas de Desarrollo)";
+                        } else if (!hasInvertedVariables && hasNormalVariables) {
+                            visualizationType = " (Vulnerabilidades de Desarrollo)";
+                        } else {
+                            visualizationType = " (Condiciones Mixtas de Desarrollo)";
+                        }
+                    } else if (dimensionsActive.has('gobernabilidad')) {
+                        if (hasInvertedVariables && !hasNormalVariables) {
+                            visualizationType = " (Capacidad Institucional)";
+                        } else if (!hasInvertedVariables && hasNormalVariables) {
+                            visualizationType = " (Déficit Institucional)";
+                        } else {
+                            visualizationType = " (Análisis Institucional Mixto)";
+                        }
+                    }
+                } else {
+                    if (hasInvertedVariables && !hasNormalVariables) {
+                        visualizationType = " (Factores Favorables)";
+                    } else if (!hasInvertedVariables && hasNormalVariables) {
+                        visualizationType = " (Factores Desfavorables)";
+                    } else {
+                        visualizationType = " (Análisis Integral)";
+                    }
+                }
+                
+                showStatus(`Visualizando combinación de ${selectedBands.length} variables (Servicio ${serviceType})${visualizationType}`, 'success');
                 
             } catch (error) {
                 console.error("Error aplicando RasterFunction:", error);

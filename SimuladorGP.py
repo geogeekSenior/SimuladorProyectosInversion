@@ -18,9 +18,9 @@ arcpy.env.addOutputsToMap = False     # no capas automáticas
 
 # Rásters base (0-100)
 rasters_base = {
-    "SEGURIDAD":      r"C:/Users/Sebastian/Documents/ArcGIS/Projects/CIDENAL/CIDENAL.gdb/Score_Seguridad",
-    "GOBERNABILIDAD": r"C:/Users/Sebastian/Documents/ArcGIS/Projects/CIDENAL/CIDENAL.gdb/Score_Gobernabilidad",
-    "DESARROLLO":     r"C:/Users/Sebastian/Documents/ArcGIS/Projects/CIDENAL/CIDENAL.gdb/Score_Desarrollo",
+    "SEGURIDAD":      r"C:/Users/Sebastian/Documents/ArcGIS/Projects/HORIZONTE/DatosCidenal/Scoresv2.gdb/Score_Seguridad",
+    "GOBERNABILIDAD": r"C:/Users/Sebastian/Documents/ArcGIS/Projects/HORIZONTE/DatosCidenal/Scoresv2.gdb/Score_Gobernabilidad",
+    "DESARROLLO":     r"C:/Users/Sebastian/Documents/ArcGIS/Projects/HORIZONTE/DatosCidenal/Scoresv2.gdb/Score_Desarrollo",
 }
 
 # Raster de penalización (1 = normal; 2 = parque)
@@ -181,9 +181,9 @@ def script_tool(atributos_json_str, geometrias_json_str):
                                       "TEXT" if length else "DOUBLE",
                                       field_length=length or "")
         teams = {(a["teamName"], a["teamCode"]) for a in atributos}
-        indice_base  = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.3 + medias["DESARROLLO"]*0.25
-        indice = indice_base * 1.07        # +7 % de ajuste
-        vida   = 68 + (85-68)*(indice/100)
+        indice_base  = medias["SEGURIDAD"]*0.45 + medias["GOBERNABILIDAD"]*0.25 + medias["DESARROLLO"]*0.3
+        indice = indice_base      
+        vida   = 62 + (84-62)*(indice/100)
         with arcpy.da.InsertCursor(
             estadisticas_fc,
             ["TEAM_NAME","TEAM_CODE","MEAN_SEGURIDAD","MEAN_GOBERNABILIDAD",
