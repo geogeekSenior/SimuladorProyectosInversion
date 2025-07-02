@@ -366,7 +366,7 @@ if __name__ == "__main__":
     name_col    = "proyecto"     
     id_col      = "id_proyecto"                
 
-    base_life   = 72.044
+    base_life   = 72.68
     presupuesto = 10_000    
     top_n_count = 20        
     scale_factor= 20       

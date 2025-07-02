@@ -89,42 +89,53 @@
                     </div>
                 </div>
                 
-                <!-- Impacto por dimensión -->
+                <!-- Impacto por dimensión - GRÁFICO RADIAL -->
                 <div class="results-section dimension-impact">
                     <h3 class="section-title">IMPACTO POR DIMENSIÓN</h3>
                     <div class="dimension-impact-container">
-                        <div class="dimension-impact-bars">
-                            <div class="dimension-bar-container">
-                                <div class="bar-label">Seguridad</div>
-                                <div class="bar-outer">
-                                    <div class="bar-inner" id="seguridad-bar" style="width: 0%;"></div>
-                                    <div class="bar-improvement" id="seguridad-improvement" style="width: 0%;"></div>
+                        <div class="radar-chart-container">
+                            <svg id="radarChart" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                                <!-- El gráfico radial se generará dinámicamente aquí -->
+                            </svg>
+                            
+                            <!-- Leyenda del gráfico -->
+                            <div class="radar-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #d0d3d4;"></div>
+                                    <span>Valor Base (Inicial)</span>
                                 </div>
-                                <div class="bar-value"><span id="seguridad-value">0%</span> <span class="improvement" id="seguridad-increase">+0%</span></div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #1a3a6e;"></div>
+                                    <span>Valor Actual (Con Mejoras)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: linear-gradient(90deg, #d0d3d4 50%, #1a3a6e 50%);"></div>
+                                    <span>Incremento</span>
+                                </div>
                             </div>
-                            <div class="dimension-bar-container">
-                                <div class="bar-label">Desarrollo</div>
-                                <div class="bar-outer">
-                                    <div class="bar-inner" id="desarrollo-bar" style="width: 0%;"></div>
-                                    <div class="bar-improvement" id="desarrollo-improvement" style="width: 0%;"></div>
+                            
+                            <!-- Valores detallados -->
+                            <div class="dimension-values">
+                                <div class="dimension-value-item">
+                                    <span class="dimension-name">Seguridad:</span>
+                                    <span class="dimension-current" id="seguridad-value">0%</span>
+                                    <span class="dimension-delta" id="seguridad-increase">+0%</span>
                                 </div>
-                                <div class="bar-value"><span id="desarrollo-value">0%</span> <span class="improvement" id="desarrollo-increase">+0%</span></div>
-                            </div>
-                            <div class="dimension-bar-container">
-                                <div class="bar-label">Gobernabilidad</div>
-                                <div class="bar-outer">
-                                    <div class="bar-inner" id="gobernabilidad-bar" style="width: 0%;"></div>
-                                    <div class="bar-improvement" id="gobernabilidad-improvement" style="width: 0%;"></div>
+                                <div class="dimension-value-item">
+                                    <span class="dimension-name">Desarrollo:</span>
+                                    <span class="dimension-current" id="desarrollo-value">0%</span>
+                                    <span class="dimension-delta" id="desarrollo-increase">+0%</span>
                                 </div>
-                                <div class="bar-value"><span id="gobernabilidad-value">0%</span> <span class="improvement" id="gobernabilidad-increase">+0%</span></div>
-                            </div>
-                            <div class="dimension-bar-container total-index">
-                                <div class="bar-label">Esperanza de Vida</div>
-                                <div class="bar-outer">
-                                    <div class="bar-inner" id="total-bar" style="width: 0%;"></div>
-                                    <div class="bar-improvement" id="total-improvement" style="width: 0%;"></div>
+                                <div class="dimension-value-item">
+                                    <span class="dimension-name">Gobernabilidad:</span>
+                                    <span class="dimension-current" id="gobernabilidad-value">0%</span>
+                                    <span class="dimension-delta" id="gobernabilidad-increase">+0%</span>
                                 </div>
-                                <div class="bar-value"><span id="total-value">0 años</span> <span class="improvement" id="total-increase">+0 años</span></div>
+                                <div class="dimension-value-item total-value">
+                                    <span class="dimension-name">Esperanza de Vida:</span>
+                                    <span class="dimension-current" id="total-value">0 años</span>
+                                    <span class="dimension-delta" id="total-increase">+0 años</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -132,7 +143,6 @@
             </div>
             
             <div class="results-footer">
-
                 <button id="restart-button" class="military-button">REINICIAR SIMULACIÓN</button>
             </div>
         </div>

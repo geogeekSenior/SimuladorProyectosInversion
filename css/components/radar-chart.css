@@ -1,0 +1,454 @@
+/**
+ * radar-chart.css - Estilos para el gráfico radial/araña
+ * Horizonte: Juego de Estrategia
+ */
+
+/* Contenedor principal del gráfico radial */
+.radar-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--primary-color);
+    margin-top: var(--spacing-md);
+}
+
+/* SVG del gráfico radial */
+#radarChart {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Estilos para las líneas del grid */
+.radar-grid-line {
+    stroke: var(--primary-color-dark);
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.3;
+}
+
+/* Líneas principales del grid */
+.radar-axis-line {
+    stroke: var(--primary-color);
+    stroke-width: 2;
+    fill: none;
+    opacity: 0.5;
+}
+
+/* Áreas con transparencia mejorada */
+.radar-area-base {
+    fill: #d0d3d4;
+    stroke: #d0d3d4;
+    stroke-width: 2;
+    opacity: 0.5;
+}
+
+.radar-area-current {
+    fill: #1a3a6e;
+    stroke: #1a3a6e;
+    stroke-width: 3;
+    opacity: 0.6;
+}
+
+/* Líneas de mejora */
+.radar-improvements line {
+    stroke-dasharray: 5, 3;
+    animation: dashMove 1s linear infinite;
+}
+
+/* Puntos del gráfico */
+.radar-point {
+    fill: #d0d3d4;
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.radar-point-current {
+    fill: #1a3a6e;
+    stroke: #ffffff;
+    stroke-width: 2;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.radar-point-current:hover {
+    r: 8;
+    filter: drop-shadow(0 0 10px rgba(26, 58, 110, 0.8));
+}
+
+/* Etiquetas de valores en el gráfico */
+.radar-value-label {
+    font-family: var(--font-monospace);
+    font-size: 12px;
+    font-weight: bold;
+    fill: #78abda; 
+
+}
+
+/* Nota de escala */
+.radar-scale-note {
+    font-family: var(--font-monospace);
+    font-size: 11px;
+    fill: var(--text-color);
+    opacity: 0.7;
+}
+
+/* Etiquetas de dimensiones */
+.radar-label {
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    fill: var(--text-color);
+    text-anchor: middle;
+    text-transform: uppercase;
+}
+
+/* Etiquetas de valores en el grid */
+.radar-grid-label {
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-sm);
+    fill: var(--text-color);
+    opacity: 0.7;
+    text-anchor: middle;
+}
+
+/* Leyenda del gráfico */
+.radar-legend {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-sm);
+    color: var(--text-color);
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--primary-color-dark);
+}
+
+/* Valores detallados de dimensiones */
+.dimension-values {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius-sm);
+}
+
+.dimension-value-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: rgba(26, 58, 110, 0.1);
+    border-left: 3px solid var(--primary-color);
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+    transition: all var(--transition-fast);
+}
+
+.dimension-value-item:hover {
+    background-color: rgba(26, 58, 110, 0.2);
+    transform: translateX(5px);
+}
+
+.dimension-name {
+    font-family: var(--font-monospace);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+    color: var(--text-color);
+    flex: 1;
+}
+
+.dimension-current {
+    font-family: var(--font-monospace);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
+    margin-right: var(--spacing-md);
+}
+
+.dimension-delta {
+    font-family: var(--font-monospace);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);
+    color: #a8afb9;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* Estilo especial para el total */
+.total-value {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--primary-color-dark);
+    background-color: rgba(26, 58, 110, 0.2);
+    border-left-color: var(--accent-color);
+    border-left-width: 4px;
+}
+
+.total-value .dimension-name {
+    font-size: var(--font-size-lg);
+}
+
+.total-value .dimension-current {
+    font-size: var(--font-size-xl);
+    color: var(--accent-color);
+}
+
+.total-value .dimension-delta {
+    font-size: var(--font-size-md);
+    color: var(--accent-color);
+}
+
+/* Animaciones para el gráfico radial */
+@keyframes radarPulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.6; }
+}
+
+@keyframes radarRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes expandArea {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+}
+
+/* Aplicar animaciones */
+.radar-area-current {
+    animation: expandArea 1.5s ease-out forwards, radarPulse 4s ease-in-out infinite;
+    animation-delay: 0.5s;
+    transform-origin: center;
+}
+
+.radar-area-base {
+    animation: expandArea 1s ease-out forwards;
+    transform-origin: center;
+}
+
+.radar-grid-animated {
+    stroke-dasharray: 5, 5;
+    animation: radarRotate 60s linear infinite;
+    transform-origin: center;
+}
+
+/* Animación de entrada para las áreas */
+.radar-area-base,
+.radar-area-current {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: drawPath 2s ease-out forwards, radarPulse 3s ease-in-out infinite;
+}
+
+.radar-area-current {
+    animation-delay: 0.5s;
+}
+
+/* Efecto hover en puntos */
+.radar-point:hover,
+.radar-point-improvement:hover {
+    r: 8;
+    cursor: pointer;
+    filter: drop-shadow(0 0 5px rgba(26, 58, 110, 0.8));
+}
+
+/* Líneas de mejora animadas */
+@keyframes improvementPulse {
+    0%, 100% { 
+        opacity: 0.3;
+        stroke-width: 3;
+    }
+    50% { 
+        opacity: 0.8;
+        stroke-width: 5;
+    }
+}
+
+.radar-improvements line {
+    animation: improvementPulse 2s ease-in-out infinite;
+}
+
+/* Resaltar diferencias al hover sobre el SVG */
+#radarChart:hover .radar-area-base {
+    opacity: 0.3;
+}
+
+#radarChart:hover .radar-area-current {
+    opacity: 0.8;
+}
+
+#radarChart:hover .radar-improvements line {
+    opacity: 1;
+    stroke-width: 6;
+}
+
+/* Tooltip para valores */
+.radar-tooltip {
+    position: absolute;
+    background-color: var(--panel-bg-color);
+    color: var(--text-color);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--primary-color);
+    font-family: var(--font-monospace);
+    font-size: var(--font-size-sm);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: var(--z-index-tooltip);
+}
+
+.radar-tooltip.show {
+    opacity: 1;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    #radarChart {
+        max-width: 400px;
+    }
+    
+    .radar-legend {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: center;
+    }
+    
+    .dimension-value-item {
+        flex-wrap: wrap;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .dimension-name {
+        flex: 1 1 100%;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .dimension-current {
+        margin-right: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    #radarChart {
+        max-width: 300px;
+    }
+    
+    .radar-label {
+        font-size: var(--font-size-sm);
+    }
+    
+    .dimension-values {
+        padding: var(--spacing-sm);
+    }
+    
+    .dimension-value-item {
+        padding: var(--spacing-xs);
+    }
+    
+    .dimension-name,
+    .dimension-current,
+    .dimension-delta {
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* Efecto de líneas animadas estilo militar */
+@keyframes dashMove {
+    to {
+        stroke-dashoffset: -20;
+    }
+}
+
+.radar-axis-animated {
+    stroke-dasharray: 5, 10;
+    animation: dashMove 2s linear infinite;
+}
+
+/* Indicador de cambio */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.dimension-delta.positive {
+    color: #a8afb9;
+    animation: none;
+}
+
+.dimension-delta.negative {
+    color: #AC1C1C;
+}
+
+/* Patrón de fondo para el gráfico */
+.radar-background-pattern {
+    fill: url(#radarPattern);
+    opacity: 0.05;
+}
+
+/* Efecto de resplandor para valores altos */
+.high-value {
+    filter: drop-shadow(0 0 10px rgba(60, 109, 63, 0.6));
+}
+
+.medium-value {
+    filter: drop-shadow(0 0 8px rgba(198, 141, 48, 0.6));
+}
+
+.low-value {
+    filter: drop-shadow(0 0 8px rgba(172, 28, 28, 0.6));
+}
+
+/* Estilo adicional para mejorar la distinción entre áreas */
+.radar-areas {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Efecto de brillo en las mejoras */
+@keyframes shimmer {
+    0% { 
+        filter: brightness(1) drop-shadow(0 0 5px rgba(26, 58, 110, 0.5));
+    }
+    50% { 
+        filter: brightness(1.2) drop-shadow(0 0 15px rgba(26, 58, 110, 0.8));
+    }
+    100% { 
+        filter: brightness(1) drop-shadow(0 0 5px rgba(26, 58, 110, 0.5));
+    }
+}
+
+.radar-point-current {
+    animation: shimmer 3s ease-in-out infinite;
+}

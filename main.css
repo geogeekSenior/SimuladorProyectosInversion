@@ -19,6 +19,7 @@
 @import 'css/components/geoproceso.css';   
 @import 'css/components/fullscreen.css';       /* Sistema de pestañas - NUEVO */
 @import 'css/components/panel.css';       /* Sistema de pestañas - NUEVO */
+@import 'css/components/radar-chart.css';    /* Gráfico radial/araña - NUEVO */
 
 /* @import 'css/components/tables.css'; */    /* Tablas - Comentado por falta de archivo */
 /* @import 'css/components/forms.css'; */     /* Formularios - Comentado por falta de archivo */

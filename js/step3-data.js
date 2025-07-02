@@ -1,16 +1,19 @@
 /**
- * step3-data.js - Script para cargar datos dinámicos en la evaluación del Ciclo 1
+ * step3-data.js - Script para evaluación de impacto del Ciclo 1
  * Horizonte: Juego de Estrategia
- * VERSIÓN CORREGIDA - Sin divisiones, valores tal como vienen de las fuentes
+ * VERSIÓN CON GRÁFICO RADIAL
  */
 
-// Valores de línea base (valores iniciales antes de las intervenciones) - TAL COMO ESTABAN ORIGINALMENTE
+// Valores de línea base para los indicadores
 const baselineValues = {
-    seguridad: 24.06,    // Valores iniciales tal como estaban
+    seguridad: 75.94,          // Valor invertido de seguridad para cálculos internos
+    seguridadInvertida: 24.06, // Valor real de seguridad (menor es mejor)
     desarrollo: 47.9488,
     gobernabilidad: 7.9171,
-    total: 48.53844       // Total calculado original
+    total: 48.53844            // Índice PEMSITIM calculado con pesos ponderados
 };
+
+const baselineSeguridad = baselineValues ? baselineValues.seguridad : 24.06;
 
 // Configuración para evaluación de impacto
 const impactConfig = {
@@ -19,7 +22,6 @@ const impactConfig = {
         medio: { min: 30, max: 60, color: "#C68D30", text: "MEDIO" },
         alto: { min: 60, color: "#3c6d3f", text: "ALTO" }
     },
-    // Mapa de ubicación para mostrar en la tabla
     municipios: {
         1: "Quibdó",
         2: "Istmina",
@@ -30,7 +32,6 @@ const impactConfig = {
         7: "Bojayá",
         8: "Carmen de Atrato"
     },
-    // Configuración para cálculo de expectativa de vida
     expectativaVida: {
         base: 62,
         maximo: 84
@@ -38,9 +39,420 @@ const impactConfig = {
 };
 
 /**
- * Calcula la expectativa de vida basada en un índice de 0-100
- * @param {number} indice - Valor del índice (0-100)
- * @returns {number} - Expectativa de vida calculada
+ * Crea el gráfico radial SVG
+ * @param {Object} data - Datos para el gráfico con valores baseline y actuales
+ */
+function createRadarChart(data) {
+    const svg = document.getElementById('radarChart');
+    const width = 500;
+    const height = 500;
+    const cx = width / 2;
+    const cy = height / 2;
+    const radius = Math.min(width, height) / 2 - 60;
+    
+    // Obtener referencia al valor baseline de seguridad
+    const baselineSeguridad = baselineValues ? baselineValues.seguridad : 24.06;
+    
+    // Limpiar SVG existente
+    svg.innerHTML = '';
+    
+    // Definir patrones y gradientes para el gráfico
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    defs.innerHTML = `
+        <pattern id="radarPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="20" stroke="${'var(--primary-color-dark)'}" stroke-width="0.5" opacity="0.3"/>
+            <line x1="0" y1="0" x2="20" y2="0" stroke="${'var(--primary-color-dark)'}" stroke-width="0.5" opacity="0.3"/>
+        </pattern>
+        <linearGradient id="baseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#d0d3d4;stop-opacity:0.4" />
+            <stop offset="100%" style="stop-color:#d0d3d4;stop-opacity:0.2" />
+        </linearGradient>
+        <linearGradient id="currentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a3a6e;stop-opacity:0.6" />
+            <stop offset="100%" style="stop-color:#3a5d94;stop-opacity:0.4" />
+        </linearGradient>
+    `;
+    svg.appendChild(defs);
+    
+    // Agregar círculo de fondo con patrón
+    const bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    bgCircle.setAttribute('cx', cx);
+    bgCircle.setAttribute('cy', cy);
+    bgCircle.setAttribute('r', radius);
+    bgCircle.setAttribute('class', 'radar-background-pattern');
+    svg.appendChild(bgCircle);
+    
+    // Configuración del gráfico radial
+    const dimensions = ['Seguridad', 'Desarrollo', 'Gobernabilidad'];
+    const numDimensions = dimensions.length;
+    const angleSlice = (Math.PI * 2) / numDimensions;
+    const levels = 5; // Número de círculos concéntricos
+    const maxScale = 60; // Escala máxima del gráfico
+    
+    // Crear grupo para el grid
+    const gridGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    gridGroup.setAttribute('class', 'radar-grid');
+    
+    // Dibujar círculos concéntricos y etiquetas de escala
+    for (let i = 1; i <= levels; i++) {
+        const levelRadius = (radius / levels) * i;
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', levelRadius);
+        circle.setAttribute('class', i === levels ? 'radar-axis-line' : 'radar-grid-line');
+        if (i % 2 === 0) {
+            circle.setAttribute('class', circle.getAttribute('class') + ' radar-grid-animated');
+        }
+        gridGroup.appendChild(circle);
+        
+        // Etiquetas de valores en la escala
+        const value = (maxScale / levels) * i;
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', cx + 5);
+        label.setAttribute('y', cy - levelRadius + 3);
+        label.setAttribute('class', 'radar-grid-label');
+        label.textContent = value.toFixed(0) + '%';
+        gridGroup.appendChild(label);
+    }
+    
+    // Dibujar líneas radiales para cada dimensión
+    dimensions.forEach((dim, i) => {
+        const angle = angleSlice * i - Math.PI / 2;
+        const x = cx + radius * Math.cos(angle);
+        const y = cy + radius * Math.sin(angle);
+        
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', cx);
+        line.setAttribute('y1', cy);
+        line.setAttribute('x2', x);
+        line.setAttribute('y2', y);
+        line.setAttribute('class', 'radar-axis-line radar-axis-animated');
+        gridGroup.appendChild(line);
+    });
+    
+    svg.appendChild(gridGroup);
+    
+    // Función para calcular coordenadas polares
+    function getCoordinates(value, index) {
+        const angle = angleSlice * index - Math.PI / 2;
+        const scaledValue = Math.min(value, maxScale);
+        const r = (scaledValue / maxScale) * radius;
+        return {
+            x: cx + r * Math.cos(angle),
+            y: cy + r * Math.sin(angle)
+        };
+    }
+    
+    // Crear grupo para las áreas del gráfico
+    const areaGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    areaGroup.setAttribute('class', 'radar-areas');
+    
+    // Calcular coordenadas para valores baseline
+    const baseCoords = dimensions.map((dim, i) => {
+        const value = data.baseline[dim.toLowerCase()];
+        return getCoordinates(value, i);
+    });
+    
+    // Dibujar polígono baseline
+    const basePath = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    const basePoints = baseCoords.map(coord => `${coord.x},${coord.y}`).join(' ');
+    basePath.setAttribute('points', basePoints);
+    basePath.setAttribute('fill', 'url(#baseGradient)');
+    basePath.setAttribute('stroke', '#d0d3d4');
+    basePath.setAttribute('stroke-width', '2');
+    basePath.setAttribute('opacity', '0.8');
+    areaGroup.appendChild(basePath);
+    
+    // Calcular coordenadas para valores actuales
+    const currentCoords = dimensions.map((dim, i) => {
+        const value = data.current[dim.toLowerCase()];
+        return getCoordinates(value, i);
+    });
+    
+    // Dibujar polígono actual
+    const currentPath = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    const currentPoints = currentCoords.map(coord => `${coord.x},${coord.y}`).join(' ');
+    currentPath.setAttribute('points', currentPoints);
+    currentPath.setAttribute('fill', 'url(#currentGradient)');
+    currentPath.setAttribute('stroke', '#1a3a6e');
+    currentPath.setAttribute('stroke-width', '3');
+    currentPath.setAttribute('opacity', '0.8');
+    
+    areaGroup.appendChild(currentPath);
+    svg.appendChild(areaGroup);
+    
+    // Crear grupo para líneas de mejora
+    const improvementGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    improvementGroup.setAttribute('class', 'radar-improvements');
+    
+    // Dibujar líneas de conexión entre baseline y valores actuales
+    dimensions.forEach((dim, i) => {
+        const baseCoord = baseCoords[i];
+        const currentCoord = currentCoords[i];
+        
+        // Línea punteada de mejora
+        const improvementLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        improvementLine.setAttribute('x1', baseCoord.x);
+        improvementLine.setAttribute('y1', baseCoord.y);
+        improvementLine.setAttribute('x2', currentCoord.x);
+        improvementLine.setAttribute('y2', currentCoord.y);
+        improvementLine.setAttribute('stroke', '#1a3a6e');
+        improvementLine.setAttribute('stroke-width', '4');
+        improvementLine.setAttribute('opacity', '0.6');
+        improvementLine.setAttribute('stroke-dasharray', '5,3');
+        improvementGroup.appendChild(improvementLine);
+    });
+    
+    svg.appendChild(improvementGroup);
+    
+    // Crear grupo para puntos y etiquetas
+    const pointsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    pointsGroup.setAttribute('class', 'radar-points');
+    
+    // Dibujar puntos y etiquetas para cada dimensión
+    dimensions.forEach((dim, i) => {
+        const baseValue = data.baseline[dim.toLowerCase()];
+        const currentValue = data.current[dim.toLowerCase()];
+        const baseCoord = getCoordinates(baseValue, i);
+        const currentCoord = getCoordinates(currentValue, i);
+        
+        // Punto baseline
+        const basePoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        basePoint.setAttribute('cx', baseCoord.x);
+        basePoint.setAttribute('cy', baseCoord.y);
+        basePoint.setAttribute('r', 5);
+        basePoint.setAttribute('fill', '#d0d3d4');
+        basePoint.setAttribute('stroke', '#ffffff');
+        basePoint.setAttribute('stroke-width', '2');
+        pointsGroup.appendChild(basePoint);
+        
+        // Punto actual con interactividad
+        const currentPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        currentPoint.setAttribute('cx', currentCoord.x);
+        currentPoint.setAttribute('cy', currentCoord.y);
+        currentPoint.setAttribute('r', 6);
+        currentPoint.setAttribute('fill', '#1a3a6e');
+        currentPoint.setAttribute('stroke', '#ffffff');
+        currentPoint.setAttribute('stroke-width', '2');
+        currentPoint.setAttribute('class', 'radar-point-current');
+        
+        // Agregar eventos de hover
+        currentPoint.addEventListener('mouseenter', function(e) {
+            const isSeguridad = dim.toLowerCase() === 'seguridad';
+            const realValue = isSeguridad ? data.realSeguridad : null;
+            const tooltip = createTooltip(dim, currentValue, currentValue - baseValue, isSeguridad, realValue);
+            document.body.appendChild(tooltip);
+            positionTooltip(tooltip, e);
+        });
+        
+        currentPoint.addEventListener('mouseleave', function() {
+            const tooltip = document.querySelector('.radar-tooltip');
+            if (tooltip) tooltip.remove();
+        });
+        
+        pointsGroup.appendChild(currentPoint);
+        
+        // Etiquetas de dimensiones
+        const angle = angleSlice * i - Math.PI / 2;
+        const labelRadius = radius + 35;
+        const labelX = cx + labelRadius * Math.cos(angle);
+        const labelY = cy + labelRadius * Math.sin(angle);
+        
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', labelX);
+        label.setAttribute('y', labelY);
+        label.setAttribute('class', 'radar-label');
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('dominant-baseline', 'middle');
+        
+        // Ajustar posición vertical para mejor legibilidad
+        if (i === 0) {
+            label.setAttribute('y', labelY - 5);
+        } else if (i === 1 || i === 2) {
+            label.setAttribute('y', labelY + 5);
+        }
+        
+        label.textContent = dim.toUpperCase();
+        pointsGroup.appendChild(label);
+        
+        // Agregar valores actuales cerca de los puntos
+        const valueLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const valueLabelRadius = (currentValue / maxScale) * radius + 20;
+        const valueLabelX = cx + valueLabelRadius * Math.cos(angle);
+        const valueLabelY = cy + valueLabelRadius * Math.sin(angle);
+        
+        valueLabel.setAttribute('x', valueLabelX);
+        valueLabel.setAttribute('y', valueLabelY);
+        valueLabel.setAttribute('class', 'radar-value-label');
+        valueLabel.setAttribute('text-anchor', 'middle');
+        valueLabel.setAttribute('font-size', '12');
+        valueLabel.setAttribute('fill', '#1a3a6e');
+        valueLabel.setAttribute('font-weight', 'bold');
+        
+        // Mostrar valor real para seguridad
+        if (dim.toLowerCase() === 'seguridad') {
+            const realSeguridad = data.realSeguridad || baselineSeguridad;
+            valueLabel.textContent = realSeguridad.toFixed(1) + '%';
+        } else {
+            valueLabel.textContent = currentValue.toFixed(1) + '%';
+        }
+        
+        pointsGroup.appendChild(valueLabel);
+    });
+    
+    svg.appendChild(pointsGroup);
+    
+    // Agregar nota sobre la escala
+    const scaleNote = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    scaleNote.setAttribute('x', cx);
+    scaleNote.setAttribute('y', height - 20);
+    scaleNote.setAttribute('text-anchor', 'middle');
+    scaleNote.setAttribute('class', 'radar-scale-note');
+    scaleNote.setAttribute('font-size', '11');
+    scaleNote.setAttribute('fill', 'var(--text-color)');
+    scaleNote.setAttribute('opacity', '0.7');
+    scaleNote.textContent = 'Escala: 0-60% ';
+    svg.appendChild(scaleNote);
+    
+    // Animar la entrada del gráfico
+    setTimeout(() => {
+        basePath.style.strokeDashoffset = '0';
+        currentPath.style.strokeDashoffset = '0';
+    }, 100);
+}
+
+/**
+ * Crea un tooltip para mostrar información al hacer hover
+ */
+function createTooltip(dimension, value, delta, isSeguridad = false, realValue = null) {
+    const tooltip = document.createElement('div');
+    tooltip.className = 'radar-tooltip show';
+    
+    if (isSeguridad && realValue !== null) {
+        // Para seguridad mostrar valor real y delta absoluto
+        tooltip.innerHTML = `
+            <strong>${dimension}</strong><br>
+            Valor: ${realValue.toFixed(1)}% <br>
+            Mejora: ${Math.abs(delta).toFixed(1)}% 
+        `;
+    } else {
+        tooltip.innerHTML = `
+            <strong>${dimension}</strong><br>
+            Valor: ${value.toFixed(1)}%<br>
+            Mejora: ${delta > 0 ? '+' : ''}${delta.toFixed(1)}%
+        `;
+    }
+    return tooltip;
+}
+
+/**
+ * Posiciona el tooltip cerca del cursor
+ */
+function positionTooltip(tooltip, event) {
+    tooltip.style.left = event.pageX + 10 + 'px';
+    tooltip.style.top = event.pageY - 30 + 'px';
+}
+
+/**
+ * Convierte años decimales a formato legible
+ */
+function formatYears(years, isIncrement = false) {
+    if (years === 0) {
+        return isIncrement ? "+0 días" : "0 años";
+    }
+    
+    const sign = years < 0 ? "-" : (isIncrement ? "+" : "");
+    const absYears = Math.abs(years);
+    
+    const wholeYears = Math.floor(absYears);
+    const remainingYears = absYears - wholeYears;
+    
+    const totalMonths = remainingYears * 12;
+    const wholeMonths = Math.floor(totalMonths);
+    const remainingMonths = totalMonths - wholeMonths;
+    
+    const days = Math.round(remainingMonths * 30.44);
+    
+    let parts = [];
+    
+    if (wholeYears > 0) {
+        parts.push(`${wholeYears} año${wholeYears !== 1 ? 's' : ''}`);
+    }
+    
+    if (wholeMonths > 0) {
+        parts.push(`${wholeMonths} mes${wholeMonths !== 1 ? 'es' : ''}`);
+    }
+    
+    if (days > 0 && parts.length < 2) {
+        parts.push(`${days} día${days !== 1 ? 's' : ''}`);
+    }
+    
+    if (parts.length === 0) {
+        if (days > 0) {
+            parts.push(`${days} día${days !== 1 ? 's' : ''}`);
+        } else {
+            parts.push(isIncrement ? "menos de 1 día" : "0 años");
+        }
+    }
+    
+    let result;
+    if (parts.length === 1) {
+        result = parts[0];
+    } else if (parts.length === 2) {
+        result = parts.join(' y ');
+    } else {
+        result = parts.slice(0, -1).join(', ') + ' y ' + parts[parts.length - 1];
+    }
+    
+    return sign + result;
+}
+
+/**
+ * Versión simplificada para formatear incrementos de tiempo
+ */
+function formatYearsIncrement(years) {
+    if (Math.abs(years) < 0.003) {
+        return years >= 0 ? "+menos de 1 día" : "-menos de 1 día";
+    }
+    
+    const sign = years >= 0 ? "+" : "-";
+    const absYears = Math.abs(years);
+    
+    if (absYears < 1) {
+        const totalMonths = absYears * 12;
+        const wholeMonths = Math.floor(totalMonths);
+        const remainingMonths = totalMonths - wholeMonths;
+        const days = Math.round(remainingMonths * 30.44);
+        
+        if (wholeMonths > 0) {
+            if (days > 0 && days <= 15) {
+                return `${sign}${wholeMonths} mes${wholeMonths !== 1 ? 'es' : ''} y ${days} día${days !== 1 ? 's' : ''}`;
+            } else {
+                return `${sign}${wholeMonths} mes${wholeMonths !== 1 ? 'es' : ''}`;
+            }
+        } else if (days > 0) {
+            return `${sign}${days} día${days !== 1 ? 's' : ''}`;
+        }
+    }
+    
+    const wholeYears = Math.floor(absYears);
+    const remainingYears = absYears - wholeYears;
+    const months = Math.round(remainingYears * 12);
+    
+    if (wholeYears > 0 && months > 0) {
+        return `${sign}${wholeYears} año${wholeYears !== 1 ? 's' : ''} y ${months} mes${months !== 1 ? 'es' : ''}`;
+    } else if (wholeYears > 0) {
+        return `${sign}${wholeYears} año${wholeYears !== 1 ? 's' : ''}`;
+    } else if (months > 0) {
+        return `${sign}${months} mes${months !== 1 ? 'es' : ''}`;
+    }
+    
+    return `${sign}menos de 1 mes`;
+}
+
+/**
+ * Calcula la expectativa de vida basada en el índice PEMSITIM
  */
 function calcularExpectativaVida(indice) {
     const { base, maximo } = impactConfig.expectativaVida;
@@ -48,8 +460,7 @@ function calcularExpectativaVida(indice) {
 }
 
 /**
- * Obtiene los datos del equipo desde sessionStorage
- * @returns {Object|null} Información del equipo o null si no existe
+ * Obtiene la información del equipo desde sessionStorage
  */
 function getTeamInfo() {
     try {
@@ -62,9 +473,7 @@ function getTeamInfo() {
 }
 
 /**
- * Consulta proyectos del equipo para el ciclo 1
- * @param {string} teamCode - Código del equipo
- * @returns {Promise<Array>} Proyectos encontrados
+ * Consulta los proyectos del equipo en el servicio ArcGIS
  */
 async function fetchTeamProjects(teamCode) {
     try {
@@ -90,9 +499,7 @@ async function fetchTeamProjects(teamCode) {
 }
 
 /**
- * Consulta indicadores del equipo para el ciclo 1
- * @param {string} teamCode - Código del equipo
- * @returns {Promise<Object|null>} Indicadores encontrados o null
+ * Consulta los indicadores del equipo en el servicio ArcGIS
  */
 async function fetchTeamIndicators(teamCode) {
     try {
@@ -118,45 +525,11 @@ async function fetchTeamIndicators(teamCode) {
 }
 
 /**
- * Determina el nivel de impacto basado en el valor
- * @param {number} value - Valor a evaluar
- * @returns {Object} - Información del nivel de impacto
- */
-function getImpactLevel(value) {
-    if (value >= impactConfig.impactLevels.alto.min) {
-        return { clase: "status-active", texto: "ALTO" };
-    } else if (value >= impactConfig.impactLevels.medio.min) {
-        return { clase: "status-medium", texto: "MEDIO" };
-    } else {
-        return { clase: "status-inactive", texto: "BAJO" };
-    }
-}
-
-/**
- * Verifica si un elemento existe en el DOM
- * @param {string} selector - Selector CSS para el elemento
- * @returns {boolean} - true si existe, false si no
- */
-function elementoExiste(selector) {
-    return document.querySelector(selector) !== null;
-}
-
-/**
  * Inicializa la interfaz con los datos obtenidos
  */
 async function initializeInterface() {
     try {
-        // VERIFICAR SI LOS ESTILOS DE PEMSITIM-BARS ESTÁN CARGADOS
-        if (!elementoExiste('link[href*="pemsitim-bars.css"]')) {
-            console.warn("Los estilos de pemsitim-bars.css no están cargados. Se cargarán dinámicamente.");
-            
-            const linkElement = document.createElement('link');
-            linkElement.rel = 'stylesheet';
-            linkElement.href = 'css/components/pemsitim-bars.css';
-            document.head.appendChild(linkElement);
-        }
-        
-        // Fecha del reporte
+        // Actualizar fecha del reporte
         document.getElementById('reportDate').textContent = new Date().toLocaleDateString('es-ES', {
             year: 'numeric',
             month: 'long',
@@ -172,65 +545,50 @@ async function initializeInterface() {
         
         console.log("Consultando datos para el equipo:", teamInfo.code);
         
-        // Consultar proyectos del equipo
+        // Consultar proyectos e indicadores del equipo
         const proyectos = await fetchTeamProjects(teamInfo.code);
         console.log("Proyectos encontrados:", proyectos);
         
-        // Consultar indicadores del equipo
         const indicadores = await fetchTeamIndicators(teamInfo.code);
         console.log("Indicadores encontrados:", indicadores);
         
-        // Variables para datos
+        // Variables para almacenar datos
         let totalProyectos, totalInversion;
         let valorSeguridad, valorDesarrollo, valorGobernabilidad;
         
         if (!proyectos || proyectos.length === 0 || !indicadores) {
-            console.warn("No se encontraron datos del equipo en el servidor. Usando valores actuales de la tabla como ejemplo.");
+            console.warn("No se encontraron datos del equipo en el servidor. Usando valores de demostración.");
             
-            // VALORES ACTUALES SIMULADOS (basados en la tabla actual)
-            // Estos representan los valores DESPUÉS de las intervenciones
+            // Valores de demostración
             totalProyectos = 3;
             totalInversion = 5280;
             
-            // VALORES ACTUALES SIN DIVIDIR (tal como vienen de la tabla)
-            totalProyectos = 3;
-            totalInversion = 5280;
+            // Valores demo para indicadores
+            valorSeguridad = 26.75307871;
+            valorDesarrollo = 49.26012642;
+            valorGobernabilidad = 12.88700884;
             
-            // Valores actuales tal como aparecen en la tabla (sin modificar)
-            valorSeguridad = 26.75307871;    // Valor de la tabla tal como está
-            valorDesarrollo = 49.26012642;   // Valor de la tabla tal como está 
-            valorGobernabilidad = 12.88700884; // Valor de la tabla tal como está
-            
-            console.log("Usando valores de demostración (sin modificar):", {
-                seguridadDemo: valorSeguridad,
-                desarrolloDemo: valorDesarrollo,
-                gobernabilidadDemo: valorGobernabilidad
-            });
-            
-            // Proyectos de demo
+            // Proyectos de demostración
             const proyectosDemo = [
                 { 
                     attributes: { 
                         objectid: 1, 
                         proyecto: "Mejoramiento de la infraestructura vial mediante pavimentación",
-                        valorinversion: 2300,
-                        ubicacion: "Buena"
+                        valorinversion: 2300
                     }
                 },
                 {
                     attributes: {
                         objectid: 2,
                         proyecto: "Instalación de soluciones energéticas para comunidades indígenas",
-                        valorinversion: 1800,
-                        ubicacion: "Buena"
+                        valorinversion: 1800
                     }
                 },
                 {
                     attributes: {
                         objectid: 3,
                         proyecto: "Caminos veredales",
-                        valorinversion: 1100,
-                        ubicacion: "Óptima"
+                        valorinversion: 1100
                     }
                 }
             ];
@@ -241,9 +599,6 @@ async function initializeInterface() {
             
             proyectosDemo.forEach((proyecto, index) => {
                 const row = document.createElement('tr');
-                const impacto = proyecto.attributes.ubicacion === "Óptima" ? 
-                    { clase: "status-active" } : { clase: "status-medium" };
-                
                 row.innerHTML = `
                     <td>OP-${(index + 1).toString().padStart(3, '0')}</td>
                     <td>${proyecto.attributes.proyecto}</td>
@@ -252,40 +607,19 @@ async function initializeInterface() {
                 tableBody.appendChild(row);
             });
         } else {
-            // USAR DATOS REALES DE LA CONSULTA SIN DIVIDIR
+            // Usar datos reales del servicio
             totalProyectos = proyectos.length;
             totalInversion = proyectos.reduce((sum, proyecto) => sum + (proyecto.attributes.valorinversion || 0), 0);
             
-            // Extraer valores de la API en escala original (sin dividir)
             valorSeguridad = indicadores.mean_seguridad || 0;
             valorDesarrollo = indicadores.mean_desarrollo || 0;
             valorGobernabilidad = indicadores.mean_gobernabilidad || 0;
-            
-            console.log("Valores obtenidos del servidor:", {
-                seguridad: valorSeguridad,
-                desarrollo: valorDesarrollo,
-                gobernabilidad: valorGobernabilidad
-            });
             
             // Poblar tabla de proyectos con datos reales
             const tableBody = document.getElementById('operationsTableBody');
             tableBody.innerHTML = '';
             
             proyectos.forEach((proyecto, index) => {
-                let impactoClase = "status-medium";
-                if (proyecto.attributes.impacto) {
-                    if (proyecto.attributes.impacto.toLowerCase().includes("alta") || 
-                        proyecto.attributes.impacto.toLowerCase().includes("óptima")) {
-                        impactoClase = "status-active";
-                    } else if (proyecto.attributes.impacto.toLowerCase().includes("baja")) {
-                        impactoClase = "status-inactive";
-                    }
-                }
-                
-                const ubicacion = proyecto.attributes.ubicacion || 
-                                 (proyecto.attributes.municipio ? proyecto.attributes.municipio : 
-                                  impactConfig.municipios[(index % 8) + 1]);
-                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>OP-${(index + 1).toString().padStart(3, '0')}</td>
@@ -301,95 +635,79 @@ async function initializeInterface() {
         document.getElementById('operationsCount').textContent = totalProyectos;
         document.getElementById('investedResources').textContent = `${totalInversion.toLocaleString()}`;
         
-        // CÁLCULOS DEL DELTA (MEJORA) - VALORES ACTUALES vs BASELINE  
-        // IMPORTANTE: Todos los valores se usan tal como vienen, sin divisiones
-        console.log("=== CÁLCULO DEL DELTA ===");
-        console.log("Valores baseline:", baselineValues);
-        console.log("Valores actuales (sin modificar):", {
-            seguridad: valorSeguridad,
-            desarrollo: valorDesarrollo,
-            gobernabilidad: valorGobernabilidad
-        });
+        // Calcular deltas para cada indicador
+        const valorSeguridadInvertido = 100 - valorSeguridad;
+        const deltaSeguridad = valorSeguridadInvertido - baselineValues.seguridadInvertida;
         
-        // Calcular mejoras (delta) desde línea base
-        const deltaSeguridad = ((100-valorSeguridad) - baselineValues.seguridad)*-1;
         const deltaDesarrollo = valorDesarrollo - baselineValues.desarrollo;
         const deltaGobernabilidad = valorGobernabilidad - baselineValues.gobernabilidad;
         
-        console.log("Deltas calculados:", {
-            deltaSeguridad: deltaSeguridad.toFixed(4),
-            deltaDesarrollo: deltaDesarrollo.toFixed(4),
-            deltaGobernabilidad: deltaGobernabilidad.toFixed(4)
+        console.log("Cálculos de seguridad:", {
+            valorOriginal: valorSeguridad,
+            valorInvertido: valorSeguridadInvertido,
+            baseline: baselineValues.seguridadInvertida,
+            delta: deltaSeguridad
         });
         
-        // Calcular el total PEMSITIM actual con los pesos correctos
+        // Calcular índices PEMSITIM
         const totalPemsitimActual = (valorSeguridad * 0.45) + (valorDesarrollo * 0.25) + (valorGobernabilidad * 0.3);
-        const deltaPemsitim = totalPemsitimActual - baselineValues.total;
+        const totalPemsitimBaseline = (baselineValues.seguridad * 0.45) + (baselineValues.desarrollo * 0.25) + (baselineValues.gobernabilidad * 0.3);
+        const deltaPemsitim = totalPemsitimActual - totalPemsitimBaseline;
         
-        // Calcular expectativa de vida actual y baseline
-        // Usar los valores tal como están para el cálculo
+        // Calcular expectativa de vida
         const expectativaVidaActual = calcularExpectativaVida(totalPemsitimActual);
-        const expectativaVidaBaseline = calcularExpectativaVida(baselineValues.total);
+        const expectativaVidaBaseline = calcularExpectativaVida(totalPemsitimBaseline);
         const deltaExpectativaVida = expectativaVidaActual - expectativaVidaBaseline;
         
-        console.log("Cálculos finales:", {
-            totalPemsitimActual: totalPemsitimActual.toFixed(4),
-            deltaPemsitim: deltaPemsitim.toFixed(4),
-            expectativaVidaActual: expectativaVidaActual.toFixed(2),
-            expectativaVidaBaseline: expectativaVidaBaseline.toFixed(2),
-            deltaExpectativaVida: deltaExpectativaVida.toFixed(2),
-            "--- Valores para visualización ---": "---",
-            seguridadVisual: valorSeguridad.toFixed(1) + "%",
-            desarrolloVisual: valorDesarrollo.toFixed(1) + "%",
-            gobernabilidadVisual: valorGobernabilidad.toFixed(1) + "%",
-            "--- Deltas ---": "---",
-            deltaSeguridadVisual: deltaSeguridad.toFixed(1) + "%",
-            deltaDesarrolloVisual: deltaDesarrollo.toFixed(1) + "%", 
-            deltaGobernabilidadVisual: deltaGobernabilidad.toFixed(1) + "%"
+        // Actualizar valor de mejora de expectativa de vida
+        document.getElementById('pemsitimIncrease').textContent = formatYearsIncrement(deltaExpectativaVida);
+        
+        // Preparar datos para el gráfico radial
+        const deltaAbsolutoSeguridad = Math.abs(deltaSeguridad);
+        const chartData = {
+            baseline: {
+                seguridad: baselineValues.seguridadInvertida, 
+                desarrollo: baselineValues.desarrollo,
+                gobernabilidad: baselineValues.gobernabilidad
+            },
+            current: {
+                seguridad: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
+                desarrollo: valorDesarrollo,
+                gobernabilidad: valorGobernabilidad
+            },
+            realSeguridad: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad
+        };
+        
+        console.log("Datos para gráfico radial:", {
+            seguridadBaseline: baselineValues.seguridadInvertida,
+            seguridadActual: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
+            seguridadVisualEnGrafico: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
+            deltaAbsoluto: deltaAbsolutoSeguridad,
+            explicacion: "Para seguridad: valor real disminuye (mejora), pero en gráfico se muestra como base + |delta| para que más área = mejor"
         });
         
-        // Actualizar valor de mejora de expectativa de vida global
-        document.getElementById('pemsitimIncrease').textContent = `+${deltaExpectativaVida.toFixed(2)} años`;
+        // Crear el gráfico radial
+        createRadarChart(chartData);
         
-        // Actualizar barras de impacto por dimensión
-        // Usar valores directamente como porcentajes (sin factores de conversión)
+        // Actualizar valores en la tabla de dimensiones
+        document.getElementById('seguridad-value').textContent = `${(baselineValues.seguridadInvertida + deltaAbsolutoSeguridad).toFixed(1)}%`;
+        const deltaSeguridadMostrado = Math.abs(deltaSeguridad);
+        document.getElementById('seguridad-increase').textContent = `+${deltaSeguridadMostrado.toFixed(1)}%`;
         
-        // Seguridad TENER CUIDADO CON SEGURIDAD VALUE ACTUALIZAR Y VERIFICAR EN CASO DE CAMBIOS!!!!
-        document.getElementById('seguridad-bar').style.width = `${Math.min(100, valorSeguridad)}%`;
-        document.getElementById('seguridad-improvement').style.width = `${Math.max(0, deltaSeguridad)}%`;
-        document.getElementById('seguridad-value').textContent = `${(24.06+deltaSeguridad).toFixed(1)}%`;
-        document.getElementById('seguridad-increase').textContent = `+${deltaSeguridad.toFixed(1)}%`;
-        
-        // Desarrollo
-        document.getElementById('desarrollo-bar').style.width = `${Math.min(100, valorDesarrollo)}%`;
-        document.getElementById('desarrollo-improvement').style.width = `${Math.max(0, deltaDesarrollo)}%`;
         document.getElementById('desarrollo-value').textContent = `${valorDesarrollo.toFixed(1)}%`;
         document.getElementById('desarrollo-increase').textContent = `+${deltaDesarrollo.toFixed(1)}%`;
         
-        // Gobernabilidad
-        document.getElementById('gobernabilidad-bar').style.width = `${Math.min(100, valorGobernabilidad)}%`;
-        document.getElementById('gobernabilidad-improvement').style.width = `${Math.max(0, deltaGobernabilidad)}%`;
         document.getElementById('gobernabilidad-value').textContent = `${valorGobernabilidad.toFixed(1)}%`;
         document.getElementById('gobernabilidad-increase').textContent = `+${deltaGobernabilidad.toFixed(1)}%`;
         
-        // Expectativa de vida total - CON INCREMENTO VISUAL EXAGERADO
-        const porcentajeVidaActual = (expectativaVidaActual / impactConfig.expectativaVida.maximo) * 100;
-        const porcentajeDeltaVida = (deltaExpectativaVida / impactConfig.expectativaVida.maximo) * 100;
+        document.getElementById('total-value').textContent = formatYears(expectativaVidaActual);
+        document.getElementById('total-increase').textContent = formatYearsIncrement(deltaExpectativaVida);
         
-        // Factor de exageración visual solo para el incremento de expectativa de vida
-        const factorExageracion = 10; // Hacer el incremento 3.5 veces más visible
-        const incrementoVisualExagerado = porcentajeDeltaVida * factorExageracion;
-        
-        document.getElementById('total-bar').style.width = `${Math.min(100, porcentajeVidaActual)}%`;
-        document.getElementById('total-improvement').style.width = `${Math.min(25, Math.max(0, incrementoVisualExagerado))}%`; // Limitar a 25% máximo
-        document.getElementById('total-value').textContent = `${expectativaVidaActual.toFixed(1)} años`;
-        document.getElementById('total-increase').textContent = `+${deltaExpectativaVida.toFixed(1)} años`;
-        
-        console.log("Visualización expectativa de vida:", {
-            porcentajeReal: porcentajeDeltaVida.toFixed(2) + "%",
-            porcentajeExagerado: incrementoVisualExagerado.toFixed(2) + "%",
-            factorUsado: factorExageracion
-        });
+        // Aplicar estilos según mejoras
+        if (valorSeguridad < baselineValues.seguridad) document.getElementById('seguridad-increase').classList.add('positive');
+        if (deltaDesarrollo > 0) document.getElementById('desarrollo-increase').classList.add('positive');
+        if (deltaGobernabilidad > 0) document.getElementById('gobernabilidad-increase').classList.add('positive');
+        if (deltaExpectativaVida > 0) document.getElementById('total-increase').classList.add('positive');
         
         // Mostrar mensaje de éxito
         const statusMessage = document.getElementById('statusMessage');
@@ -428,7 +746,7 @@ async function initializeInterface() {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM cargado - Inicializando step3-data.js");
+    console.log("DOM cargado - Inicializando step3-data.js con gráfico radial");
     
     setTimeout(() => {
         initializeInterface()
