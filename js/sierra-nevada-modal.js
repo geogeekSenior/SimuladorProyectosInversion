@@ -38,9 +38,9 @@ function crearModalSierraNevada() {
                                 <strong>ALERTA CRÍTICA:</strong> Las comunidades de la Sierra Nevada presentan una esperanza de vida de 72.04 años, significativamente inferior al promedio nacional. Los indicadores muestran:
                             </p>
                             <ul>
-                                <li>Seguridad: 23.97% (Incremento de violencia y presencia de Minas AntiPersona)</li>
-                                <li>Desarrollo: 44.33% (Desnutrición infantil crítica del 12%)</li>
-                                <li>Gobernabilidad: 6.37% (Deterioro institucional severa)</li>
+                                <li>Seguridad: 24.06% (Incremento de violencia y presencia de Minas AntiPersona)</li>
+                                <li>Desarrollo: 47.94% (Desnutrición infantil crítica del 12%)</li>
+                                <li>Gobernabilidad: 7.91% (Deterioro institucional severa)</li>
                             </ul>
                             <p class="sierra-text">
                                 <strong>Sin intervención inmediata, la esperanza de vida podría reducirse entre 1.5 y 2 años en los próximos 18 meses.</strong>

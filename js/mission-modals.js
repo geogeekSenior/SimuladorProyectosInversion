@@ -161,30 +161,30 @@ function crearModalCiclo1() {
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Seguridad</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="23.97"></div>
+                                        <div class="bar-inner mission-bar" data-value="24.06"></div>
                                     </div>
-                                    <div class="bar-value">23.97%</div>
+                                    <div class="bar-value">24.06%</div>
                                 </div>
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Desarrollo</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="44.33"></div>
+                                        <div class="bar-inner mission-bar" data-value="47.94"></div>
                                     </div>
-                                    <div class="bar-value">44.33%</div>
+                                    <div class="bar-value">47.94%</div>
                                 </div>
                                 <div class="dimension-bar-container">
                                     <div class="bar-label">Gobernabilidad</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="6.37"></div>
+                                        <div class="bar-inner mission-bar" data-value="7.91"></div>
                                     </div>
-                                    <div class="bar-value">6.37%</div>
+                                    <div class="bar-value">7.91%</div>
                                 </div>
                                 <div class="dimension-bar-container total-index">
                                     <div class="bar-label">Esperanza de Vida</div>
                                     <div class="bar-outer">
-                                        <div class="bar-inner mission-bar" data-value="72.04"></div>
+                                        <div class="bar-inner mission-bar" data-value="72.68"></div>
                                     </div>
-                                    <div class="bar-value">72.04 años</div>
+                                    <div class="bar-value">72.68 años</div>
                                 </div>
                             </div>
                         </div>
