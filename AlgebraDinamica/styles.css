@@ -533,3 +533,57 @@
                 padding: 8px 10px;
             }
         }
+/* --- Estilos para el subtítulo de la leyenda --- */
+/* ───────────────────  LEYENDA  “ESTADO DEL TERRITORIO”  ─────────────────── */
+.legend-title{
+    font-family: var(--font-monospace, sans-serif);
+    font-size: 12px;
+    font-weight: 600;          /* Negrita ligera para resaltar */
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin: 10px 0 4px 0;      /* Espaciado antes y después */
+    color: var(--secondary-color);}
+
+/* Barra continua – reemplaza la antigua .color-legend con .color-stop */
+.color-legend{
+    height: 15px;
+    width: 100%;
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 2px;
+    background: linear-gradient(to right,
+        #a50026 0%,   /* Crítico */
+        #d73027 10%,
+        #f46d43 25%,
+        #fdae61 40%,
+        #fee08b 55%,
+        #d9ef8b 70%,
+        #a6d96a 80%,
+        #66bd63 90%,
+        #1a9850 95%,
+        #006837 100%  /* Óptimo */
+    );
+    margin: 0 0 5px 0;         /* Coincide con la separación usada */
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Etiquetas de los extremos */
+.legend-labels{
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-family: var(--font-monospace);
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 15px;       /* Mantiene ritmo con las secciones */
+}
+
+/* ——— Ajustes responsivos opcionales (mismos breakpoints que ya usas) ——— */
+@media (max-width: 768px){
+    .legend-title{ font-size: 11px; }
+    .legend-labels{ font-size: 10px; }
+}
+
+@media (max-width: 576px){
+    .legend-title{ font-size: 10px; }
+    .legend-labels{ font-size: 9px; }
+}
