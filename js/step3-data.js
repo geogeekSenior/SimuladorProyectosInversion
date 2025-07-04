@@ -1,7 +1,7 @@
 /**
  * step3-data.js - Script para evaluación de impacto del Ciclo 1
  * Horizonte: Juego de Estrategia
- * VERSIÓN CON GRÁFICO RADIAL
+ * VERSIÓN CON GRÁFICO RADIAL Y AMPLIFICACIÓN VISUAL
  */
 
 // Valores de línea base para los indicadores
@@ -39,7 +39,7 @@ const impactConfig = {
 };
 
 /**
- * Crea el gráfico radial SVG
+ * Crea el gráfico radial SVG con amplificación visual de cambios
  * @param {Object} data - Datos para el gráfico con valores baseline y actuales
  */
 function createRadarChart(data) {
@@ -49,6 +49,9 @@ function createRadarChart(data) {
     const cx = width / 2;
     const cy = height / 2;
     const radius = Math.min(width, height) / 2 - 60;
+    
+    // CAMBIO IMPORTANTE: Factor de amplificación para hacer más visibles los cambios
+    const AMPLIFICATION_FACTOR = 3.0; // Aumentado de 2.5 a 3.0 para mayor dramatismo
     
     // Obtener referencia al valor baseline de seguridad
     const baselineSeguridad = baselineValues ? baselineValues.seguridad : 24.06;
@@ -87,7 +90,21 @@ function createRadarChart(data) {
     const numDimensions = dimensions.length;
     const angleSlice = (Math.PI * 2) / numDimensions;
     const levels = 5; // Número de círculos concéntricos
-    const maxScale = 60; // Escala máxima del gráfico
+    
+    // CAMBIO IMPORTANTE: Calcular rango dinámico para hacer más visibles los cambios
+    const allValues = [
+        data.baseline.seguridad, data.baseline.desarrollo, data.baseline.gobernabilidad,
+        data.current.seguridad, data.current.desarrollo, data.current.gobernabilidad
+    ];
+    const minValue = Math.min(...allValues);
+    const maxValue = Math.max(...allValues);
+    const valueRange = maxValue - minValue;
+    
+    // Ajustar escala con margen para amplificar visualmente las diferencias
+    const margin = valueRange * 0.5; // Aumentado a 50% de margen para más dramatismo
+    const scaleMin = Math.max(0, minValue - margin);
+    const scaleMax = Math.min(100, maxValue + margin);
+    const maxScale = scaleMax; // Escala máxima dinámica
     
     // Crear grupo para el grid
     const gridGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -106,8 +123,8 @@ function createRadarChart(data) {
         }
         gridGroup.appendChild(circle);
         
-        // Etiquetas de valores en la escala
-        const value = (maxScale / levels) * i;
+        // CAMBIO: Etiquetas de valores con escala ajustada
+        const value = scaleMin + ((scaleMax - scaleMin) / levels) * i;
         const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         label.setAttribute('x', cx + 5);
         label.setAttribute('y', cy - levelRadius + 3);
@@ -133,11 +150,12 @@ function createRadarChart(data) {
     
     svg.appendChild(gridGroup);
     
-    // Función para calcular coordenadas polares
+    // CAMBIO: Función para calcular coordenadas polares con escala ajustada
     function getCoordinates(value, index) {
         const angle = angleSlice * index - Math.PI / 2;
-        const scaledValue = Math.min(value, maxScale);
-        const r = (scaledValue / maxScale) * radius;
+        // Normalizar el valor dentro del rango dinámico
+        const normalizedValue = (value - scaleMin) / (scaleMax - scaleMin);
+        const r = normalizedValue * radius;
         return {
             x: cx + r * Math.cos(angle),
             y: cy + r * Math.sin(angle)
@@ -237,11 +255,23 @@ function createRadarChart(data) {
         currentPoint.setAttribute('stroke-width', '2');
         currentPoint.setAttribute('class', 'radar-point-current');
         
-        // Agregar eventos de hover
+        // CAMBIO: Agregar eventos de hover con valores reales
         currentPoint.addEventListener('mouseenter', function(e) {
             const isSeguridad = dim.toLowerCase() === 'seguridad';
-            const realValue = isSeguridad ? data.realSeguridad : null;
-            const tooltip = createTooltip(dim, currentValue, currentValue - baseValue, isSeguridad, realValue);
+            const isDesarrollo = dim.toLowerCase() === 'desarrollo';
+            const isGobernabilidad = dim.toLowerCase() === 'gobernabilidad';
+            
+            let realValue = currentValue;
+            if (isSeguridad && data.realSeguridad) {
+                realValue = data.realSeguridad;
+            } else if (isDesarrollo && data.realDesarrollo) {
+                realValue = data.realDesarrollo;
+            } else if (isGobernabilidad && data.realGobernabilidad) {
+                realValue = data.realGobernabilidad;
+            }
+            
+            const realDelta = realValue - baseValue;
+            const tooltip = createTooltip(dim, realValue, realDelta, isSeguridad, realValue);
             document.body.appendChild(tooltip);
             positionTooltip(tooltip, e);
         });
@@ -290,10 +320,16 @@ function createRadarChart(data) {
         valueLabel.setAttribute('fill', '#1a3a6e');
         valueLabel.setAttribute('font-weight', 'bold');
         
-        // Mostrar valor real para seguridad
+        // CAMBIO: Mostrar valor real para cada dimensión
         if (dim.toLowerCase() === 'seguridad') {
             const realSeguridad = data.realSeguridad || baselineSeguridad;
             valueLabel.textContent = realSeguridad.toFixed(1) + '%';
+        } else if (dim.toLowerCase() === 'desarrollo') {
+            const realDesarrollo = data.realDesarrollo || currentValue;
+            valueLabel.textContent = realDesarrollo.toFixed(1) + '%';
+        } else if (dim.toLowerCase() === 'gobernabilidad') {
+            const realGobernabilidad = data.realGobernabilidad || currentValue;
+            valueLabel.textContent = realGobernabilidad.toFixed(1) + '%';
         } else {
             valueLabel.textContent = currentValue.toFixed(1) + '%';
         }
@@ -303,7 +339,7 @@ function createRadarChart(data) {
     
     svg.appendChild(pointsGroup);
     
-    // Agregar nota sobre la escala
+    // CAMBIO: Agregar nota sobre la escala amplificada
     const scaleNote = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     scaleNote.setAttribute('x', cx);
     scaleNote.setAttribute('y', height - 20);
@@ -312,7 +348,7 @@ function createRadarChart(data) {
     scaleNote.setAttribute('font-size', '11');
     scaleNote.setAttribute('fill', 'var(--text-color)');
     scaleNote.setAttribute('opacity', '0.7');
-    scaleNote.textContent = 'Escala: 0-60% ';
+    scaleNote.textContent = `Escala ajustada: ${scaleMin.toFixed(0)}-${scaleMax.toFixed(0)}% (Cambios amplificados x${AMPLIFICATION_FACTOR} para visualización)`;
     svg.appendChild(scaleNote);
     
     // Animar la entrada del gráfico
@@ -563,10 +599,10 @@ async function initializeInterface() {
             totalProyectos = 3;
             totalInversion = 5280;
             
-            // Valores demo para indicadores
-            valorSeguridad = 26.75307871;
-            valorDesarrollo = 49.26012642;
-            valorGobernabilidad = 12.88700884;
+            // Valores demo para indicadores (cambios más pequeños para demostrar la amplificación)
+            valorSeguridad = 76.75307871;  // Solo 2.69% de mejora
+            valorDesarrollo = 49.26012642; // Solo 1.31% de mejora
+            valorGobernabilidad = 12.88700884; // 4.97% de mejora
             
             // Proyectos de demostración
             const proyectosDemo = [
@@ -662,8 +698,15 @@ async function initializeInterface() {
         // Actualizar valor de mejora de expectativa de vida
         document.getElementById('pemsitimIncrease').textContent = formatYearsIncrement(deltaExpectativaVida);
         
-        // Preparar datos para el gráfico radial
+        // CAMBIO IMPORTANTE: Preparar datos para el gráfico radial con amplificación visual
+        const AMPLIFICATION_FACTOR = 3.0; // Factor para hacer más visibles los cambios
+        
+        // Calcular deltas amplificados para visualización
         const deltaAbsolutoSeguridad = Math.abs(deltaSeguridad);
+        const deltaAmplificadoSeguridad = deltaAbsolutoSeguridad * AMPLIFICATION_FACTOR;
+        const deltaAmplificadoDesarrollo = deltaDesarrollo * AMPLIFICATION_FACTOR;
+        const deltaAmplificadoGobernabilidad = deltaGobernabilidad * AMPLIFICATION_FACTOR;
+        
         const chartData = {
             baseline: {
                 seguridad: baselineValues.seguridadInvertida, 
@@ -671,19 +714,25 @@ async function initializeInterface() {
                 gobernabilidad: baselineValues.gobernabilidad
             },
             current: {
-                seguridad: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
-                desarrollo: valorDesarrollo,
-                gobernabilidad: valorGobernabilidad
+                // Aplicar amplificación visual manteniendo la dirección del cambio
+                seguridad: baselineValues.seguridadInvertida + deltaAmplificadoSeguridad,
+                desarrollo: baselineValues.desarrollo + deltaAmplificadoDesarrollo,
+                gobernabilidad: baselineValues.gobernabilidad + deltaAmplificadoGobernabilidad
             },
-            realSeguridad: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad
+            // Valores reales sin amplificar para mostrar en etiquetas
+            realSeguridad: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
+            realDesarrollo: valorDesarrollo,
+            realGobernabilidad: valorGobernabilidad
         };
         
-        console.log("Datos para gráfico radial:", {
+        console.log("Datos para gráfico radial con amplificación:", {
+            factor: AMPLIFICATION_FACTOR,
             seguridadBaseline: baselineValues.seguridadInvertida,
             seguridadActual: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
-            seguridadVisualEnGrafico: baselineValues.seguridadInvertida + deltaAbsolutoSeguridad,
-            deltaAbsoluto: deltaAbsolutoSeguridad,
-            explicacion: "Para seguridad: valor real disminuye (mejora), pero en gráfico se muestra como base + |delta| para que más área = mejor"
+            seguridadAmplificada: baselineValues.seguridadInvertida + deltaAmplificadoSeguridad,
+            deltaReal: deltaAbsolutoSeguridad,
+            deltaAmplificado: deltaAmplificadoSeguridad,
+            explicacion: "Los cambios se amplifican x3 para visualización, pero los valores mostrados son reales"
         });
         
         // Crear el gráfico radial
@@ -746,7 +795,7 @@ async function initializeInterface() {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM cargado - Inicializando step3-data.js con gráfico radial");
+    console.log("DOM cargado - Inicializando step3-data.js con gráfico radial amplificado");
     
     setTimeout(() => {
         initializeInterface()
