@@ -348,7 +348,7 @@ function createRadarChart(data) {
     scaleNote.setAttribute('font-size', '11');
     scaleNote.setAttribute('fill', 'var(--text-color)');
     scaleNote.setAttribute('opacity', '0.7');
-    scaleNote.textContent = `Escala ajustada: ${scaleMin.toFixed(0)}-${scaleMax.toFixed(0)}% (Cambios amplificados x${AMPLIFICATION_FACTOR} para visualización)`;
+    scaleNote.textContent = ``;
     svg.appendChild(scaleNote);
     
     // Animar la entrada del gráfico
