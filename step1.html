@@ -184,6 +184,20 @@ En HORIZONTE, el equipo multidisciplinar debe diseñar en la Sierra Nevada de Sa
                             <div class="bar-value">68.00 años</div>
                         </div>
                     </div>
+                     <div class="radar-chart-container" style="margin-top: 30px;">
+                        <svg id="radarChart" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 500px; height: auto; margin: 0 auto; display: block;">
+                            <!-- El gráfico radial se generará dinámicamente aquí -->
+                        </svg>
+                        
+                        <!-- Leyenda del gráfico -->
+                        <div class="radar-legend" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                            <div class="legend-item" style="display: flex; align-items: center; gap: 8px;">
+                                <div class="legend-color" style="width: 20px; height: 20px; background-color: #d0d3d4; border: 1px solid #333;"></div>
+                                <span style="color: #78abda; font-family: monospace; font-size: 14px;">Estado Base</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
  <p class="sierra-text">
         Se debe coordinar una acción unificada para elevar la esperanza de vida; representada en programas de alto impacto que integren las dimensiones Seguridad, Desarrollo y Gobernabilidad</p>
@@ -368,6 +382,7 @@ Aquí se muestran las variables clave de cada dimensión —Seguridad, Desarroll
             <div class="military-date" id="currentDate"></div>
         </div>
     </footer>
+    <script src="js/step1-data.js"></script>
 
     <script src="main.js"></script>
     <script src="js/components/progress-stepper.js"></script>
